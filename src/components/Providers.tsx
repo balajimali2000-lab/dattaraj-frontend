@@ -2,12 +2,15 @@
 
 import React, { ReactNode } from 'react';
 import { ProductProvider } from '@/context/ProductContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ProductProvider>
-      {/* Add other providers here (e.g., Theme, Auth, Cart) */}
-      {children}
-    </ProductProvider>
+    <ThemeProvider>
+      <ProductProvider>
+        {/* Add other providers here (e.g., Auth, Cart) */}
+        {children}
+      </ProductProvider>
+    </ThemeProvider>
   );
 }
