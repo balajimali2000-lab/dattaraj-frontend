@@ -176,7 +176,7 @@ function ProductListContent() {
           <section className="flex-1 min-w-0">
             
             {/* Toolbar */}
-            <div className="flex flex-col md:flex-row justify-between items-center bg-white border border-zinc-100 p-2 gap-4 mb-8">
+            <div className="sticky top-24 z-30 flex flex-col md:flex-row justify-between items-center bg-white/80 backdrop-blur-md border border-zinc-100/50 p-2 gap-4 mb-12 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
               <div className="flex items-center gap-2 px-2">
                 <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mr-2">Layout:</span>
                 {[2, 3, 6].map((cols) => (
