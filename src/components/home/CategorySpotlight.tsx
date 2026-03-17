@@ -89,13 +89,13 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
         <div className={`flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 items-center`}>
           <div className="w-full md:w-1/4 space-y-6">
             <div className="space-y-3">
-              <p className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Signature Collection"}</p>
+              <p className="text-[#430704] text-[9px] font-black uppercase tracking-[0.4em] opacity-80">{subtitle || "Signature Collection"}</p>
               <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
               <p className="text-zinc-500 text-[11px] font-medium leading-relaxed max-w-[240px]">
                 {description || "Handcrafted silver pieces designed for the modern connoisseur."}
               </p>
             </div>
-            <Link href={`/products?category=${category}`} className="inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-zinc-950 group">
+            <Link href={`/products?category=${category}`} className="inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-[#430704] group hover:opacity-70 transition-opacity">
               Explore <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -109,14 +109,14 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
           >
             {products.slice(0, 4).map((product) => (
               <motion.div key={product._id} variants={itemVariants} className="group relative">
-                <div className="aspect-[4/5] overflow-hidden bg-zinc-50">
+                <div className="aspect-[4/5] overflow-hidden bg-zinc-50 border border-zinc-100/50">
                   <img 
                     src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                     alt={product.name} 
                     className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
                   />
-                  <div className="absolute inset-x-0 bottom-0 p-4 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 border-t border-zinc-100">
-                    <h4 className="text-zinc-950 text-[9px] font-black uppercase tracking-widest truncate">{product.name}</h4>
+                  <div className="absolute inset-x-0 bottom-0 p-4 bg-[#430704]/95 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                    <h4 className="text-white text-[9px] font-black uppercase tracking-widest truncate">{product.name}</h4>
                   </div>
                 </div>
               </motion.div>
@@ -128,11 +128,12 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   );
 
   const renderSerene = () => (
-    <section className="py-16 bg-zinc-50/30 border-b border-zinc-50">
+    <section className="py-16 bg-[#430704]/[0.02] border-b border-zinc-50">
       <div className="max-w-[1440px] mx-auto px-6">
         <div className="flex flex-col items-center text-center mb-12 space-y-3">
-          <p className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Sacred Series"}</p>
+          <p className="text-[#430704] text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Sacred Series"}</p>
           <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
+          <div className="w-8 h-[1px] bg-[#430704]/20" />
         </div>
 
         <motion.div 
@@ -144,20 +145,20 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
         >
           {products.map((product) => (
             <motion.div key={product._id} variants={itemVariants} className="group text-center">
-              <div className="aspect-[3/4] overflow-hidden bg-white border border-zinc-100 mb-4 p-3">
+              <div className="aspect-[3/4] overflow-hidden bg-white border border-[#430704]/5 mb-4 p-3 shadow-sm group-hover:shadow-md transition-shadow">
                 <img 
                   src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                   alt={product.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                 />
               </div>
-              <h4 className="text-[9px] font-black uppercase tracking-widest text-zinc-950">{product.name}</h4>
+              <h4 className="text-[9px] font-black uppercase tracking-widest text-[#430704]">{product.name}</h4>
             </motion.div>
           ))}
         </motion.div>
 
         <div className="mt-12 text-center">
-           <Link href={`/products?category=${category}`} className="inline-block border border-zinc-900 px-8 py-3 text-[9px] font-black uppercase tracking-widest hover:bg-zinc-900 hover:text-white transition-all">
+           <Link href={`/products?category=${category}`} className="inline-block border border-[#430704] px-8 py-3 text-[9px] font-black uppercase tracking-widest text-[#430704] hover:bg-[#430704] hover:text-white transition-all">
              View All
            </Link>
         </div>
@@ -170,10 +171,10 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
       <div className="max-w-[1440px] mx-auto px-6">
         <div className="flex justify-between items-end mb-12 px-2">
           <div className="space-y-2">
-             <span className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Modern Essentials"}</span>
+             <span className="text-[#430704]/60 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Modern Essentials"}</span>
              <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
           </div>
-          <Link href={`/products?category=${category}`} className="text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-zinc-950 transition-colors">
+          <Link href={`/products?category=${category}`} className="text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-[#430704] transition-colors">
             See Catalog
           </Link>
         </div>
@@ -183,22 +184,22 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 lg:grid-cols-4 border-l border-t border-zinc-50"
+          className="grid grid-cols-2 lg:grid-cols-4 border-l border-t border-[#430704]/5"
         >
           {products.map((product) => (
             <motion.div 
               key={product._id} 
               variants={itemVariants}
-              className="group relative aspect-square bg-white overflow-hidden border-r border-b border-zinc-50"
+              className="group relative aspect-square bg-white overflow-hidden border-r border-b border-[#430704]/5"
             >
                <img 
                 src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                 alt={product.name} 
                 className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
               />
-              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm p-4 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                 <h3 className="text-zinc-950 font-black text-[9px] uppercase tracking-widest mb-3">{product.name}</h3>
-                 <Button variant="outline" className="h-7 px-4 rounded-none text-[8px] font-black uppercase tracking-widest border-zinc-900">Enquire</Button>
+              <div className="absolute inset-0 bg-[#430704]/90 backdrop-blur-sm p-4 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                 <h3 className="text-white font-black text-[9px] uppercase tracking-widest mb-3">{product.name}</h3>
+                 <Button variant="outline" className="h-7 px-4 rounded-none text-[8px] font-black uppercase tracking-widest border-white text-white hover:bg-white hover:text-[#430704]">Enquire</Button>
               </div>
             </motion.div>
           ))}
@@ -208,10 +209,11 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   );
 
   const renderBento = () => (
-    <section className="py-16 bg-zinc-950 overflow-hidden border-b border-white/5">
-      <div className="max-w-[1440px] mx-auto px-6">
+    <section className="py-16 bg-[#2d0503] overflow-hidden border-b border-white/5 relative">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(67,7,4,0.3)_0%,transparent_70%)] pointer-events-none" />
+      <div className="max-w-[1440px] mx-auto px-6 relative z-10">
         <div className="text-center mb-12 space-y-3">
-           <span className="text-zinc-500 text-[9px] font-black uppercase tracking-[0.5em]">{subtitle || "Curated Series"}</span>
+           <span className="text-white/40 text-[9px] font-black uppercase tracking-[0.5em]">{subtitle || "Curated Series"}</span>
            <h2 className="text-2xl font-black tracking-tighter text-white uppercase leading-none">{title}</h2>
         </div>
         
@@ -226,22 +228,22 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
             <motion.div 
               key={product._id}
               variants={itemVariants}
-              className="group relative aspect-[4/5] overflow-hidden bg-zinc-900 border border-white/5"
+              className="group relative aspect-[4/5] overflow-hidden bg-[#430704]/20 border border-white/5"
             >
               <img 
                 src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                 alt={product.name} 
-                className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700" 
+                className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-all duration-700" 
               />
-              <div className="absolute inset-x-0 bottom-0 p-6 bg-zinc-950/90 border-t border-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                 <h3 className="text-white font-black text-[9px] uppercase tracking-widest">{product.name}</h3>
+              <div className="absolute inset-x-0 bottom-0 p-6 bg-[#430704]/90 border-t border-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                 <h3 className="text-white text-[9px] font-black uppercase tracking-widest">{product.name}</h3>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
         <div className="mt-12 text-center">
-            <Link href={`/products?category=${category}`} className="text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
+            <Link href={`/products?category=${category}`} className="text-[9px] font-black uppercase tracking-widest text-white/30 hover:text-white transition-colors">
               Explore All Items
             </Link>
         </div>

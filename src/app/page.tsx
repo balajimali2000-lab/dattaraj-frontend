@@ -269,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-20 overflow-hidden bg-white border-t border-zinc-50">
+      <section className="relative py-20 overflow-hidden bg-[#430704]/[0.02] border-t border-[#430704]/5">
         <div className="relative container mx-auto px-6 text-center">
            <motion.div
              initial={{ opacity: 0 }}
@@ -279,15 +279,15 @@ export default function Home() {
              className="max-w-2xl mx-auto space-y-10"
            >
               <div className="space-y-4">
-                <p className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.5em]">The Final Step</p>
+                <p className="text-[#430704] text-[9px] font-black uppercase tracking-[0.5em] opacity-60">The Final Step</p>
                 <h2 className="text-3xl font-black tracking-tighter text-zinc-900 uppercase leading-none">Begin Your Silver Journey</h2>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                 <Button className="bg-zinc-900 text-white hover:bg-zinc-800 h-14 px-10 rounded-none text-[10px] font-black uppercase tracking-widest">
+                 <Button className="bg-[#430704] text-white hover:bg-[#2d0503] h-14 px-10 rounded-none text-[10px] font-black uppercase tracking-widest transition-colors">
                     Visit Showroom
                  </Button>
-                 <Button variant="outline" className="border-zinc-200 text-zinc-900 hover:bg-zinc-50 h-14 px-10 rounded-none text-[10px] font-black uppercase tracking-widest">
+                 <Button variant="outline" className="border-[#430704]/20 text-[#430704] hover:bg-[#430704] hover:text-white h-14 px-10 rounded-none text-[10px] font-black uppercase tracking-widest transition-all">
                     Our Story
                  </Button>
               </div>
