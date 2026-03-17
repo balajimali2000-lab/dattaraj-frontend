@@ -17,6 +17,15 @@ import {
 import { useProducts } from '@/context/ProductContext';
 import { Button } from '@/components/ui/button';
 
+const formatLabel = (label: string) => {
+  if (!label) return '';
+  if (label === 'all') return 'All Masterpieces';
+  return label
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
 function ProductListContent() {
   const { 
     products, 
@@ -48,6 +57,7 @@ function ProductListContent() {
     if (selectedType) filters.type = selectedType;
     if (searchQuery) filters.search = searchQuery;
     
+    // Reset to page 1 when filters change
     fetchProducts(1, 12, filters);
   }, [selectedCategory, selectedType, searchQuery]);
 
@@ -76,7 +86,7 @@ function ProductListContent() {
               >
                 <div className="w-8 h-[1px] bg-[#430704]/40" />
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#430704]/60">
-                  {selectedCategory === 'all' ? 'Anthology 2024' : selectedCategory}
+                  {selectedCategory === 'all' ? 'Anthology 2024' : formatLabel(selectedCategory)}
                 </span>
               </motion.div>
               <motion.h1 
@@ -99,64 +109,65 @@ function ProductListContent() {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           
           {/* Sidebar Filters */}
-          <aside className="w-full lg:w-64 flex-shrink-0 space-y-12">
-            
-            {/* Categories */}
-            <div className="space-y-6">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300 border-b border-zinc-100 pb-4">Categories</h3>
-              <div className="flex flex-col gap-2">
-                <button
-                    onClick={() => {
-                        setSelectedCategory('all');
-                        setSelectedType(null);
-                    }}
-                    className={`group flex items-center justify-between px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
-                        selectedCategory === 'all' 
-                        ? 'bg-[#430704] text-white shadow-lg' 
-                        : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50'
-                    }`}
-                >
-                    <span>All Masterpieces</span>
-                    <ChevronRight className={`w-3 h-3 transition-transform ${selectedCategory === 'all' ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
-                </button>
-                {filterOptions.categories.map((cat) => (
+          <aside className="w-full lg:w-64 flex-shrink-0">
+            <div className="lg:sticky lg:top-28 lg:h-[calc(100vh-140px)] lg:overflow-y-auto lg:pr-4 lg:scrollbar-hide space-y-12 pb-12">
+              {/* Categories */}
+              <div className="space-y-6">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300 border-b border-zinc-100 pb-4">Categories</h3>
+                <div className="flex flex-col gap-2">
                   <button
-                    key={cat}
-                    onClick={() => {
-                        setSelectedCategory(cat);
-                        setSelectedType(null);
-                    }}
-                    className={`group flex items-center justify-between px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
-                      selectedCategory === cat 
-                        ? 'bg-[#430704] text-white shadow-lg' 
-                        : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50'
-                    }`}
+                      onClick={() => {
+                          setSelectedCategory('all');
+                          setSelectedType(null);
+                      }}
+                      className={`group flex items-center justify-between px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                          selectedCategory === 'all' 
+                          ? 'bg-[#430704] text-white shadow-lg' 
+                          : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50'
+                      }`}
                   >
-                    <span className="capitalize">{cat}</span>
-                    <ChevronRight className={`w-3 h-3 transition-transform ${selectedCategory === cat ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
+                      <span>All Masterpieces</span>
+                      <ChevronRight className={`w-3 h-3 transition-transform ${selectedCategory === 'all' ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
                   </button>
-                ))}
+                  {filterOptions.categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                          setSelectedCategory(cat);
+                          setSelectedType(null);
+                      }}
+                      className={`group flex items-center justify-between px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
+                        selectedCategory === cat 
+                          ? 'bg-[#430704] text-white shadow-lg' 
+                          : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50'
+                      }`}
+                    >
+                      <span className="text-left">{formatLabel(cat)}</span>
+                      <ChevronRight className={`w-3 h-3 transition-transform ${selectedCategory === cat ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Refine by Type */}
-            <div className="space-y-6">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300 border-b border-zinc-100 pb-4">Refine by Type</h3>
-              <div className="grid grid-cols-1 gap-2">
-                {filterOptions.types.map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setSelectedType(selectedType === type ? null : type)}
-                    className={`flex items-center gap-3 px-4 py-2 text-[10px] font-black uppercase tracking-widest border transition-all ${
-                      selectedType === type 
-                        ? 'border-[#430704] text-[#430704] bg-[#430704]/5' 
-                        : 'border-zinc-100 text-zinc-400 hover:border-zinc-300 hover:text-zinc-600'
-                    }`}
-                  >
-                    <div className={`w-1.5 h-1.5 rounded-full ${selectedType === type ? 'bg-[#430704]' : 'bg-zinc-200'}`} />
-                    <span className="capitalize">{type}</span>
-                  </button>
-                ))}
+              {/* Refine by Type */}
+              <div className="space-y-6">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300 border-b border-zinc-100 pb-4">Refine by Type</h3>
+                <div className="grid grid-cols-1 gap-2">
+                  {filterOptions.types.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => setSelectedType(selectedType === type ? null : type)}
+                      className={`flex items-center gap-3 px-4 py-2 text-[10px] font-black uppercase tracking-widest border transition-all ${
+                        selectedType === type 
+                          ? 'border-[#430704] text-[#430704] bg-[#430704]/5' 
+                          : 'border-zinc-100 text-zinc-400 hover:border-zinc-300 hover:text-zinc-600'
+                      }`}
+                    >
+                      <div className={`w-1.5 h-1.5 rounded-full ${selectedType === type ? 'bg-[#430704]' : 'bg-zinc-200'}`} />
+                      <span className="text-left">{formatLabel(type)}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </aside>
