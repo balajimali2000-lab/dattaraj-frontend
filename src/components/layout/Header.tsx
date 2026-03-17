@@ -12,7 +12,8 @@ import {
   X,
   Loader2,
   ArrowRight,
-  Play
+  Play,
+  Sparkles
 } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/ui/button';
@@ -57,32 +58,29 @@ interface NavItem {
 const MediaPreview = ({ src, title, subtitle }: { src: string; title?: string; subtitle?: string }) => {
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+      exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+      transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
       className="relative w-full h-full rounded-2xl overflow-hidden group/preview"
     >
-      <img src={src} alt={title || "Preview"} className="w-full h-full object-cover transition-transform duration-1000 group-hover/preview:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
+      <img src={src} alt={title || "Preview"} className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover/preview:scale-110" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-8">
         <motion.p 
           initial={{ y: 20, opacity: 0 }} 
           animate={{ y: 0, opacity: 1 }} 
-          className="text-white/60 text-[10px] uppercase font-black tracking-[0.4em] mb-2"
+          className="text-white/60 text-[10px] uppercase font-bold tracking-[0.4em] mb-2"
         >
-          {subtitle || "Curated Excellence"}
+          {subtitle || "The Archive"}
         </motion.p>
         <motion.h5 
           initial={{ y: 20, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }} 
+          animate={{ y:0, opacity: 1 }} 
           transition={{ delay: 0.1 }}
-          className="text-white text-3xl font-black italic leading-none tracking-tighter"
+          className="text-white text-3xl font-heading font-black italic leading-none tracking-tighter"
         >
-          {title || "Dattaraj Heritage"}
+          {title || "Heritage Piece"}
         </motion.h5>
-      </div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center opacity-0 group-hover/preview:opacity-100 transition-opacity duration-500">
-        <Play className="text-white fill-white ml-1" size={24} />
       </div>
     </motion.div>
   );
@@ -117,37 +115,54 @@ const Header: React.FC = () => {
       },
       columns: [
         {
-          title: "Fine Jewellery",
+          title: "Jewellery",
           items: [
-            { id: "jodavi", label: "Jodavi", href: "/products/jewellery/jodavi", previewImage: "https://images.unsplash.com/photo-1544450297-6b04a926f749?q=80&w=800", description: "Authentic traditional silver toe-rings." },
-            { id: "fancy-jodavi", label: "Fancy Jodavi", href: "/products/jewellery/fancy-jodavi", previewImage: "https://images.unsplash.com/photo-1603561591411-0e7bc26e13b8?q=80&w=800", description: "Contemporary designs for modern aesthetics." },
-            { id: "kada", label: "Kada", href: "/products/jewellery/kada", previewImage: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800", description: "Bold silver bracelets for every occasion." },
-            { id: "payal", label: "Payal", href: "/products/jewellery/payal", previewImage: "https://images.unsplash.com/photo-1626248801379-31713d71708d?q=80&w=800", description: "Melodious silver anklets crafted with precision." },
+            { id: "jodavi", label: "Jodavi", href: "/products/jewellery/jodavi" },
+            { id: "fancy-jodavi", label: "Fancy Jodavi", href: "/products/jewellery/fancy-jodavi" },
+            { id: "kada", label: "Kada", href: "/products/jewellery/kada" },
+            { id: "rama-kada", label: "Rama Kada", href: "/products/jewellery/rama-kada" },
+            { id: "payal", label: "Payal", href: "/products/jewellery/payal", items: [
+              { id: "salem-payal", label: "Salem Payal", href: "/products/jewellery/payal/salem" }
+            ]},
+            { id: "ghanti", label: "Ghanti", href: "/products/jewellery/ghanti" },
+            { id: "ghungraki", label: "Ghungraki", href: "/products/jewellery/ghungraki" },
           ]
         },
         {
-          title: "Divine Essentials",
+          title: "Pooja Items",
           items: [
-            { id: "pooja", label: "Pooja Items", href: "/products/pooja", previewImage: poojaImg, description: "Sacred silver artifacts for your spiritual journey." },
-            { id: "samayi", label: "Samayi", href: "/products/pooja/samayi", previewImage: poojaImg },
-            { id: "karanda", label: "Karanda", href: "/products/pooja/karanda", previewImage: poojaImg },
-            { id: "murtis", label: "Murtis (Idols)", href: "/products/murtis", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
+            { id: "samayi", label: "Samayi", href: "/products/pooja/samayi" },
+            { id: "diva", label: "Diva", href: "/products/pooja/diva" },
+            { id: "chamcha", label: "Chamcha", href: "/products/pooja/chamcha" },
+            { id: "karanda", label: "Karanda", href: "/products/pooja/karanda" },
+            { id: "nagdor-karanda", label: "Nagdor Karanda", href: "/products/pooja/nagdor-karanda" },
           ]
         },
         {
-          title: "Collections",
+          title: "Murtis (Idols)",
           items: [
-            { id: "heritage", label: "Heritage Collection", href: "/collections/heritage", previewImage: traditionalImg },
-            { id: "modern", label: "Modern Classics", href: "/collections/modern", previewImage: modernImg },
-            { id: "bridal", label: "Bridal Masterpieces", href: "/collections/bridal", previewImage: weddingImg },
-            { id: "gifts", label: "Luxury Gifting", href: "/collections/gifts", previewImage: silverImg },
+            { id: "pokal-murti", label: "Pokal Murti", href: "/products/murtis/pokal" },
+            { id: "bhariv-murti", label: "Bhariv Murti", href: "/products/murtis/bhariv" },
+            { id: "special-murti", label: "Special Murti", href: "/products/murtis/special" },
+            { id: "mukavata", label: "Mukavata", href: "/products/murtis/mukavata" },
+          ]
+        },
+        {
+          title: "Traditional Items",
+          items: [
+            { id: "kolkata-dabi", label: "Kolkata Dabi", href: "/products/traditional/kolkata-dabi" },
+            { id: "nag", label: "Nag", href: "/products/traditional/nag" },
+            { id: "vedhni", label: "Vedhni", href: "/products/traditional/vedhni" },
+            { id: "plain-mal", label: "Plain Mal", href: "/products/traditional/plain-mal" },
+            { id: "one-gram-gold", label: "One Gram Gold", href: "/products/traditional/one-gram-gold" },
+            { id: "all-products", label: "All Products", href: "/products" },
           ]
         }
       ]
     },
     {
       id: "collections",
-      name: "Curated",
+      name: "Collections",
       href: "/collections",
       hasDropdown: true,
       dropdownType: 'simple',
@@ -159,16 +174,29 @@ const Header: React.FC = () => {
     },
     {
       id: "story",
-      name: "The Story",
+      name: "Our Story",
       href: "/our-story",
       hasDropdown: true,
       dropdownType: 'simple',
       simpleItems: [
         { id: "about", label: "About Us", href: "/about-us" },
+        { id: "craftsmanship", label: "Craftsmanship", href: "/craftsmanship" },
+        { id: "materials", label: "Materials", href: "/materials" },
         { id: "why-choose-us", label: "Why Choose Us", href: "/why-choose-us" },
       ]
     },
-    { id: "contact", name: "Contact", href: "/contact" }
+    { 
+      id: "contact", 
+      name: "Contact", 
+      href: "/contact",
+      hasDropdown: true,
+      dropdownType: 'simple',
+      simpleItems: [
+        { id: "contact-form", label: "Contact Form", href: "/contact#form" },
+        { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/your-number" },
+        { id: "location", label: "Store Location", href: "/contact#location" },
+      ]
+    }
   ], []);
 
   const handleMouseEnter = (id: string) => {
@@ -193,30 +221,25 @@ const Header: React.FC = () => {
     <>
       <header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]',
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]',
           isScrolled || activeNav || mobileMenuOpen
-            ? 'bg-white/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)] border-b border-zinc-100/50'
+            ? 'bg-white/90 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-zinc-100/50'
             : 'bg-transparent'
         )}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1240px] mx-auto px-6">
           <nav className="flex items-center justify-between h-24">
             {/* Logo Section */}
             <div className="flex-shrink-0 relative z-10">
               <Link href="/" className="group flex items-center gap-4">
-                <div className="relative overflow-hidden rounded-full p-1 bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-500 group-hover:bg-white/20">
-                  <img src="/cropedmain.png" alt="Dattaraj" className="h-12 w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-heading font-black text-2xl tracking-tighter text-zinc-900 leading-none">DATTARAJ</span>
-                  <span className="text-[8px] uppercase tracking-[0.6em] text-zinc-400 font-bold mt-1">Heritage Since 1980</span>
+                <div className="relative overflow-hidden rounded-full p-1.5 bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-700 group-hover:bg-white/30 group-hover:scale-105 group-hover:rotate-12">
+                  <img src="/cropedmain.png" alt="Dattaraj" className="h-10 w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
                 </div>
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-1">
               {navigation.map((item) => (
                 <div
                   key={item.id}
@@ -226,21 +249,14 @@ const Header: React.FC = () => {
                   <Link
                     href={item.href}
                     className={cn(
-                      "px-6 py-2 text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-500 rounded-full",
+                      "px-6 py-2 text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700 rounded-full flex items-center gap-1",
                       activeNav === item.id || pathname === item.href
-                        ? "text-zinc-900 bg-zinc-50/50"
-                        : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50/30"
+                        ? "text-zinc-950 bg-zinc-50/80"
+                        : "text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50/40 hover:tracking-[0.4em]"
                     )}
                   >
                     {item.name}
                   </Link>
-                  {activeNav === item.id && (
-                    <motion.div
-                      layoutId="nav-pill"
-                      className="absolute bottom-6 left-1/2 -translate-x-1/2 w-1 h-1 bg-zinc-900 rounded-full"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
                 </div>
               ))}
             </div>
@@ -279,41 +295,53 @@ const Header: React.FC = () => {
               className="absolute left-0 w-full bg-white/95 backdrop-blur-2xl border-b border-zinc-100 overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.06)]"
               onMouseEnter={() => handleMouseEnter(activeNav)}
             >
-              <div className="max-w-[1440px] mx-auto px-12 py-20">
+              <div className="max-w-[1240px] mx-auto px-6 py-20">
                 {activeItem.dropdownType === 'mega' ? (
-                  <div className="grid grid-cols-12 gap-16">
-                    {/* Multi-column Layout */}
-                    <div className="col-span-8 grid grid-cols-3 gap-12">
+                  <div className="grid grid-cols-12 gap-12">
+                    <div className="col-span-9 grid grid-cols-4 gap-8">
                       {activeItem.columns?.map((col, idx) => (
                         <motion.div 
                           key={idx}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: idx * 0.1 }}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1, duration: 0.8 }}
                           className="space-y-8"
                         >
-                          <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-300 border-b border-zinc-100 pb-4">
+                          <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-300 border-b border-zinc-100/50 pb-4 mb-4">
                             {col.title}
                           </h4>
-                          <ul className="space-y-4">
-                            {col.items.map((sub) => (
-                              <li key={sub.id} className="group/item">
+                          <ul className="space-y-5">
+                            {col.items.map((sub, sidx) => (
+                              <motion.li 
+                                key={sub.id} 
+                                className="group/item"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: (idx * 0.1) + (sidx * 0.05) }}
+                              >
                                 <Link
                                   href={sub.href}
                                   onMouseEnter={() => setHoveredSubItem(sub)}
                                   className="flex flex-col gap-1 transition-all"
                                 >
-                                  <span className="text-sm font-bold text-zinc-600 group-hover/item:text-zinc-900 flex items-center gap-2 group-hover/item:pl-2 transition-all">
+                                  <span className="text-xs font-heading font-bold text-zinc-500 group-hover/item:text-zinc-950 flex items-center gap-2 group-hover/item:pl-2 transition-all duration-300 italic">
                                     {sub.label}
-                                    <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all text-zinc-400" />
                                   </span>
-                                  {sub.description && (
-                                    <span className="text-[11px] text-zinc-400 font-medium group-hover/item:text-zinc-500 transition-colors">
-                                      {sub.description}
-                                    </span>
+                                  {sub.items && (
+                                    <div className="pl-3 mt-1 space-y-2 border-l border-zinc-100">
+                                      {sub.items.map(nested => (
+                                        <Link 
+                                          key={nested.id}
+                                          href={nested.href}
+                                          className="block text-[10px] text-zinc-400 hover:text-zinc-950 transition-colors uppercase tracking-widest font-black"
+                                        >
+                                          {nested.label}
+                                        </Link>
+                                      ))}
+                                    </div>
                                   )}
                                 </Link>
-                              </li>
+                              </motion.li>
                             ))}
                           </ul>
                         </motion.div>
@@ -321,7 +349,7 @@ const Header: React.FC = () => {
                     </div>
 
                     {/* Dynamic Visual Preview Area */}
-                    <div className="col-span-4 pl-16 border-l border-zinc-100">
+                    <div className="col-span-3 pl-8 border-l border-zinc-100">
                       <AnimatePresence mode="wait">
                         <MediaPreview 
                           key={hoveredSubItem?.id || activeItem.id}
@@ -407,13 +435,38 @@ const Header: React.FC = () => {
                       {item.name}
                     </Link>
                     {item.hasDropdown && (
-                      <div className="mt-8 grid grid-cols-2 gap-y-4 gap-x-8 pl-4 border-l-2 border-zinc-900/10">
+                      <div className="mt-6 space-y-6 pl-4 border-l border-zinc-100">
                         {item.columns ? item.columns.flatMap(c => c.items).map(sub => (
-                          <Link key={sub.id} href={sub.href} onClick={() => setMobileMenuOpen(false)} className="text-[10px] font-black text-zinc-400 uppercase tracking-widest hover:text-zinc-900 transition-colors">
-                            {sub.label}
-                          </Link>
+                          <div key={sub.id} className="space-y-3">
+                            <Link 
+                              href={sub.href} 
+                              onClick={() => setMobileMenuOpen(false)} 
+                              className="text-[11px] font-black text-zinc-900 uppercase tracking-widest block"
+                            >
+                              {sub.label}
+                            </Link>
+                            {sub.items && (
+                              <div className="space-y-2 pl-4">
+                                {sub.items.map(nested => (
+                                  <Link 
+                                    key={nested.id}
+                                    href={nested.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest block"
+                                  >
+                                    {nested.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         )) : item.simpleItems?.map(sub => (
-                          <Link key={sub.id} href={sub.href} onClick={() => setMobileMenuOpen(false)} className="text-[10px] font-black text-zinc-400 uppercase tracking-widest hover:text-zinc-900 transition-colors">
+                          <Link 
+                            key={sub.id} 
+                            href={sub.href} 
+                            onClick={() => setMobileMenuOpen(false)} 
+                            className="text-[11px] font-black text-zinc-400 uppercase tracking-widest block hover:text-zinc-950 transition-colors"
+                          >
                             {sub.label}
                           </Link>
                         ))}
