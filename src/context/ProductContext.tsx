@@ -14,7 +14,7 @@ interface ProductContextType {
     totalPages: number;
     limit: number;
   };
-  fetchProducts: (page?: number, limit?: number) => Promise<void>;
+  fetchProducts: (page?: number, limit?: number, filters?: { category?: string; type?: string }) => Promise<void>;
   getProductById: (id: string) => IProduct | undefined;
 }
 
@@ -31,10 +31,14 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
     limit: 10,
   });
 
-  const fetchProducts = async (page: number = 1, limit: number = 10) => {
+  const fetchProducts = async (page: number = 1, limit: number = 10, filters: { category?: string; type?: string } = {}) => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/products?page=${page}&limit=${limit}`);
+      let url = `/api/products?page=${page}&limit=${limit}`;
+      if (filters.category) url += `&category=${encodeURIComponent(filters.category)}`;
+      if (filters.type) url += `&type=${encodeURIComponent(filters.type)}`;
+      
+      const response = await axios.get(url);
       if (response.data.success) {
         setProducts(response.data.data);
         setPagination(response.data.pagination);

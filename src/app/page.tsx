@@ -197,79 +197,107 @@ export default function Home() {
       <LuxuryBentoGrid />
 
       {/* Dynamic Product Grid */}
-      <section id="product-grid" className="py-24 bg-white border-y border-zinc-100">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 bg-zinc-50 rounded-full border border-zinc-200">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Live Inventory</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900">Full Collection</h2>
+      <section id="product-grid" className="py-32 bg-white relative">
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-100 to-transparent" />
+        
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10">
+            <div className="space-y-4">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="inline-flex items-center gap-3 px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">Live Inventory</span>
+              </motion.div>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-zinc-900 italic leading-none">
+                Full<br/>Collection
+              </h2>
+            </div>
+            <div className="max-w-md text-right hidden md:block">
+              <p className="text-zinc-400 text-sm font-medium leading-relaxed uppercase tracking-widest">
+                Explore our entire range of handcrafted excellence. Filter by category in the menu above to find your perfect piece.
+              </p>
             </div>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="aspect-[4/5] rounded-3xl bg-zinc-50 animate-pulse border border-zinc-100" />
+                <div key={i} className="space-y-6">
+                  <div className="aspect-[4/5] rounded-lg bg-zinc-50 animate-pulse" />
+                  <div className="h-4 w-2/3 bg-zinc-50 animate-pulse rounded" />
+                  <div className="h-4 w-1/3 bg-zinc-50 animate-pulse rounded" />
+                </div>
               ))}
             </div>
           ) : error ? (
-            <div className="p-20 text-center bg-zinc-50 rounded-3xl border border-zinc-100">
-              <p className="text-red-400 text-lg mb-4">{error}</p>
-              <Button onClick={() => fetchProducts()} variant="outline">Try Again</Button>
+            <div className="py-40 text-center bg-zinc-50 rounded-2xl border border-dashed border-zinc-200">
+              <p className="text-zinc-400 font-bold mb-6 italic">{error}</p>
+              <Button onClick={() => fetchProducts()} variant="outline" className="rounded-full border-zinc-900 text-zinc-900 hover:bg-zinc-900 hover:text-white px-8">
+                Refresh Collection
+              </Button>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {products.map((product) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+                {products.map((product, idx) => (
                   <motion.div
                     key={product._id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.6, delay: (idx % 4) * 0.1 }}
                     viewport={{ once: true }}
                     className="group"
                   >
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-50 border border-zinc-100 shadow-sm transition-all group-hover:shadow-xl group-hover:border-zinc-200">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-none bg-zinc-50 border border-zinc-100 transition-all duration-700 group-hover:shadow-2xl group-hover:border-zinc-200">
                       {product.image?.mid || product.image?.thumbnail ? (
                         <img
                           src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')}
                           alt={product.name}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-6xl font-black text-zinc-200">D</div>
+                        <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-4xl font-black text-zinc-200 italic">D</div>
                       )}
                       
-                      <div className="absolute top-4 right-4 z-10">
-                        <Button size="icon" variant="secondary" className="rounded-full bg-white/60 backdrop-blur-md border border-zinc-100 hover:bg-white text-zinc-900">
+                      <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                        <Button size="icon" variant="secondary" className="rounded-full bg-white shadow-xl hover:bg-zinc-900 hover:text-white border-none">
                           <Heart size={18} />
                         </Button>
                       </div>
+
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700" />
                     </div>
                     
-                    <div className="mt-6 px-2">
-                       <div className="flex justify-between items-start mb-2">
+                    <div className="mt-8 space-y-2">
+                       <div className="flex justify-between items-start">
                           <div>
-                            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest block mb-1">SN: {product.serialNumber}</span>
-                            <h3 className="text-zinc-900 font-bold group-hover:text-zinc-600 transition-colors uppercase tracking-wider">{product.name}</h3>
+                            <span className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em] block mb-1">SN: {product.serialNumber}</span>
+                            <h3 className="text-zinc-900 font-black text-sm uppercase tracking-widest group-hover:text-zinc-500 transition-colors">{product.name}</h3>
                           </div>
-                          <span className="text-zinc-900 font-black text-lg">₹{product.price.toLocaleString()}</span>
+                          <span className="text-zinc-900 font-black text-sm tracking-tight">₹{product.price.toLocaleString()}</span>
                        </div>
+                       <div className="h-[1px] w-full bg-zinc-100 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700" />
                     </div>
                   </motion.div>
                 ))}
               </div>
 
               {pagination.totalPages > 1 && (
-                <div className="mt-20">
+                <div className="mt-32 border-t border-zinc-100 pt-16">
                   <Pagination
                     currentPage={pagination.page}
                     totalPages={pagination.totalPages}
                     onPageChange={handlePageChange}
                   />
+                  <p className="text-center mt-8 text-[10px] font-black text-zinc-300 uppercase tracking-[0.5em]">
+                    Page {pagination.page} of {pagination.totalPages}
+                  </p>
                 </div>
               )}
             </>
