@@ -319,10 +319,10 @@ const Header: React.FC = () => {
               animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0, y: -20, height: 0 }}
               transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-              className="absolute left-0 w-full bg-white/95 backdrop-blur-2xl border-b border-zinc-100 overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.06)]"
+              className="absolute left-0 w-full bg-white border-b border-zinc-100 overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.08)] max-h-[85vh] overflow-y-auto"
               onMouseEnter={() => handleMouseEnter(activeNav)}
             >
-              <div className="max-w-[1240px] mx-auto px-6 py-20">
+              <div className="max-w-[1240px] mx-auto px-6 py-12">
                 {activeItem.dropdownType === 'mega' ? (
                   activeItem.id === 'products' ? (
                     <div className="grid grid-cols-12 gap-12">
@@ -350,9 +350,9 @@ const Header: React.FC = () => {
                                   <Link
                                     href={sub.href}
                                     onMouseEnter={() => setHoveredSubItem(sub)}
-                                    className="flex flex-col gap-1 transition-all"
+                                    className="flex flex-col gap-1 transition-all group/link"
                                   >
-                                    <span className="text-xs font-heading font-bold text-zinc-500 group-hover/item:text-zinc-950 flex items-center gap-2 group-hover/item:pl-2 transition-all duration-300 italic">
+                                    <span className="text-xs font-black text-zinc-900 group-hover/item:text-[#430704] flex items-center gap-2 group-hover/item:pl-2 transition-all duration-300 uppercase tracking-tight">
                                       {sub.label}
                                     </span>
                                     {sub.items && (
@@ -361,7 +361,7 @@ const Header: React.FC = () => {
                                           <Link 
                                             key={nested.id}
                                             href={nested.href}
-                                            className="block text-[10px] text-zinc-400 hover:text-zinc-950 transition-colors uppercase tracking-widest font-black"
+                                            className="block text-[10px] text-zinc-500 hover:text-zinc-950 transition-colors uppercase tracking-widest font-black"
                                           >
                                             {nested.label}
                                           </Link>
@@ -396,7 +396,7 @@ const Header: React.FC = () => {
                       </div>
                     </div>
                   ) : activeItem.id === 'collections' ? (
-                    <div className="grid grid-cols-3 gap-8">
+                    <div className="grid grid-cols-3 gap-6">
                       {activeItem.simpleItems?.map((item, idx) => (
                         <motion.div
                           key={item.id}
@@ -404,11 +404,11 @@ const Header: React.FC = () => {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1, duration: 0.8 }}
                         >
-                           <Link href={item.href} className="group/coll block relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+                           <Link href={item.href} className="group/coll block relative aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl border border-zinc-100">
                               <img src={item.previewImage} alt={item.label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover/coll:scale-110" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8 text-center">
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
                                  <p className="text-white/40 text-[9px] font-black uppercase tracking-[0.5em] mb-3">Anthology 0{idx + 1}</p>
-                                 <h4 className="text-3xl font-heading font-black text-white italic tracking-tighter mb-4">{item.label}</h4>
+                                 <h4 className="text-3xl font-black text-white tracking-tighter mb-4 uppercase">{item.label}</h4>
                                  <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover/coll:opacity-100 transition-opacity duration-500">
                                     {item.description}
                                  </p>
@@ -418,54 +418,56 @@ const Header: React.FC = () => {
                       ))}
                     </div>
                   ) : activeItem.id === 'story' ? (
-                    <div className="grid grid-cols-12 gap-16 min-h-[400px]">
-                      <div className="col-span-7 relative rounded-2xl overflow-hidden group/story">
-                         <img src={activeItem.featured?.image} alt="Heritage" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3000ms] group-hover/story:scale-110" />
-                         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm group-hover/story:backdrop-blur-none transition-all duration-1000" />
-                         <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center">
-                            <motion.p initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-white/60 text-[10px] font-black uppercase tracking-[0.6em] mb-4">The Dattaraj Odyssey</motion.p>
-                            <h4 className="text-6xl font-heading font-black text-white italic tracking-tighter uppercase leading-none">{activeItem.featured?.title}</h4>
+                    <div className="grid grid-cols-12 gap-12 items-center">
+                      <div className="col-span-8 relative rounded-3xl overflow-hidden group/story aspect-[16/8] shadow-2xl border border-zinc-100">
+                         <img src={activeItem.featured?.image} alt="Heritage" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[4000ms] group-hover/story:scale-110" />
+                         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
+                         <div className="absolute inset-0 flex flex-col justify-center p-16">
+                            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} className="text-white text-[10px] font-black uppercase tracking-[0.4em] mb-4">Ancestral Narrative</motion.p>
+                            <h4 className="text-6xl font-black text-white tracking-tighter uppercase leading-none mb-8">{activeItem.featured?.title}</h4>
+                            <Link href={activeItem.href} className="inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/80 hover:text-white transition-all group/cta">
+                                {activeItem.featured?.cta} <ArrowRight size={14} className="group-hover/cta:translate-x-1 transition-transform" />
+                            </Link>
                          </div>
                       </div>
-                      <div className="col-span-5 flex flex-col justify-center space-y-10 pl-8">
-                         <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-300 border-b border-zinc-100 pb-4">Ancestral Narrative</h5>
-                         <div className="grid grid-cols-1 gap-6">
+                      <div className="col-span-4 space-y-6 pl-6">
+                         <div className="grid grid-cols-1 gap-4">
                             {activeItem.simpleItems?.map((sub, idx) => (
-                              <Link key={sub.id} href={sub.href} className="group/item flex items-center justify-between p-4 rounded-xl hover:bg-zinc-50 transition-all border border-transparent hover:border-zinc-100">
-                                 <div className="flex items-center gap-6">
-                                    <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 group-hover/item:bg-zinc-950 group-hover/item:text-white transition-all">
-                                      {idx === 0 ? <BookOpen size={18} /> : idx === 1 ? <Award size={18} /> : idx === 2 ? <Layers size={18} /> : <ShieldCheck size={18} />}
-                                    </div>
-                                    <div>
-                                       <p className="text-sm font-heading font-black text-zinc-950 italic">{sub.label}</p>
-                                       <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">{sub.description}</p>
-                                    </div>
+                              <Link key={sub.id} href={sub.href} className="group/item flex items-center gap-6 p-4 rounded-2xl hover:bg-zinc-50/50 transition-all border border-transparent hover:border-zinc-100">
+                                 <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 group-hover/item:bg-zinc-950 group-hover/item:text-white transition-all shadow-sm">
+                                    {idx === 0 ? <BookOpen size={16} /> : idx === 1 ? <Award size={16} /> : idx === 2 ? <Layers size={16} /> : <ShieldCheck size={16} />}
                                  </div>
-                                 <ArrowRight size={18} className="text-zinc-200 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-2 transition-all" />
+                                 <div className="flex-1">
+                                    <p className="text-sm font-black text-zinc-950 uppercase tracking-tight">{sub.label}</p>
+                                    <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest">{sub.description}</p>
+                                 </div>
+                                 <ArrowRight size={14} className="text-zinc-200 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all" />
                               </Link>
                             ))}
                          </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-12 gap-16">
-                      <div className="col-span-5 p-12 bg-zinc-950 rounded-2xl flex flex-col justify-center items-center text-center">
-                         <p className="text-amber-500 text-[10px] font-black uppercase tracking-[0.5em] mb-4">Bespoke Inquiries</p>
-                         <h4 className="text-4xl font-heading font-black text-white italic tracking-tighter mb-8 leading-tight">Your Private<br/>Concierge</h4>
-                         <div className="w-20 h-[1px] bg-white/10 mb-8" />
-                         <Button className="bg-white text-zinc-950 hover:bg-amber-400 transition-colors uppercase font-black tracking-widest text-[10px] px-8 h-12 rounded-full">Explore Commissions</Button>
+                    <div className="grid grid-cols-12 gap-12 items-center">
+                      <div className="col-span-4 p-12 bg-zinc-950 rounded-3xl flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden group/concierge">
+                         <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-zinc-950" />
+                         <div className="relative z-10">
+                            <p className="text-amber-500 text-[10px] font-black uppercase tracking-[0.5em] mb-4">Private Inquiries</p>
+                            <h4 className="text-4xl font-black text-white tracking-tighter mb-8 leading-tight uppercase">Elite Concierge</h4>
+                            <Button className="bg-white text-zinc-950 hover:bg-amber-400 transition-colors uppercase font-black tracking-widest text-[9px] px-10 h-12 rounded-full shadow-lg h-auto py-4">Explore Commissions</Button>
+                         </div>
+                         <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 rounded-full blur-3xl" />
                       </div>
-                      <div className="col-span-7 grid grid-cols-2 gap-6 pl-8">
+                      <div className="col-span-8 grid grid-cols-3 gap-4 pl-6">
                          {activeItem.simpleItems?.map((sub, idx) => (
-                           <Link key={sub.id} href={sub.href} className="group/card relative overflow-hidden p-8 rounded-2xl border border-zinc-100 hover:border-amber-400/50 hover:bg-zinc-50 transition-all">
+                           <Link key={sub.id} href={sub.href} className="group/card relative overflow-hidden p-6 rounded-2xl border border-zinc-100 hover:border-amber-400/50 hover:bg-zinc-50/50 transition-all">
                               <div className="relative z-10 flex flex-col h-full">
-                                 <div className="w-12 h-12 rounded-2xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-400 mb-6 group-hover/card:bg-zinc-950 group-hover/card:text-white transition-all">
-                                    {idx === 0 ? <MessageSquare size={24} /> : idx === 1 ? <Phone size={24} /> : <MapPin size={24} />}
+                                 <div className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-400 mb-6 group-hover/card:bg-zinc-950 group-hover/card:text-white transition-all shadow-sm">
+                                    {idx === 0 ? <MessageSquare size={18} /> : idx === 1 ? <Phone size={18} /> : <MapPin size={18} />}
                                  </div>
-                                 <h5 className="text-xl font-heading font-black text-zinc-950 italic mb-2 tracking-tighter">{sub.label}</h5>
-                                 <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{sub.description}</p>
+                                 <h5 className="text-lg font-black text-zinc-950 mb-1 tracking-tighter uppercase">{sub.label}</h5>
+                                 <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest leading-relaxed">{sub.description}</p>
                               </div>
-                              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-amber-400/5 rounded-full blur-[60px] opacity-0 group-hover/card:opacity-100 transition-opacity" />
                            </Link>
                          ))}
                       </div>
@@ -495,8 +497,6 @@ const Header: React.FC = () => {
                 )}
               </div>
               
-              {/* Decorative Glass Overlay Element */}
-              <div className="absolute top-0 right-0 w-[600px] h-full bg-gradient-to-l from-zinc-50/50 to-transparent pointer-events-none" />
             </motion.div>
           )}
         </AnimatePresence>
