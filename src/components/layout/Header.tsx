@@ -208,9 +208,9 @@ const Header: React.FC = () => {
       <header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          isScrolled || activeNav
+          isScrolled || activeNav || mobileMenuOpen
             ? 'bg-white shadow-md border-b border-zinc-100'
-            : 'bg-transparent'
+            : 'bg-white/80 backdrop-blur-md border-b border-zinc-50'
         )}
         onMouseLeave={handleMouseLeave}
       >
@@ -218,11 +218,12 @@ const Header: React.FC = () => {
           <nav className="flex items-center justify-between h-24">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link href="/" className={cn(
-                "font-heading font-black text-3xl tracking-tighter transition-colors duration-300",
-                isScrolled || activeNav ? "text-zinc-900" : "text-white"
-              )}>
-                DATTARAJ
+              <Link href="/">
+                <img 
+                  src="/cropedmain.png" 
+                  alt="Dattaraj" 
+                  className="h-10 w-auto object-contain"
+                />
               </Link>
             </div>
 
@@ -238,9 +239,9 @@ const Header: React.FC = () => {
                     href={item.href}
                     className={cn(
                       "text-[13px] font-bold uppercase tracking-[0.2em] transition-all duration-300",
-                      isScrolled || activeNav
-                        ? (activeNav === item.id ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-900")
-                        : "text-white/80 hover:text-white"
+                      activeNav === item.id || pathname === item.href
+                        ? "text-zinc-900"
+                        : "text-zinc-500 hover:text-zinc-900"
                     )}
                   >
                     {item.name}
@@ -261,38 +262,29 @@ const Header: React.FC = () => {
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className={cn(
-                  "rounded-full transition-colors",
-                  isScrolled || activeNav ? "text-zinc-900 hover:bg-zinc-100" : "text-white hover:bg-white/10"
-                )}
+                className="rounded-full text-zinc-700 hover:bg-zinc-100"
               >
                 <Search size={20} />
               </Button>
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className={cn(
-                  "rounded-full transition-colors",
-                  isScrolled || activeNav ? "text-zinc-900 hover:bg-zinc-100" : "text-white hover:bg-white/10"
-                )}
+                className="rounded-full text-zinc-700 hover:bg-zinc-100"
               >
                 <Heart size={20} />
               </Button>
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className={cn(
-                  "rounded-full transition-colors",
-                  isScrolled || activeNav ? "text-zinc-900 hover:bg-zinc-100" : "text-white hover:bg-white/10"
-                )}
+                className="rounded-full text-zinc-700 hover:bg-zinc-100"
               >
                 <ShoppingBag size={20} />
               </Button>
               <button 
-                className="lg:hidden p-2"
+                className="lg:hidden p-2 text-zinc-900"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
-                {mobileMenuOpen ? <X size={24} /> : <MenuIcon size={24} className={cn(isScrolled ? "text-zinc-900" : "text-white")} />}
+                {mobileMenuOpen ? <X size={24} /> : <MenuIcon size={24} />}
               </button>
             </div>
           </nav>
