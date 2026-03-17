@@ -124,44 +124,44 @@ const Header: React.FC = () => {
         {
           title: "Jewellery",
           items: [
-            { id: "jodavi", label: "Jodavi", href: "/products/jewellery/jodavi", previewImage: "https://images.unsplash.com/photo-1544450297-6b04a926f749?q=80&w=800" },
-            { id: "fancy-jodavi", label: "Fancy Jodavi", href: "/products/jewellery/fancy-jodavi", previewImage: "https://images.unsplash.com/photo-1603561591411-0e7bc26e13b8?q=80&w=800" },
-            { id: "kada", label: "Kada", href: "/products/jewellery/kada", previewImage: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800" },
-            { id: "rama-kada", label: "Rama Kada", href: "/products/jewellery/rama-kada", previewImage: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800" },
-            { id: "payal", label: "Payal", href: "/products/jewellery/payal", previewImage: traditionalImg, items: [
-              { id: "salem-payal", label: "Salem Payal", href: "/products/jewellery/payal/salem" }
+            { id: "jodavi", label: "Jodavi", href: "/products?type=Jodavi", previewImage: "https://images.unsplash.com/photo-1544450297-6b04a926f749?q=80&w=800" },
+            { id: "fancy-jodavi", label: "Fancy Jodavi", href: "/products?type=Fancy-Jodavi", previewImage: "https://images.unsplash.com/photo-1603561591411-0e7bc26e13b8?q=80&w=800" },
+            { id: "kada", label: "Kada", href: "/products?category=Kada", previewImage: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800" },
+            { id: "rama-kada", label: "Rama Kada", href: "/products?type=Rama-Kada", previewImage: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800" },
+            { id: "payal", label: "Payal", href: "/products?category=Payal", previewImage: traditionalImg, items: [
+              { id: "salem-payal", label: "Salem Payal", href: "/products?category=Selam_payal" }
             ]},
-            { id: "ghanti", label: "Ghanti", href: "/products/jewellery/ghanti", previewImage: poojaImg },
-            { id: "ghungraki", label: "Ghungraki", href: "/products/jewellery/ghungraki", previewImage: poojaImg },
+            { id: "ghanti", label: "Ghanti", href: "/products?category=Ghanti", previewImage: poojaImg },
+            { id: "ghungraki", label: "Ghungraki", href: "/products?type=Ghungraki", previewImage: poojaImg },
           ]
         },
         {
           title: "Pooja Items",
           items: [
-            { id: "samayi", label: "Samayi", href: "/products/pooja/samayi", previewImage: poojaImg },
-            { id: "diva", label: "Diva", href: "/products/pooja/diva", previewImage: poojaImg },
-            { id: "chamcha", label: "Chamcha", href: "/products/pooja/chamcha", previewImage: poojaImg },
-            { id: "karanda", label: "Karanda", href: "/products/pooja/karanda", previewImage: poojaImg },
-            { id: "nagdor-karanda", label: "Nagdor Karanda", href: "/products/pooja/nagdor-karanda", previewImage: poojaImg },
+            { id: "samayi", label: "Samayi", href: "/products?category=Pooja&type=Samayi", previewImage: poojaImg },
+            { id: "diva", label: "Diva", href: "/products?category=Diva", previewImage: poojaImg },
+            { id: "chamcha", label: "Chamcha", href: "/products?type=Chamcha", previewImage: poojaImg },
+            { id: "karanda", label: "Karanda", href: "/products?type=Karanda", previewImage: poojaImg },
+            { id: "nagdor-karanda", label: "Nagdor Karanda", href: "/products?type=Nagdor-Karanda", previewImage: poojaImg },
           ]
         },
         {
           title: "Murtis (Idols)",
           items: [
-            { id: "pokal-murti", label: "Pokal Murti", href: "/products/murtis/pokal", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
-            { id: "bhariv-murti", label: "Bhariv Murti", href: "/products/murtis/bhariv", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
-            { id: "special-murti", label: "Special Murti", href: "/products/murtis/special", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
-            { id: "mukavata", label: "Mukavata", href: "/products/murtis/mukavata", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
+            { id: "pokal-murti", label: "Pokal Murti", href: "/products?category=Murtis&type=Pokal", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
+            { id: "bhariv-murti", label: "Bhariv Murti", href: "/products?category=Murtis&type=Bhariv", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
+            { id: "special-murti", label: "Special Murti", href: "/products?category=Special_murti", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
+            { id: "mukavata", label: "Mukavata", href: "/products?type=Mukavata", previewImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800" },
           ]
         },
         {
           title: "Traditional Items",
           items: [
-            { id: "kolkata-dabi", label: "Kolkata Dabi", href: "/products/traditional/kolkata-dabi" },
-            { id: "nag", label: "Nag", href: "/products/traditional/nag" },
-            { id: "vedhni", label: "Vedhni", href: "/products/traditional/vedhni" },
-            { id: "plain-mal", label: "Plain Mal", href: "/products/traditional/plain-mal" },
-            { id: "one-gram-gold", label: "One Gram Gold", href: "/products/traditional/one-gram-gold" },
+            { id: "kolkata-dabi", label: "Kolkata Dabi", href: "/products?category=Kolkata_dabi" },
+            { id: "nag", label: "Nag", href: "/products?type=Nag" },
+            { id: "vedhni", label: "Vedhni", href: "/products?type=Vedhni" },
+            { id: "plain-mal", label: "Plain Mal", href: "/products?type=Plain-Mal" },
+            { id: "one-gram-gold", label: "One Gram Gold", href: "/products?type=gold" },
             { id: "all-products", label: "All Products", href: "/products" },
           ]
         }

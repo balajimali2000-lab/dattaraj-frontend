@@ -7,14 +7,25 @@ import { IProduct } from '@/models/Product';
 interface ProductContextType {
   products: IProduct[];
   loading: boolean;
+  loadingMore: boolean;
   error: string | null;
+  filterOptions: {
+    categories: string[];
+    types: string[];
+  };
   pagination: {
     total: number;
     page: number;
     totalPages: number;
     limit: number;
   };
-  fetchProducts: (page?: number, limit?: number, filters?: { category?: string; type?: string }) => Promise<void>;
+  fetchProducts: (
+    page?: number, 
+    limit?: number, 
+    filters?: { category?: string; type?: string; search?: string },
+    append?: boolean
+  ) => Promise<void>;
+  fetchFilterOptions: () => Promise<void>;
   getProductById: (id: string) => IProduct | undefined;
 }
 
@@ -23,24 +34,49 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [filterOptions, setFilterOptions] = useState({ categories: [], types: [] });
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
     totalPages: 0,
-    limit: 10,
+    limit: 12,
   });
 
-  const fetchProducts = async (page: number = 1, limit: number = 10, filters: { category?: string; type?: string } = {}) => {
+  const fetchFilterOptions = async () => {
     try {
-      setLoading(true);
+      const res = await axios.get('/api/products/filters');
+      if (res.data.success) {
+        setFilterOptions(res.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch filter options:', err);
+    }
+  };
+
+  const fetchProducts = async (
+    page: number = 1, 
+    limit: number = 12, 
+    filters: { category?: string; type?: string; search?: string } = {},
+    append: boolean = false
+  ) => {
+    try {
+      if (append) setLoadingMore(true);
+      else setLoading(true);
+
       let url = `/api/products?page=${page}&limit=${limit}`;
-      if (filters.category) url += `&category=${encodeURIComponent(filters.category)}`;
-      if (filters.type) url += `&type=${encodeURIComponent(filters.type)}`;
+      if (filters.category && filters.category !== 'all') url += `&category=${encodeURIComponent(filters.category)}`;
+      if (filters.type && filters.type !== 'all') url += `&type=${encodeURIComponent(filters.type)}`;
+      if (filters.search) url += `&search=${encodeURIComponent(filters.search)}`;
       
       const response = await axios.get(url);
       if (response.data.success) {
-        setProducts(response.data.data);
+        if (append) {
+          setProducts(prev => [...prev, ...response.data.data]);
+        } else {
+          setProducts(response.data.data);
+        }
         setPagination(response.data.pagination);
       } else {
         setError(response.data.error || 'Failed to fetch products');
@@ -49,11 +85,13 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
       setError(err.message || 'An error occurred while fetching products');
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchFilterOptions();
+    fetchProducts(1, 12);
   }, []);
 
   const getProductById = (id: string) => {
@@ -62,7 +100,17 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ProductContext.Provider
-      value={{ products, loading, error, pagination, fetchProducts, getProductById }}
+      value={{ 
+        products, 
+        loading, 
+        loadingMore,
+        error, 
+        filterOptions,
+        pagination, 
+        fetchProducts, 
+        fetchFilterOptions,
+        getProductById 
+      }}
     >
       {children}
     </ProductContext.Provider>
