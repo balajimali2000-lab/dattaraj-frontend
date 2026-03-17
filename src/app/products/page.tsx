@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -30,20 +30,21 @@ const getOptimizedVariant = (product: any, cols: 2 | 3 | 6) => {
   const images = product.image || {};
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
-  // Mobile prioritization: always lean towards lower variants for speed
+  // Intel Sense: Prioritize clarity on modern high-DPI screens
   if (isMobile) {
-    return images.low || images.thumbnail || images.mid || images.high || '';
+    // Mobile: favor Mid/Low for speed + clarity on small high-res screens
+    return images.mid || images.low || images.thumbnail || images.high || '';
   }
 
-  // Desktop prioritization based on display size
+  // Desktop/Laptop: Prioritize sharpness
   if (cols === 6) {
-    // 6xn: tiny cards, use thumbnail/low
-    return images.thumbnail || images.low || images.mid || '';
-  } else if (cols === 3) {
-    // 3xn: medium cards, use mid
+    // 6xn (Density): Boost to Mid (previously thumbnail/low) to prevent blurring on Retinas
     return images.mid || images.low || images.high || images.thumbnail || '';
+  } else if (cols === 3) {
+    // 3xn (Full View): Boost to High (previously mid) for premium detail
+    return images.high || images.mid || images.veryHigh || images.low || '';
   } else {
-    // 2xn: large cards, use high
+    // 2xn (Showcase): Use High resolution for clarity without the lag of VeryHigh
     return images.high || images.mid || images.veryHigh || images.low || '';
   }
 };
@@ -63,6 +64,18 @@ function ProductListContent() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [colsPerRow, setColsPerRow] = useState<2 | 3 | 6>(3);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Smooth scroll to top when filters or layout change
+  useEffect(() => {
+    if (sectionRef.current) {
+      const offset = sectionRef.current.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({
+        top: offset,
+        behavior: 'smooth'
+      });
+    }
+  }, [selectedCategory, selectedType, searchQuery, colsPerRow]);
 
   // Handle URL parameters on initial load
   useEffect(() => {
@@ -195,7 +208,7 @@ function ProductListContent() {
           </aside>
 
           {/* Product Feed */}
-          <section className="flex-1 min-w-0">
+          <section ref={sectionRef} className="flex-1 min-w-0">
             
             {/* Toolbar */}
             <div className="sticky top-24 z-30 flex flex-col md:flex-row justify-between items-center bg-white/80 backdrop-blur-md border border-zinc-100/50 p-2 gap-4 mb-12 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
