@@ -46,12 +46,16 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchFilterOptions = async () => {
     try {
+      console.log('[Context] Fetching filters...');
       const res = await axios.get('/api/products/filters');
       if (res.data.success) {
+        console.log('[Context] Filters Received:', res.data.data);
         setFilterOptions(res.data.data);
+      } else {
+        console.error('[Context] Failed to fetch filters:', res.data.error);
       }
     } catch (err) {
-      console.error('Failed to fetch filter options:', err);
+      console.error('[Context] Failed to fetch filter options:', err);
     }
   };
 

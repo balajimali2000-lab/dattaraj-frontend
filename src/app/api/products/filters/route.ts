@@ -11,6 +11,8 @@ export async function GET() {
       Product.distinct('type')
     ]);
 
+    console.log('[API] Filters Fetched:', { categoriesCount: categories.length, typesCount: types.length });
+
     // Cleanup null/undefined
     const cleanCategories = categories.filter(c => c && c !== 'null');
     const cleanTypes = types.filter(t => t && t !== 'null');

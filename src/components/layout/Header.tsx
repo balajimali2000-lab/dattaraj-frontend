@@ -233,7 +233,7 @@ const Header: React.FC = () => {
         { id: "location", label: "Store Location", href: "/contact#location", description: "Visit our heritage boutique." },
       ]
     }
-  ], []);
+  ], [filterOptions]);
 
   const handleMouseEnter = (id: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);

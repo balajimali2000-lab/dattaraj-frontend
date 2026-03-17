@@ -29,6 +29,11 @@ export async function GET(request: Request) {
       Product.countDocuments(query)
     ]);
 
+    if (products.length > 0) {
+      console.log('[API] Sample Product Keys:', Object.keys(products[0].toObject()));
+      console.log('[API] Sample Category Value:', products[0].category);
+    }
+
     return NextResponse.json({ 
       success: true, 
       data: products,
