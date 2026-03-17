@@ -26,6 +26,28 @@ const formatLabel = (label: string) => {
     .join(' ');
 };
 
+const getOptimizedVariant = (product: any, cols: 2 | 3 | 6) => {
+  const images = product.image || {};
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  
+  // Mobile prioritization: always lean towards lower variants for speed
+  if (isMobile) {
+    return images.low || images.thumbnail || images.mid || images.high || '';
+  }
+
+  // Desktop prioritization based on display size
+  if (cols === 6) {
+    // 6xn: tiny cards, use thumbnail/low
+    return images.thumbnail || images.low || images.mid || '';
+  } else if (cols === 3) {
+    // 3xn: medium cards, use mid
+    return images.mid || images.low || images.high || images.thumbnail || '';
+  } else {
+    // 2xn: large cards, use high
+    return images.high || images.mid || images.veryHigh || images.low || '';
+  }
+};
+
 function ProductListContent() {
   const { 
     products, 
@@ -260,7 +282,7 @@ function ProductListContent() {
                                         className={`relative bg-zinc-50 overflow-hidden block aspect-[4/5]`}
                                     >
                                         <img 
-                                            src={product.image?.low || product.image?.thumbnail || product.image?.mid || ''} 
+                                            src={getOptimizedVariant(product, colsPerRow)} 
                                             alt={product.name} 
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                             loading="lazy"
