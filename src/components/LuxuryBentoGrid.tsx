@@ -2,16 +2,14 @@
 
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Gem, Crown, TrendingUp } from 'lucide-react';
+import { ArrowRight, Sparkles, Gem, PenTool } from 'lucide-react';
+import Link from 'next/link';
 
-const silverImg = "https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=800&auto=format&fit=crop";
-const traditionalImg = "https://images.unsplash.com/photo-1626248801379-31713d71708d?q=80&w=800&auto=format&fit=crop";
-const modernImg = "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=800&auto=format&fit=crop";
-const templeImg = "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=800&auto=format&fit=crop";
+const templeImg = "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=1200&auto=format&fit=crop";
 const weddingImg = "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800&auto=format&fit=crop";
-const ringImg = "https://images.unsplash.com/photo-1544450297-6b04a926f749?q=80&w=800&auto=format&fit=crop";
+const ringImg = "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=800&auto=format&fit=crop";
+const detailImg = "https://images.unsplash.com/photo-1626067783863-eb21601579c8?q=80&w=800&auto=format&fit=crop";
+const earringImg = "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800&auto=format&fit=crop";
 const templeVideo = 'https://res.cloudinary.com/dqmpgzst5/video/upload/v1766821132/6262756-uhd_3840_2160_25fps_lo0t43.mp4';
 
 export const LuxuryBentoGrid = () => {
@@ -24,11 +22,8 @@ export const LuxuryBentoGrid = () => {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        video.play().catch(() => {});
-                    } else {
-                        video.pause();
-                    }
+                    if (entry.isIntersecting) video.play().catch(() => {});
+                    else video.pause();
                 });
             },
             { threshold: 0.3 }
@@ -39,95 +34,141 @@ export const LuxuryBentoGrid = () => {
     }, []);
 
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
-            <div className="absolute inset-0 opacity-[0.03]">
-                <div className="absolute inset-0" style={{
-                    backgroundImage: 'radial-gradient(circle at 1px 1px, black 1px, transparent 0)',
-                    backgroundSize: '40px 40px'
-                }} />
-            </div>
-
-            <div className="container mx-auto px-6 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-20"
-                >
-                    <div className="flex items-center justify-center gap-4 mb-6">
-                        <div className="h-[1px] w-12 bg-zinc-200" />
-                        <span className="text-[10px] tracking-[0.5em] uppercase text-zinc-400 font-bold">Curated Excellence</span>
-                        <div className="h-[1px] w-12 bg-zinc-200" />
+        <section className="py-32 bg-white overflow-hidden border-b border-zinc-50">
+            <div className="max-w-[1440px] mx-auto px-6">
+                {/* Editorial Header */}
+                <div className="flex flex-col items-center mb-24 space-y-6 text-center">
+                    <motion.div 
+                        initial={{ scaleX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        className="w-16 h-[1px] bg-[#430704]/40"
+                    />
+                    <div className="space-y-2">
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#430704]/60">Spring Anthology</span>
+                        <h2 className="text-4xl md:text-5xl font-black text-zinc-950 uppercase tracking-tighter leading-none">
+                            The Latest <span className="italic font-light text-zinc-400">Chapters</span>
+                        </h2>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900">
-                        Latest <span className="italic font-light text-zinc-500">Arrivals</span>
-                    </h2>
-                </motion.div>
+                </div>
 
-                <div className="grid grid-cols-12 gap-6 max-w-7xl mx-auto">
-                    {/* Hero Video Card */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="col-span-12 md:col-span-8 row-span-2 group relative overflow-hidden rounded-3xl aspect-[16/10] md:h-[500px] border border-zinc-100 shadow-sm"
+                {/* Main Cinematic Frame */}
+                <div className="relative mb-24 group">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
+                        className="relative aspect-[16/7] md:aspect-[21/9] overflow-hidden shadow-2xl rounded-sm"
                     >
                         <video
                             ref={videoRef}
                             src={templeVideo}
                             poster={templeImg}
                             loop muted playsInline
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                            className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                        <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                            <Badge className="w-fit mb-4 bg-white text-black hover:bg-zinc-100">New Collection</Badge>
-                            <h3 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-none">Temple<br/>Heritage</h3>
-                            <p className="text-zinc-200 text-sm md:text-base max-w-md mb-8">Timeless designs inspired by sacred architecture</p>
-                            <Button className="w-fit bg-white text-black hover:bg-zinc-100 rounded-full px-8">
-                                Discover Collection
-                                <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-80" />
+                        
+                        <div className="absolute bottom-12 left-12 right-12 flex flex-col md:flex-row justify-between items-end md:items-center">
+                            <div className="max-w-xl space-y-2">
+                                <Link href="/collections/temple" className="group/link inline-flex items-center gap-2">
+                                    <Sparkles className="w-4 h-4 text-white/60" />
+                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/90">Curated Heritage</span>
+                                </Link>
+                                <h3 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-tight leading-none">
+                                    Divine Silver Mastery
+                                </h3>
+                            </div>
+                            <Link href="/products" className="hidden md:flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.4em] text-white border border-white/20 px-8 py-4 hover:bg-white hover:text-[#430704] transition-all">
+                                Explore Anthology <ArrowRight size={12} />
+                            </Link>
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Proper Structured Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 items-start">
+                    {/* Column 1: The Product Context */}
+                    <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className="space-y-8"
+                    >
+                        <div className="aspect-[4/5] overflow-hidden shadow-lg border border-zinc-100 bg-zinc-50">
+                            <img src={weddingImg} alt="Story" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                        </div>
+                        <div className="space-y-4 pr-8">
+                            <span className="text-[#430704] text-[9px] font-black uppercase tracking-widest border-b border-[#430704]/20 pb-2 inline-block">Chapter 01</span>
+                            <h4 className="text-xl font-black text-zinc-950 uppercase tracking-tighter italic">Bridal Elegance</h4>
+                            <p className="text-[11px] text-zinc-500 font-medium leading-relaxed tracking-wide">
+                                Discover timeless silver silhouettes designed for the modern bride who treasures heritage. Each piece is a testament to ancestral craftsmanship.
+                            </p>
+                            <Link href="/products?category=bridal" className="inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-[#430704] group/btn">
+                                View Selection <ArrowRight size={10} className="group-hover/btn:translate-x-1 transition-transform" />
+                            </Link>
                         </div>
                     </motion.div>
 
-                    {/* Offer Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="col-span-12 md:col-span-4 group relative overflow-hidden rounded-3xl aspect-square md:h-[240px] border border-zinc-100 shadow-sm"
+                    {/* Column 2: Spotlight Piece */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        className="space-y-8 md:-mt-12"
                     >
-                        <img src={weddingImg} alt="Sale" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
-                        <div className="absolute inset-0 bg-white/20 group-hover:bg-white/10 transition-colors" />
-                        <div className="absolute inset-0 p-8 flex flex-col justify-between">
-                            <Badge className="w-fit bg-red-600 text-white border-0">Limited Time</Badge>
-                            <div>
-                                <div className="text-5xl font-bold text-zinc-900 mb-1">30%</div>
-                                <p className="text-zinc-600 text-sm font-bold uppercase tracking-wider">Festive Collection</p>
+                        <div className="relative aspect-square overflow-hidden shadow-2xl ring-1 ring-zinc-100 p-6 bg-white flex flex-col">
+                            <div className="flex-1 overflow-hidden relative">
+                                <img src={ringImg} alt="Signature" className="w-full h-full object-contain hover:scale-110 transition-transform duration-700" />
+                            </div>
+                            <div className="mt-8 text-center space-y-2">
+                                <Gem className="w-5 h-5 text-[#430704]/30 mx-auto mb-4" />
+                                <h4 className="text-lg font-black text-zinc-950 uppercase tracking-tight">The Celestial Band</h4>
+                                <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Available in pure 925 Silver</p>
+                            </div>
+                        </div>
+                        <div className="aspect-[16/9] overflow-hidden bg-zinc-950 relative group">
+                            <img src={detailImg} alt="Detail" className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-80 transition-opacity" />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <span className="text-white font-black text-[9px] uppercase tracking-[0.6em] select-none">Divine Detail</span>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Custom Design Card */}
-                    <motion.div
+                    {/* Column 3: The Artisan Perspective */}
+                    <motion.div 
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.1 }}
-                        viewport={{ once: true }}
-                        className="col-span-12 md:col-span-4 group relative overflow-hidden rounded-3xl aspect-square md:h-[240px] border border-zinc-100 shadow-sm"
+                        className="space-y-8"
                     >
-                        <img src={ringImg} alt="Custom" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
-                        <div className="absolute inset-0 bg-zinc-900/40 group-hover:bg-zinc-900/30 transition-colors" />
-                        <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                            <Gem className="w-8 h-8 text-white mb-4" />
-                            <h4 className="text-2xl font-bold text-white mb-1">Bespoke Jewelry</h4>
-                            <p className="text-white/80 text-sm">Create your masterpiece</p>
+                        <div className="aspect-[4/5] overflow-hidden shadow-lg border border-zinc-100 bg-zinc-50">
+                            <img src={earringImg} alt="Craft" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                        </div>
+                        <div className="space-y-4 pr-8">
+                             <span className="text-[#430704] text-[9px] font-black uppercase tracking-widest border-b border-[#430704]/20 pb-2 inline-block">Chapter 02</span>
+                            <h4 className="text-xl font-black text-zinc-950 uppercase tracking-tighter italic">Handcrafted Aura</h4>
+                            <p className="text-[11px] text-zinc-500 font-medium leading-relaxed tracking-wide">
+                                Our artisans spend hundreds of hours etching every divine curve. It's not just jewelry; it's a wearable chronicle of silver smithing expertise.
+                            </p>
+                            <Link href="/products?category=handcrafted" className="inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-[#430704] group/btn">
+                                Explore Mastery <ArrowRight size={10} className="group-hover/btn:translate-x-1 transition-transform" />
+                            </Link>
                         </div>
                     </motion.div>
+                </div>
+
+                {/* Aesthetic Footer */}
+                <div className="mt-40 flex flex-col md:flex-row justify-between items-center py-12 border-t border-zinc-100 space-y-8 md:space-y-0 relative">
+                    <div className="flex items-center gap-8">
+                        <div className="flex items-center gap-4">
+                            <PenTool className="w-4 h-4 text-[#430704]/20" />
+                            <span className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.4em]">Design Est. 1924</span>
+                        </div>
+                        <div className="w-[1px] h-8 bg-zinc-100" />
+                        <span className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.4em]">Pure Silver Anthology</span>
+                    </div>
+                    
+                    <Link href="/products" className="group flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.6em] text-[#430704] hover:opacity-50 transition-all">
+                        View Full Gallery 
+                        <div className="w-16 h-[1px] bg-[#430704]/40 group-hover:w-24 transition-all" />
+                    </Link>
                 </div>
             </div>
         </section>

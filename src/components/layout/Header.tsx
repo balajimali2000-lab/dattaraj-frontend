@@ -258,13 +258,13 @@ const Header: React.FC = () => {
             {/* Logo Section */}
             <div className="flex-shrink-0 relative z-10">
               <Link href="/" className="group flex items-center gap-4">
-                <div className="relative overflow-hidden rounded-full p-1.5 bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-700 group-hover:bg-white/30 group-hover:scale-105 group-hover:rotate-12">
-                  <img src="/cropedmain.png" alt="Dattaraj" className="h-10 w-auto object-contain transition-transform duration-700 group-hover:scale-110" />
+                <div className="relative transition-all duration-700 group-hover:scale-105">
+                  <img src="/cropedmain.png" alt="Dattaraj" className="h-10 w-auto object-contain" />
                 </div>
               </Link>
             </div>
 
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-4">
               {navigation.map((item) => (
                 <div
                   key={item.id}
@@ -274,10 +274,10 @@ const Header: React.FC = () => {
                   <Link
                     href={item.href}
                     className={cn(
-                      "px-6 py-2 text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700 rounded-full flex items-center gap-1",
+                      "px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500",
                       activeNav === item.id || pathname === item.href
-                        ? "text-zinc-950 bg-zinc-50/80"
-                        : "text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50/40 hover:tracking-[0.4em]"
+                        ? "text-zinc-950"
+                        : "text-zinc-400 hover:text-zinc-950"
                     )}
                   >
                     {item.name}
