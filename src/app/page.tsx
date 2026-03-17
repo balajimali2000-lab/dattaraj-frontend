@@ -198,59 +198,70 @@ export default function Home() {
       <LuxuryBentoGrid />
 
       {/* Boutique Category Spotlights */}
-      <div id="product-grid" className="relative bg-white pt-16">
-        {/* Dark Cinematic Section */}
+      <div id="product-grid" className="relative bg-white pt-10">
+        <CategorySpotlight 
+          category="Kada" 
+          title="The Royal Kada" 
+          subtitle="Heritage Series"
+          description="Handcrafted silver kadas that embody ancestral strength."
+          theme="cinematic"
+        />
+
         <CategorySpotlight 
           category="Selam_payal" 
           title="Signature Payal" 
           subtitle="The Art of Adornment"
-          description="Exquisite Salem silver payal handcrafted by master artisans to celebrate every milestone of your journey."
-          theme="cinematic"
-        />
-
-        {/* Light Serene Section */}
-        <CategorySpotlight 
-          category="Diva" 
-          title="Sacred Silver" 
-          subtitle="Divine Essentials"
-          description="Elevate your spiritual practices with our serene collection of handcrafted silver Diva and pooja essentials."
+          description="Exquisite Salem silver payal handcrafted by master artisans."
           theme="serene"
           reversed={true}
         />
 
-        {/* Dark Bento Section */}
+        <CategorySpotlight 
+          category="Ghanti" 
+          title="The Divine Sound" 
+          subtitle="Temple Essentials"
+          description="Intricately carved silver bells that resonate with energy."
+          theme="modern"
+        />
+
         <CategorySpotlight 
           category="Special_murti" 
           title="Masterpiece Idols" 
           subtitle="Divine Presence"
-          description="Intricately detailed special silver idols that bring a sense of peace and divinity to your home sanctuary."
+          description="Silver idols handcrafted by master artisans with precision."
           theme="bento"
         />
 
-        {/* Light Modern Section */}
         <CategorySpotlight 
           category="Kolkata_dabi" 
           title="Heritage Pieces" 
           subtitle="Ancestral Craft"
-          description="Timeless Kolkata Dabi and traditional silver items that carry the weight of history and craftsmanship."
-          theme="modern"
+          description="Timeless traditional silver items that carry history."
+          theme="cinematic"
           reversed={true}
+        />
+        
+        <CategorySpotlight 
+          category="Diva" 
+          title="Luminous Glow" 
+          subtitle="Pooja Accents"
+          description="Hand-finished silver lamps that bring light and prosperity."
+          theme="modern"
         />
       </div>
 
       {/* Boutique Features Banner */}
-      <section className="py-24 bg-white border-y border-zinc-100 overflow-hidden">
+      <section className="py-12 bg-white border-y border-zinc-100 overflow-hidden text-center">
         <div className="max-w-[1440px] mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { title: "Bespoke Design", desc: "Custom silver commissions since 1980" },
               { title: "Worldwide Shipping", desc: "Secure global delivery for every piece" },
-              { title: "Legacy Guarantee", desc: "Lifetime authenticity on all silver items" }
+              { title: "Legacy Guarantee", desc: "Lifetime authenticity on all items" }
             ].map((feature, i) => (
-              <div key={i} className="space-y-4 text-center">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-500 italic">Feature 0{i+1}</p>
-                <h4 className="text-2xl font-black tracking-tighter text-zinc-900 italic uppercase">{feature.title}</h4>
-                <p className="text-xs text-zinc-400 font-bold uppercase tracking-widest">{feature.desc}</p>
+              <div key={i} className="space-y-1">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-950">{feature.title}</h4>
+                <p className="text-[9px] text-zinc-400 uppercase tracking-widest leading-relaxed">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -258,22 +269,25 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-32 overflow-hidden bg-zinc-50 border-t border-zinc-100">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.01)_0%,rgba(255,255,255,0)_100%)]" />
+      <section className="relative py-20 overflow-hidden bg-white border-t border-zinc-50">
         <div className="relative container mx-auto px-6 text-center">
            <motion.div
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
+             initial={{ opacity: 0 }}
+             whileInView={{ opacity: 1 }}
              transition={{ duration: 1 }}
              viewport={{ once: true }}
-             className="max-w-4xl mx-auto"
+             className="max-w-2xl mx-auto space-y-10"
            >
-              <h2 className="text-5xl md:text-8xl font-bold tracking-tighter text-zinc-900 mb-10 leading-none">Begin Your Silver Journey</h2>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                 <Button className="bg-zinc-900 text-white hover:bg-zinc-800 h-16 px-10 rounded-full text-lg font-bold">
+              <div className="space-y-4">
+                <p className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.5em]">The Final Step</p>
+                <h2 className="text-3xl font-black tracking-tighter text-zinc-900 uppercase leading-none">Begin Your Silver Journey</h2>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                 <Button className="bg-zinc-900 text-white hover:bg-zinc-800 h-14 px-10 rounded-none text-[10px] font-black uppercase tracking-widest">
                     Visit Showroom
                  </Button>
-                 <Button variant="outline" className="border-zinc-200 text-zinc-900 hover:bg-zinc-50 h-16 px-10 rounded-full text-lg font-bold">
+                 <Button variant="outline" className="border-zinc-200 text-zinc-900 hover:bg-zinc-50 h-14 px-10 rounded-none text-[10px] font-black uppercase tracking-widest">
                     Our Story
                  </Button>
               </div>

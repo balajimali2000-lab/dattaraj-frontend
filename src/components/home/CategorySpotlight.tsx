@@ -84,20 +84,19 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   // --- UI THEMES ---
 
   const renderCinematic = () => (
-    <section className="py-24 bg-white overflow-hidden border-b border-zinc-100">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-        <div className={`flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-16 items-center`}>
-          <div className="w-full md:w-1/3 space-y-8">
-            <div className="space-y-4">
-              <p className="text-zinc-400 text-[10px] font-black uppercase tracking-[0.4em]">{subtitle || "Signature Collection"}</p>
-              <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-zinc-950 uppercase leading-tight">{title}</h2>
-              <p className="text-zinc-500 text-[13px] font-medium leading-relaxed max-w-sm">
-                {description || "Handcrafted silver pieces designed for the modern connoisseur of heritage craft."}
+    <section className="py-16 bg-white overflow-hidden border-b border-zinc-50">
+      <div className="max-w-[1440px] mx-auto px-6">
+        <div className={`flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 items-center`}>
+          <div className="w-full md:w-1/4 space-y-6">
+            <div className="space-y-3">
+              <p className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Signature Collection"}</p>
+              <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
+              <p className="text-zinc-500 text-[11px] font-medium leading-relaxed max-w-[240px]">
+                {description || "Handcrafted silver pieces designed for the modern connoisseur."}
               </p>
             </div>
-            <Link href={`/products?category=${category}`} className="inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-zinc-950 group">
-              Explore Collection
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            <Link href={`/products?category=${category}`} className="inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-zinc-950 group">
+              Explore <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
           
@@ -106,18 +105,18 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="w-full md:w-2/3 grid grid-cols-2 gap-4 lg:gap-6"
+            className="w-full md:w-3/4 grid grid-cols-2 md:grid-cols-4 gap-4"
           >
-            {products.slice(0, 4).map((product, idx) => (
+            {products.slice(0, 4).map((product) => (
               <motion.div key={product._id} variants={itemVariants} className="group relative">
-                <div className="aspect-[4/5] overflow-hidden bg-zinc-50 border border-zinc-100">
+                <div className="aspect-[4/5] overflow-hidden bg-zinc-50">
                   <img 
                     src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                     alt={product.name} 
                     className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
                   />
-                  <div className="absolute inset-x-0 bottom-0 p-6 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 border-t border-zinc-100">
-                    <h4 className="text-zinc-950 text-[10px] font-black uppercase tracking-widest truncate">{product.name}</h4>
+                  <div className="absolute inset-x-0 bottom-0 p-4 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 border-t border-zinc-100">
+                    <h4 className="text-zinc-950 text-[9px] font-black uppercase tracking-widest truncate">{product.name}</h4>
                   </div>
                 </div>
               </motion.div>
@@ -129,12 +128,11 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   );
 
   const renderSerene = () => (
-    <section className="py-24 bg-zinc-50/50 border-b border-zinc-100">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-        <div className="flex flex-col items-center text-center mb-16 space-y-4">
-          <p className="text-zinc-400 text-[10px] font-black uppercase tracking-[0.4em]">{subtitle || "Sacred Series"}</p>
-          <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-zinc-950 uppercase leading-tight">{title}</h2>
-          <div className="w-12 h-[2px] bg-zinc-900" />
+    <section className="py-16 bg-zinc-50/30 border-b border-zinc-50">
+      <div className="max-w-[1440px] mx-auto px-6">
+        <div className="flex flex-col items-center text-center mb-12 space-y-3">
+          <p className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Sacred Series"}</p>
+          <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
         </div>
 
         <motion.div 
@@ -142,25 +140,25 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4"
         >
           {products.map((product) => (
             <motion.div key={product._id} variants={itemVariants} className="group text-center">
-              <div className="aspect-[3/4] overflow-hidden bg-white border border-zinc-100 mb-6 p-4">
+              <div className="aspect-[3/4] overflow-hidden bg-white border border-zinc-100 mb-4 p-3">
                 <img 
                   src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                   alt={product.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                 />
               </div>
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-950">{product.name}</h4>
+              <h4 className="text-[9px] font-black uppercase tracking-widest text-zinc-950">{product.name}</h4>
             </motion.div>
           ))}
         </motion.div>
 
-        <div className="mt-16 text-center">
-           <Link href={`/products?category=${category}`} className="inline-block border border-zinc-900 px-10 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-zinc-900 hover:text-white transition-all">
-             Full Collection
+        <div className="mt-12 text-center">
+           <Link href={`/products?category=${category}`} className="inline-block border border-zinc-900 px-8 py-3 text-[9px] font-black uppercase tracking-widest hover:bg-zinc-900 hover:text-white transition-all">
+             View All
            </Link>
         </div>
       </div>
@@ -168,15 +166,15 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   );
 
   const renderModern = () => (
-    <section className="py-24 bg-white border-b border-zinc-100">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-        <div className="flex justify-between items-end mb-16 px-2">
-          <div className="space-y-3">
-             <span className="text-zinc-400 text-[10px] font-black uppercase tracking-[0.4em]">{subtitle || "Modern Essentials"}</span>
-             <h2 className="text-4xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
+    <section className="py-16 bg-white border-b border-zinc-100">
+      <div className="max-w-[1440px] mx-auto px-6">
+        <div className="flex justify-between items-end mb-12 px-2">
+          <div className="space-y-2">
+             <span className="text-zinc-400 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Modern Essentials"}</span>
+             <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
           </div>
-          <Link href={`/products?category=${category}`} className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-colors">
-            View All
+          <Link href={`/products?category=${category}`} className="text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-zinc-950 transition-colors">
+            See Catalog
           </Link>
         </div>
 
@@ -185,22 +183,22 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-0 border-l border-t border-zinc-100"
+          className="grid grid-cols-2 lg:grid-cols-4 border-l border-t border-zinc-50"
         >
           {products.map((product) => (
             <motion.div 
               key={product._id} 
               variants={itemVariants}
-              className="group relative aspect-square bg-white overflow-hidden border-r border-b border-zinc-100"
+              className="group relative aspect-square bg-white overflow-hidden border-r border-b border-zinc-50"
             >
                <img 
                 src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                 alt={product.name} 
                 className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
               />
-              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm p-6 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                 <h3 className="text-zinc-950 font-black text-[10px] uppercase tracking-widest leading-relaxed mb-4">{product.name}</h3>
-                 <Button variant="outline" className="h-8 rounded-none text-[8px] font-black uppercase tracking-widest border-zinc-900">Enquire</Button>
+              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm p-4 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                 <h3 className="text-zinc-950 font-black text-[9px] uppercase tracking-widest mb-3">{product.name}</h3>
+                 <Button variant="outline" className="h-7 px-4 rounded-none text-[8px] font-black uppercase tracking-widest border-zinc-900">Enquire</Button>
               </div>
             </motion.div>
           ))}
@@ -210,12 +208,11 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   );
 
   const renderBento = () => (
-    <section className="py-24 bg-zinc-950 overflow-hidden border-b border-white/5">
-      <div className="max-w-[1240px] mx-auto px-6">
-        <div className="text-center mb-16 space-y-4">
-           <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.5em]">{subtitle || "Curated Series"}</span>
-           <h2 className="text-4xl lg:text-5xl font-black tracking-tighter text-white uppercase leading-tight">{title}</h2>
-           <div className="w-12 h-[2px] bg-white mx-auto" />
+    <section className="py-16 bg-zinc-950 overflow-hidden border-b border-white/5">
+      <div className="max-w-[1440px] mx-auto px-6">
+        <div className="text-center mb-12 space-y-3">
+           <span className="text-zinc-500 text-[9px] font-black uppercase tracking-[0.5em]">{subtitle || "Curated Series"}</span>
+           <h2 className="text-2xl font-black tracking-tighter text-white uppercase leading-none">{title}</h2>
         </div>
         
         <motion.div 
@@ -223,28 +220,28 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4"
         >
-          {products.slice(0, 3).map((product, idx) => (
+          {products.slice(0, 3).map((product) => (
             <motion.div 
               key={product._id}
               variants={itemVariants}
-              className="group relative aspect-[3/4] overflow-hidden bg-zinc-900 border border-white/5"
+              className="group relative aspect-[4/5] overflow-hidden bg-zinc-900 border border-white/5"
             >
               <img 
                 src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                 alt={product.name} 
-                className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
+                className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700" 
               />
-              <div className="absolute inset-x-0 bottom-0 p-8 bg-zinc-950/90 border-t border-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                 <h3 className="text-white font-black text-[10px] uppercase tracking-widest">{product.name}</h3>
+              <div className="absolute inset-x-0 bottom-0 p-6 bg-zinc-950/90 border-t border-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                 <h3 className="text-white font-black text-[9px] uppercase tracking-widest">{product.name}</h3>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        <div className="mt-16 text-center">
-            <Link href={`/products?category=${category}`} className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
+        <div className="mt-12 text-center">
+            <Link href={`/products?category=${category}`} className="text-[9px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors">
               Explore All Items
             </Link>
         </div>
