@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Moon, Sun, ShoppingBag, Heart, MessageCircle, ChevronRight, Menu, X, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
+import { Moon, Sun, ShoppingBag, Heart, MessageCircle, ChevronRight, Menu, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -86,7 +86,7 @@ const CategoryVideo = React.memo(({ src, poster }: { src: string; poster: string
   }, [src]);
 
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden rounded-md">
+    <div className="relative w-full h-full bg-black overflow-hidden rounded-none">
       <FadeImage src={poster} alt="Video Poster" className="absolute inset-0 z-10" />
       <video
         ref={videoRef}
@@ -112,10 +112,19 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeNav, setActiveNav] = useState<string | null>(null);
   const [activeSubCategory, setActiveSubCategory] = useState<SubCategory | null>(null);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [mobileView, setMobileView] = useState<'root' | 'submenu'>('root');
-  const [activeMobileCategory, setActiveMobileCategory] = useState<NavItem | null>(null);
+  // const [isFullMenuOpen, setIsFullMenuOpen] = useState(false); // Removed as per request
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /* 
+  const corporateLinks = [
+    { icon: Home, href: '/', label: 'Home' },
+    { icon: Settings, href: '/services', label: 'Services' },
+    { icon: Building, href: '/industries', label: 'Industries' },
+    { icon: Users, href: '/customers', label: 'Customers' },
+    { icon: Info, href: '/about', label: 'About' },
+    { icon: Phone, href: '/contact', label: 'Contact' },
+  ];
+  */
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -245,25 +254,17 @@ const Header: React.FC = () => {
             </div>
 
             <div className="flex items-center">
-               <Link href="/" className="font-heading font-bold text-2xl tracking-tighter text-white">
+               <Link href="/" className="font-heading font-bold text-2xl tracking-tighter text-white gold">
                   Dattaraj
                </Link>
             </div>
 
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="hidden sm:flex rounded-full text-zinc-400 hover:text-black">
+              <Button variant="ghost" size="icon" className="hidden sm:flex rounded-none text-zinc-400 hover:text-black">
                 <Heart size={20} />
               </Button>
-              <Button variant="ghost" size="icon" className="hidden sm:flex rounded-full text-zinc-400 hover:text-white hover:bg-white/10">
+              <Button variant="ghost" size="icon" className="hidden sm:flex rounded-none text-zinc-400 hover:text-white hover:bg-white/10">
                 <ShoppingBag size={20} />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden rounded-full text-white"
-                onClick={() => setIsMobileOpen(true)}
-              >
-                <Menu size={20} />
               </Button>
             </div>
           </nav>
@@ -275,7 +276,7 @@ const Header: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="hidden lg:block absolute top-full left-0 w-full bg-white border-t border-zinc-100 shadow-2xl overflow-hidden"
+              className="hidden lg:block absolute top-full left-0 w-full bg-white border-t border-zinc-100 shadow-2xl overflow-hidden rounded-none"
               onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}
               onMouseLeave={handleMouseLeave}
             >
@@ -298,7 +299,7 @@ const Header: React.FC = () => {
                          </Link>
                        ))}
                     </div>
-                    <div className="col-span-6 relative aspect-video rounded-xl overflow-hidden shadow-xl border border-zinc-100">
+                    <div className="col-span-6 relative aspect-video rounded-none overflow-hidden shadow-xl border border-zinc-100">
                        <FadeImage 
                           src={activeSubCategory?.media.image || activeNavItem.mainImage || silverImg} 
                           alt="Category" 
@@ -308,7 +309,7 @@ const Header: React.FC = () => {
                           <p className="text-zinc-500 text-sm max-w-sm font-medium">Handcrafted excellence defined by purity and tradition.</p>
                        </div>
                     </div>
-                    <div className="col-span-3 relative aspect-video rounded-xl overflow-hidden shadow-xl border border-zinc-100">
+                    <div className="col-span-3 relative aspect-video rounded-none overflow-hidden shadow-xl border border-zinc-100">
                        <CategoryVideo 
                           src={activeNavItem.videoSrc || video1} 
                           poster={activeNavItem.mainImage || silverImg} 
@@ -321,7 +322,7 @@ const Header: React.FC = () => {
                       <Link
                         key={collection.id}
                         href={collection.href}
-                        className="group relative aspect-[16/10] rounded-xl overflow-hidden bg-zinc-50 border border-zinc-100"
+                        className="group relative aspect-[16/10] rounded-none overflow-hidden bg-zinc-50 border border-zinc-100"
                       >
                         <FadeImage src={collection.media.image} alt={collection.label} />
                         <div className="absolute inset-0 bg-white/40 group-hover:bg-white/20 transition-all flex items-center justify-center">
@@ -336,51 +337,6 @@ const Header: React.FC = () => {
           )}
         </AnimatePresence>
       </header>
-
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            className="fixed inset-0 z-[100] bg-white flex flex-col p-6 overflow-y-auto"
-          >
-            <div className="flex justify-between items-center mb-10">
-                <span className="text-xl font-black text-zinc-900 tracking-tighter uppercase">Menu</span>
-                <Button variant="ghost" size="icon" className="text-zinc-900" onClick={() => setIsMobileOpen(false)}>
-                  <X />
-                </Button>
-            </div>
-            <div className="space-y-8">
-                {navigation.filter(n => !n.isAction).map((item) => (
-                  <div key={item.id} className="space-y-6">
-                     <Link 
-                      href={item.href} 
-                      className="text-4xl font-black text-zinc-900 block hover:text-zinc-500 transition-colors uppercase tracking-tight"
-                      onClick={() => setIsMobileOpen(false)}
-                     >
-                       {item.name}
-                     </Link>
-                     {item.dropdownItems && (
-                       <div className="grid grid-cols-1 gap-4 pl-4 border-l border-zinc-100">
-                          {item.dropdownItems.map(sub => (
-                            <Link 
-                             key={sub.id} 
-                             href={sub.href} 
-                             className="text-zinc-500 block text-lg font-bold hover:text-zinc-900 transition-colors"
-                             onClick={() => setIsMobileOpen(false)}
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                       </div>
-                     )}
-                  </div>
-                ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };

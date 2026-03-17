@@ -19,7 +19,6 @@ export const metadata: Metadata = {
 import { Providers } from "@/components/Providers";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import FloatingMenu from "@/components/layout/FloatingMenu";
 
 export default function RootLayout({
   children,
@@ -38,7 +37,6 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <FloatingMenu />
         </Providers>
       </body>
     </html>
