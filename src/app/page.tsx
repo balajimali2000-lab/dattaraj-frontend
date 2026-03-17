@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { LuxuryBentoGrid } from '@/components/LuxuryBentoGrid';
 import SoftBubbleBackground from '@/components/animations/SoftBubbleBackground';
 import { Pagination } from '@/components/Pagination';
+import { CategorySpotlight } from '@/components/home/CategorySpotlight';
 
 // Local assets for exact UI replication
 import silverImg from '@/assets/images/johny-silver-Y6I9H4N-c2Q-unsplash.jpg';
@@ -196,145 +197,61 @@ export default function Home() {
       {/* Luxury Bento Grid Section */}
       <LuxuryBentoGrid />
 
-      {/* Dynamic Product Grid */}
-      <section id="product-grid" className="py-32 bg-white relative">
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-100 to-transparent" />
-        
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10">
-            <div className="space-y-4">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                className="inline-flex items-center gap-3 px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">Live Inventory</span>
-              </motion.div>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-zinc-900 italic leading-none">
-                Full<br/>Collection
-              </h2>
-            </div>
-            <div className="max-w-md text-right hidden md:block">
-              <p className="text-zinc-400 text-sm font-medium leading-relaxed uppercase tracking-widest">
-                Explore our entire range of handcrafted excellence. Filter by category in the menu above to find your perfect piece.
-              </p>
-            </div>
-          </div>
+      {/* Boutique Category Spotlights */}
+      <div id="product-grid" className="relative bg-white pt-16">
+        {/* Dark Cinematic Section */}
+        <CategorySpotlight 
+          category="Selam_payal" 
+          title="Signature Payal" 
+          subtitle="The Art of Adornment"
+          description="Exquisite Salem silver payal handcrafted by master artisans to celebrate every milestone of your journey."
+          theme="cinematic"
+        />
 
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="space-y-6">
-                  <div className="aspect-[4/5] rounded-lg bg-zinc-50 animate-pulse" />
-                  <div className="h-4 w-2/3 bg-zinc-50 animate-pulse rounded" />
-                  <div className="h-4 w-1/3 bg-zinc-50 animate-pulse rounded" />
-                </div>
-              ))}
-            </div>
-          ) : error ? (
-            <div className="py-40 text-center bg-zinc-50 rounded-2xl border border-dashed border-zinc-200">
-              <p className="text-zinc-400 font-bold mb-6 italic">{error}</p>
-              <Button onClick={() => fetchProducts()} variant="outline" className="rounded-full border-zinc-900 text-zinc-900 hover:bg-zinc-900 hover:text-white px-8">
-                Refresh Collection
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
-                {products.map((product, idx) => (
-                  <motion.div
-                    key={product._id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: (idx % 4) * 0.1 }}
-                    viewport={{ once: true }}
-                    className="group"
-                  >
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-none bg-zinc-50 border border-zinc-100 transition-all duration-700 group-hover:shadow-2xl group-hover:border-zinc-200">
-                      {product.image?.mid || product.image?.thumbnail ? (
-                        <img
-                          src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')}
-                          alt={product.name}
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-4xl font-black text-zinc-200 italic">D</div>
-                      )}
-                      
-                      <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
-                        <Button size="icon" variant="secondary" className="rounded-full bg-white shadow-xl hover:bg-zinc-900 hover:text-white border-none">
-                          <Heart size={18} />
-                        </Button>
-                      </div>
+        {/* Light Serene Section */}
+        <CategorySpotlight 
+          category="Diva" 
+          title="Sacred Silver" 
+          subtitle="Divine Essentials"
+          description="Elevate your spiritual practices with our serene collection of handcrafted silver Diva and pooja essentials."
+          theme="serene"
+          reversed={true}
+        />
 
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700" />
-                    </div>
-                    
-                    <div className="mt-8 space-y-2">
-                       <div className="flex justify-between items-start">
-                          <div>
-                            <span className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em] block mb-1">SN: {product.serialNumber}</span>
-                            <h3 className="text-zinc-900 font-black text-sm uppercase tracking-widest group-hover:text-zinc-500 transition-colors">{product.name}</h3>
-                          </div>
-                          <span className="text-zinc-900 font-black text-sm tracking-tight">₹{product.price.toLocaleString()}</span>
-                       </div>
-                       <div className="h-[1px] w-full bg-zinc-100 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700" />
-                    </div>
-                  </motion.div>
-                ))}
+        {/* Dark Bento Section */}
+        <CategorySpotlight 
+          category="Special_murti" 
+          title="Masterpiece Idols" 
+          subtitle="Divine Presence"
+          description="Intricately detailed special silver idols that bring a sense of peace and divinity to your home sanctuary."
+          theme="bento"
+        />
+
+        {/* Light Modern Section */}
+        <CategorySpotlight 
+          category="Kolkata_dabi" 
+          title="Heritage Pieces" 
+          subtitle="Ancestral Craft"
+          description="Timeless Kolkata Dabi and traditional silver items that carry the weight of history and craftsmanship."
+          theme="modern"
+          reversed={true}
+        />
+      </div>
+
+      {/* Boutique Features Banner */}
+      <section className="py-24 bg-white border-y border-zinc-100 overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              { title: "Bespoke Design", desc: "Custom silver commissions since 1980" },
+              { title: "Worldwide Shipping", desc: "Secure global delivery for every piece" },
+              { title: "Legacy Guarantee", desc: "Lifetime authenticity on all silver items" }
+            ].map((feature, i) => (
+              <div key={i} className="space-y-4 text-center">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-500 italic">Feature 0{i+1}</p>
+                <h4 className="text-2xl font-black tracking-tighter text-zinc-900 italic uppercase">{feature.title}</h4>
+                <p className="text-xs text-zinc-400 font-bold uppercase tracking-widest">{feature.desc}</p>
               </div>
-
-              {pagination.totalPages > 1 && (
-                <div className="mt-32 border-t border-zinc-100 pt-16">
-                  <Pagination
-                    currentPage={pagination.page}
-                    totalPages={pagination.totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                  <p className="text-center mt-8 text-[10px] font-black text-zinc-300 uppercase tracking-[0.5em]">
-                    Page {pagination.page} of {pagination.totalPages}
-                  </p>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
-
-      {/* Crafted Collections Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-zinc-900 mb-4 italic">Crafted Collections</h2>
-            <p className="text-zinc-500 max-w-xl mx-auto">Each collection tells a unique story of heritage and handcrafted excellence.</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {collections.map((collection, idx) => (
-              <motion.div
-                key={collection.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer bg-zinc-50 border border-zinc-100 shadow-sm hover:shadow-xl transition-all"
-              >
-                <img src={collection.image} alt={collection.name} className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent p-8 flex flex-col justify-end">
-                   <h3 className="text-2xl font-bold text-zinc-900 mb-2">{collection.name}</h3>
-                   <div className="flex items-center text-zinc-900 text-xs font-bold gap-2">Explore <ArrowRight size={14} /></div>
-                </div>
-              </motion.div>
             ))}
           </div>
         </div>
