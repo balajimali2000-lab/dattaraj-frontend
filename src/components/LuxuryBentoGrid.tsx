@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Sparkles, Gem, PenTool } from 'lucide-react';
 import Link from 'next/link';
 
@@ -14,6 +14,7 @@ const templeVideo = 'https://res.cloudinary.com/dqmpgzst5/video/upload/v17668211
 
 export const LuxuryBentoGrid = () => {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -22,11 +23,14 @@ export const LuxuryBentoGrid = () => {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) video.play().catch(() => {});
-                    else video.pause();
+                    if (entry.isIntersecting) {
+                        video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                    }
                 });
             },
-            { threshold: 0.3 }
+            { threshold: 0.2 }
         );
 
         observer.observe(video);
@@ -51,24 +55,47 @@ export const LuxuryBentoGrid = () => {
                     </div>
                 </div>
 
-                {/* Main Cinematic Frame */}
+                {/* Main Cinematic Frame with Zero-Flicker Transition */}
                 <div className="relative mb-24 group">
                     <motion.div 
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1 }}
-                        className="relative aspect-[16/7] md:aspect-[21/9] overflow-hidden shadow-2xl rounded-sm"
+                        className="relative aspect-[16/7] md:aspect-[21/9] overflow-hidden shadow-2xl rounded-sm bg-zinc-100"
                     >
+                        {/* Poster Image (Visible while video loads) */}
+                        <AnimatePresence>
+                            {!isVideoLoaded && (
+                                <motion.img
+                                    key="poster"
+                                    initial={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                                    src={templeImg}
+                                    alt="Loading Cinematic..."
+                                    className="absolute inset-0 w-full h-full object-cover z-10"
+                                />
+                            )}
+                        </AnimatePresence>
+
+                        {/* Video Element */}
                         <video
                             ref={videoRef}
                             src={templeVideo}
-                            poster={templeImg}
-                            loop muted playsInline
-                            className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            onCanPlayThrough={() => setIsVideoLoaded(true)}
+                            className={`w-full h-full object-cover transition-opacity duration-1000 ${
+                                isVideoLoaded ? 'opacity-100' : 'opacity-0'
+                            }`}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-80" />
+
+                        {/* Overlays */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 z-20" />
                         
-                        <div className="absolute bottom-12 left-12 right-12 flex flex-col md:flex-row justify-between items-end md:items-center">
+                        <div className="absolute bottom-12 left-12 right-12 flex flex-col md:flex-row justify-between items-end md:items-center z-30">
                             <div className="max-w-xl space-y-2">
                                 <Link href="/collections/temple" className="group/link inline-flex items-center gap-2">
                                     <Sparkles className="w-4 h-4 text-white/60" />
@@ -91,6 +118,7 @@ export const LuxuryBentoGrid = () => {
                     <motion.div 
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
                         className="space-y-8"
                     >
                         <div className="aspect-[4/5] overflow-hidden shadow-lg border border-zinc-100 bg-zinc-50">
@@ -112,6 +140,7 @@ export const LuxuryBentoGrid = () => {
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         className="space-y-8 md:-mt-12"
                     >
                         <div className="relative aspect-square overflow-hidden shadow-2xl ring-1 ring-zinc-100 p-6 bg-white flex flex-col">
@@ -136,6 +165,7 @@ export const LuxuryBentoGrid = () => {
                     <motion.div 
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
                         className="space-y-8"
                     >
                         <div className="aspect-[4/5] overflow-hidden shadow-lg border border-zinc-100 bg-zinc-50">
@@ -155,7 +185,7 @@ export const LuxuryBentoGrid = () => {
                 </div>
 
                 {/* Aesthetic Footer */}
-                <div className="mt-40 flex flex-col md:flex-row justify-between items-center py-12 border-t border-zinc-100 space-y-8 md:space-y-0 relative">
+                <div className="mt-40 flex flex-col md:flex-row justify-between items-center py-12 border-t border-zinc-100 space-y-8 md:space-y-0 relative z-40">
                     <div className="flex items-center gap-8">
                         <div className="flex items-center gap-4">
                             <PenTool className="w-4 h-4 text-[#430704]/20" />
