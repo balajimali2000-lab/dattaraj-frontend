@@ -18,6 +18,7 @@ import { LuxuryBentoGrid } from '@/components/LuxuryBentoGrid';
 import SoftBubbleBackground from '@/components/animations/SoftBubbleBackground';
 import { Pagination } from '@/components/Pagination';
 import { CategorySpotlight } from '@/components/home/CategorySpotlight';
+import InquiryPopup from '@/components/home/InquiryPopup';
 
 // Local assets for exact UI replication
 import silverImg from '@/assets/images/johny-silver-Y6I9H4N-c2Q-unsplash.jpg';
@@ -163,7 +164,7 @@ export default function Home() {
             
             <div className="mt-8 space-y-4 flex flex-col items-center">
               <p className="text-sm md:text-lg tracking-[0.4em] font-medium uppercase gold font-heading">
-                Since 1980
+                Since 2013
               </p>
 
               {/* Animated Scroll Down Indicator */}
@@ -250,7 +251,7 @@ export default function Home() {
         <div className="max-w-[1440px] mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "Bespoke Design", desc: "Custom silver commissions since 1980" },
+              { title: "Bespoke Design", desc: "Custom silver commissions since 2013" },
               { title: "Worldwide Shipping", desc: "Secure global delivery for every piece" },
               { title: "Legacy Guarantee", desc: "Lifetime authenticity on all items" }
             ].map((feature, i) => (
@@ -289,6 +290,7 @@ export default function Home() {
            </motion.div>
         </div>
       </section>
+      <InquiryPopup />
     </main>
   );
 }
