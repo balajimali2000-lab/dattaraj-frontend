@@ -179,26 +179,26 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <main className="max-w-[1440px] mx-auto px-6 pt-32 pb-24">
+      <main className="max-w-[1440px] mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-16 md:pb-24">
         
         {/* Navigation */}
-        <div className="mb-12 flex items-center justify-between">
+        <div className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <button 
             onClick={() => router.back()}
-            className="group flex items-center gap-3 text-zinc-400 hover:text-zinc-900 transition-colors"
+            className="group flex items-center gap-3 text-zinc-400 hover:text-zinc-900 transition-colors self-start"
           >
-            <div className="w-10 h-10 rounded-full border border-zinc-100 flex items-center justify-center group-hover:border-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-all duration-300">
-              <ArrowLeft className="w-4 h-4" />
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-zinc-100 flex items-center justify-center group-hover:border-zinc-900 group-hover:bg-zinc-900 group-hover:text-white transition-all duration-300">
+              <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Return to Archives</span>
+            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]">Return to Archives</span>
           </button>
           
-          <div className="flex items-center gap-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">
-            <span>Catalogue</span>
+          <div className="flex items-center gap-2 text-[8px] md:text-[10px] font-black text-zinc-400 uppercase tracking-widest overflow-hidden">
+            <span className="hidden sm:inline">Catalogue</span>
+            <ChevronRight className="w-3 h-3 hidden sm:inline" />
+            <span className="truncate max-w-[80px] sm:max-w-none">{formatLabel(product.category)}</span>
             <ChevronRight className="w-3 h-3" />
-            <span>{formatLabel(product.category)}</span>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-[#430704]">{product.name}</span>
+            <span className="text-[#430704] truncate">{product.name}</span>
           </div>
         </div>
 
@@ -222,11 +222,11 @@ export default function ProductDetailPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-[1px] bg-[#430704]/40" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#430704]/60">
+                  <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[#430704]/60">
                     {formatLabel(product.category)}
                   </span>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-zinc-950 uppercase tracking-tighter leading-[1.1]">
+                <h1 className="text-2xl md:text-5xl font-black text-zinc-950 uppercase tracking-tighter leading-[1.1]">
                   {product.name}
                 </h1>
                 <div className="flex items-center gap-4 text-zinc-400 text-[10px] font-black uppercase tracking-widest">
@@ -238,9 +238,9 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              <div className="p-6 bg-zinc-50 border border-zinc-100 rounded-2xl">
-                <p className="text-sm text-zinc-600 leading-relaxed font-medium">
-                  {product.description || "A masterfully crafted signature creation from Dattaraj, embodying decades of heritage and precision. This unique piece represents the pinnacle of our artisanal expertise."}
+              <div className="p-4 md:p-6 bg-zinc-50 border border-zinc-100 rounded-2xl">
+                <p className="text-xs md:text-sm text-zinc-600 leading-relaxed font-medium">
+                  {product.description || "A masterfully crafted signature creation from Dattaraj, embodying decades of heritage and precision."}
                 </p>
               </div>
             </div>

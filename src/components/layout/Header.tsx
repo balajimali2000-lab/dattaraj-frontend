@@ -524,17 +524,19 @@ const Header: React.FC = () => {
             className="fixed inset-0 z-[60] bg-white lg:hidden flex flex-col"
           >
             <div className="px-6 h-24 flex justify-between items-center border-b border-zinc-100">
-              <span className="font-heading font-black text-2xl tracking-tighter">DATTARAJ</span>
+              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex-shrink-0">
+                <img src="/cropedmain.png" alt="Dattaraj" className="h-8 w-auto object-contain" />
+              </Link>
               <button 
                 onClick={() => setMobileMenuOpen(false)} 
                 className="p-3 rounded-full bg-zinc-100 text-zinc-900 transition-transform active:scale-95"
               >
-                <X size={28} />
+                <X size={24} />
               </button>
             </div>
             
             <div className="flex-1 overflow-y-auto px-6 py-12 scroll-smooth">
-              <nav className="space-y-12">
+              <nav className="space-y-8">
                 {navigation.map((item, idx) => (
                   <motion.div 
                     key={item.id}
@@ -545,7 +547,7 @@ const Header: React.FC = () => {
                     <Link
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-5xl font-black uppercase tracking-tighter text-zinc-900 hover:italic hover:pl-4 transition-all block"
+                      className="text-3xl font-black uppercase tracking-tighter text-zinc-900 hover:italic hover:pl-4 transition-all block"
                     >
                       {item.name}
                     </Link>
