@@ -269,15 +269,6 @@ function ProductListContent() {
                     ))}
                   </div>
                   
-                  <div className="w-[1px] h-4 bg-zinc-100 hidden md:block" />
-                  
-                  <div className="flex items-center gap-3">
-                      {['Featured', 'Newest'].map((sort) => (
-                          <button key={sort} className="text-[8px] font-black uppercase tracking-widest text-zinc-300 hover:text-[#430704] transition-colors whitespace-nowrap">
-                              {sort}
-                          </button>
-                      ))}
-                  </div>
                 </div>
 
                 <div className="relative group w-full md:w-52 lg:w-56 px-2 md:px-0">
