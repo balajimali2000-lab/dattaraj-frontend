@@ -85,24 +85,15 @@ function ProductListContent() {
     if (typeParam) setSelectedType(typeParam);
 
     const checkMobile = () => {
-      const isNowMobile = window.innerWidth < 1024; // Use 1024 for more consistent desktop/mobile break
+      const isNowMobile = window.innerWidth < 768;
       setIsMobile(isNowMobile);
       
-      // Reconcile colsPerRow when switching platforms
       setColsPerRow(prev => {
-        if (isNowMobile) {
-          // If we were on desktop (2, 3, 6) and now on mobile (1, 2, 3)
-          if (prev === 6) return 3;
-          if (prev === 2) return 2;
-          if (prev === 3) return 3;
-          return 2; // Default mobile
-        } else {
-          // If we were on mobile (1, 2, 3) and now on desktop (2, 3, 6)
-          if (prev === 1) return 2;
-          if (prev === 2) return 3;
-          if (prev === 3) return 3;
-          return 3; // Default desktop
-        }
+        // If switching TO mobile
+        if (isNowMobile && (prev === 6 || prev === 5)) return 3;
+        // If switching TO desktop
+        if (!isNowMobile && prev === 1) return 2;
+        return prev;
       });
     };
     checkMobile();
@@ -236,10 +227,10 @@ function ProductListContent() {
             
             {/* Toolbar */}
             {/* Toolbar */}
-            <div className="sticky top-20 md:top-24 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-2 md:p-3 mb-8 md:mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/[0.02]">
+            <div className="sticky top-20 md:top-24 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-2 md:p-3 mb-8 md:mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/[0.02] overflow-hidden">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center justify-between md:justify-start gap-4 px-2 w-full md:w-auto">
-                  <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide py-1">
+                  <div className="flex items-center gap-1.5 py-1">
                     <span className="text-[8px] font-black uppercase tracking-widest text-zinc-300 mr-1.5 hidden sm:inline">Layout</span>
                     {(isMobile ? [1, 2, 3] : [2, 3, 6]).map((cols) => (
                         <button 
@@ -274,7 +265,7 @@ function ProductListContent() {
                   <input 
                       type="text" 
                       placeholder="SEARCH COLLECTION..."
-                      className="w-full bg-zinc-50/50 border border-zinc-100/50 pl-10 md:pl-10 pr-4 py-2.5 md:py-3 text-[8px] font-black uppercase tracking-[0.2em] placeholder:text-zinc-200 focus:ring-1 focus:ring-[#430704]/10 focus:bg-white transition-all outline-none"
+                      className="w-full bg-zinc-50/50 border border-zinc-200/40 pl-10 pr-4 py-2.5 md:py-3 text-[8px] font-black uppercase tracking-[0.2em] placeholder:text-zinc-200 focus:ring-1 focus:ring-[#430704]/10 focus:bg-white transition-all outline-none rounded-none"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                   />
