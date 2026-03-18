@@ -87,13 +87,13 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
 };
 
   const renderCinematic = () => (
-    <section className="py-16 bg-white overflow-hidden border-b border-zinc-50">
-      <div className="max-w-[1440px] mx-auto px-6">
+    <section className="py-12 md:py-16 bg-white overflow-hidden border-b border-zinc-50">
+      <div className="max-w-[1440px] mx-auto px-4 md:px-6">
         <div className={`flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 items-center`}>
           <div className="w-full md:w-1/4 space-y-6">
             <div className="space-y-3">
-              <p className="text-[#430704] text-[9px] font-black uppercase tracking-[0.4em] opacity-80">{subtitle || "Signature Collection"}</p>
-              <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
+              <p className="text-[#430704] text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] opacity-80">{subtitle || "Signature Collection"}</p>
+              <h2 className="text-xl md:text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-tight">{title}</h2>
               <p className="text-zinc-500 text-[11px] font-medium leading-relaxed max-w-[240px]">
                 {description || "Handcrafted silver pieces designed for the modern connoisseur."}
               </p>
@@ -135,11 +135,11 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
   );
 
   const renderSerene = () => (
-    <section className="py-16 bg-[#430704]/[0.02] border-b border-zinc-50">
-      <div className="max-w-[1440px] mx-auto px-6">
+    <section className="py-12 md:py-16 bg-[#430704]/[0.02] border-b border-zinc-50">
+      <div className="max-w-[1440px] mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center text-center mb-12 space-y-3">
-          <p className="text-[#430704] text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Sacred Series"}</p>
-          <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
+          <p className="text-[#430704] text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Sacred Series"}</p>
+          <h2 className="text-xl md:text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-tight">{title}</h2>
           <div className="w-8 h-[1px] bg-[#430704]/20" />
         </div>
 
@@ -177,14 +177,14 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
   );
 
   const renderModern = () => (
-    <section className="py-16 bg-white border-b border-zinc-100">
-      <div className="max-w-[1440px] mx-auto px-6">
-        <div className="flex justify-between items-end mb-12 px-2">
-          <div className="space-y-2">
-             <span className="text-[#430704]/60 text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Modern Essentials"}</span>
-             <h2 className="text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-none">{title}</h2>
+    <section className="py-12 md:py-16 bg-white border-b border-zinc-100">
+      <div className="max-w-[1440px] mx-auto px-4 md:px-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-10 gap-4">
+          <div className="space-y-1">
+             <span className="text-[#430704]/60 text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em]">{subtitle || "Modern Essentials"}</span>
+             <h2 className="text-xl md:text-2xl font-black tracking-tighter text-zinc-950 uppercase leading-tight">{title}</h2>
           </div>
-          <Link href={`/products?category=${category}`} className="text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-[#430704] transition-colors">
+          <Link href={`/products?category=${category}`} className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-[#430704] transition-colors self-start md:self-auto">
             See Catalog
           </Link>
         </div>
@@ -224,10 +224,10 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
   const renderBento = () => (
     <section className="py-10 bg-[#2d0503] overflow-hidden border-b border-white/5 relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(67,7,4,0.1)_0%,transparent_70%)] pointer-events-none" />
-      <div className="max-w-[1440px] mx-auto px-6 relative z-10">
-        <div className="text-center mb-10 space-y-3">
-           <span className="text-white/40 text-[9px] font-black uppercase tracking-[0.5em]">{subtitle || "Curated Series"}</span>
-           <h2 className="text-2xl font-black tracking-tighter text-white uppercase leading-none">{title}</h2>
+      <div className="max-w-[1440px] mx-auto px-4 md:px-6 relative z-10">
+        <div className="text-center mb-10 space-y-2">
+           <span className="text-white/40 text-[8px] md:text-[9px] font-black uppercase tracking-[0.5em]">{subtitle || "Curated Series"}</span>
+           <h2 className="text-xl md:text-2xl font-black tracking-tighter text-white uppercase leading-tight">{title}</h2>
         </div>
         
         <motion.div 
