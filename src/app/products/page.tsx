@@ -26,26 +26,24 @@ const formatLabel = (label: string) => {
     .join(' ');
 };
 
-const getOptimizedVariant = (product: any, cols: 2 | 3 | 6) => {
+const getOptimizedVariant = (product: any, cols: number) => {
   const images = product.image || {};
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
   // Intel Sense: Prioritize clarity on modern high-DPI screens
   if (isMobile) {
-    // Mobile: favor Mid/Low for speed + clarity on small high-res screens
-    return images.mid || images.low || images.thumbnail || images.high || '';
+    // Mobile: favor Mid for 1/2 columns, skip High to save data but keep clarity
+    if (cols === 1) return images.high || images.mid || images.low || '';
+    return images.mid || images.low || images.thumbnail || '';
   }
 
   // Desktop/Laptop: Prioritize sharpness
   if (cols === 6) {
-    // 6xn (Density): Boost to Mid (previously thumbnail/low) to prevent blurring on Retinas
-    return images.mid || images.low || images.high || images.thumbnail || '';
+    return images.mid || images.low || images.high || '';
   } else if (cols === 3) {
-    // 3xn (Full View): Boost to High (previously mid) for premium detail
-    return images.high || images.mid || images.veryHigh || images.low || '';
+    return images.high || images.mid || images.veryHigh || '';
   } else {
-    // 2xn (Showcase): Use High resolution for clarity without the lag of VeryHigh
-    return images.high || images.mid || images.veryHigh || images.low || '';
+    return images.high || images.mid || images.veryHigh || '';
   }
 };
 
@@ -63,7 +61,8 @@ function ProductListContent() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [colsPerRow, setColsPerRow] = useState<2 | 3 | 6>(3);
+  const [colsPerRow, setColsPerRow] = useState<number>(3);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   // Smooth scroll to top when filters or layout change
@@ -84,6 +83,18 @@ function ProductListContent() {
     
     if (categoryParam) setSelectedCategory(categoryParam);
     if (typeParam) setSelectedType(typeParam);
+
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth < 768) {
+        setColsPerRow(2); // Default to 2 on mobile
+      } else {
+        setColsPerRow(3); // Default to 3 on desktop
+      }
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, [searchParams]);
 
   useEffect(() => {
@@ -211,14 +222,14 @@ function ProductListContent() {
           <section ref={sectionRef} className="flex-1 min-w-0">
             
             {/* Toolbar */}
-            <div className="sticky top-24 z-30 flex flex-col md:flex-row justify-between items-center bg-white/80 backdrop-blur-md border border-zinc-100/50 p-2 gap-4 mb-12 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
-              <div className="flex items-center gap-2 px-2">
-                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mr-2">Layout:</span>
-                {[2, 3, 6].map((cols) => (
+            <div className="sticky top-20 md:top-24 z-30 flex flex-col md:flex-row justify-between items-center bg-white/80 backdrop-blur-md border border-zinc-100/50 p-2 gap-4 mb-8 md:mb-12 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
+              <div className="flex items-center gap-2 px-2 w-full md:w-auto overflow-x-auto scrollbar-hide">
+                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mr-2 whitespace-nowrap">Layout:</span>
+                {(isMobile ? [1, 2, 3] : [2, 3, 6]).map((cols) => (
                     <button 
                         key={cols}
-                        onClick={() => setColsPerRow(cols as 2 | 3 | 6)}
-                        className={`w-8 h-8 flex items-center justify-center text-[10px] font-black transition-colors border ${
+                        onClick={() => setColsPerRow(cols)}
+                        className={`w-8 h-8 flex-shrink-0 flex items-center justify-center text-[10px] font-black transition-colors border ${
                             colsPerRow === cols 
                             ? 'bg-[#430704] text-white border-[#430704]' 
                             : 'text-zinc-400 border-zinc-100 hover:text-zinc-950 hover:border-zinc-300'
@@ -227,7 +238,7 @@ function ProductListContent() {
                         {cols}
                     </button>
                 ))}
-                <div className="w-[1px] h-6 bg-zinc-100 mx-2" />
+                <div className="w-[1px] h-6 bg-zinc-100 mx-2 flex-shrink-0" />
                 <div className="flex items-center gap-4">
                     {['Featured', 'Newest'].map((sort) => (
                         <button key={sort} className="text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-colors">
@@ -276,10 +287,11 @@ function ProductListContent() {
                             key={`${selectedCategory}-${selectedType}-${searchQuery}-${colsPerRow}`}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className={`grid gap-x-4 gap-y-10 ${
-                                colsPerRow === 2 ? 'grid-cols-2 md:grid-cols-2 lg:grid-cols-2' :
-                                colsPerRow === 3 ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3' :
-                                'grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6'
+                            className={`grid gap-x-3 md:gap-x-4 gap-y-8 md:gap-y-10 ${
+                                colsPerRow === 1 ? 'grid-cols-1' :
+                                colsPerRow === 2 ? 'grid-cols-2' :
+                                colsPerRow === 3 ? 'grid-cols-3' :
+                                'grid-cols-2 md:grid-cols-5 lg:grid-cols-6'
                             }`}
                         >
                             {products.map((product, idx) => (
@@ -292,7 +304,7 @@ function ProductListContent() {
                                 >
                                     <Link 
                                         href={`/products/${product._id}`} 
-                                        className={`relative bg-zinc-50 overflow-hidden block aspect-[4/5]`}
+                                        className={`relative bg-zinc-50 overflow-hidden block ${colsPerRow === 3 ? 'aspect-square' : 'aspect-[4/5]'}`}
                                     >
                                         <img 
                                             src={getOptimizedVariant(product, colsPerRow)} 
@@ -308,15 +320,15 @@ function ProductListContent() {
                                             )}
                                         </div>
                                     </Link>
-                                    <div className={`pt-3 space-y-1`}>
-                                        <span className="text-[#430704] text-[6px] font-black uppercase tracking-[0.2em] opacity-60">
+                                    <div className={`pt-2 md:pt-3 space-y-0.5 md:space-y-1`}>
+                                        <span className={`text-[#430704] font-black uppercase tracking-[0.2em] opacity-60 ${colsPerRow === 3 ? 'text-[5px]' : 'text-[6px]'}`}>
                                             {product.category}
                                         </span>
-                                        <h3 className="text-[10px] font-black text-zinc-900 uppercase tracking-tighter italic leading-tight line-clamp-2">
+                                        <h3 className={`font-black text-zinc-900 uppercase tracking-tighter italic leading-tight line-clamp-1 md:line-clamp-2 ${colsPerRow === 3 ? 'text-[8px]' : 'text-[10px]'}`}>
                                             {product.name}
                                         </h3>
                                         <div className="flex justify-between items-center pt-1 border-t border-zinc-50">
-                                            <p className="text-zinc-400 text-[7px] font-bold uppercase tracking-widest">
+                                            <p className={`text-zinc-400 font-bold uppercase tracking-widest ${colsPerRow === 3 ? 'text-[5px]' : 'text-[7px]'}`}>
                                                 {product.serialNumber || 'DATTA-RAJ'}
                                             </p>
                                             <div className="flex gap-1 opacity-40">
