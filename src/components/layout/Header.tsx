@@ -211,7 +211,7 @@ const Header: React.FC = () => {
       dropdownType: 'mega',
       featured: {
         title: "Heritage Reimagined",
-        subtitle: "Since 1980",
+        subtitle: "Since 2013",
         image: traditionalImg,
         cta: "Read Our Odyssey"
       },
@@ -235,9 +235,9 @@ const Header: React.FC = () => {
         cta: "Contact Us"
       },
       simpleItems: [
-        { id: "contact-form", label: "Contact Form", href: "/contact#form", description: "Speak with our consultants." },
-        { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/your-number", description: "Instant styling advice." },
-        { id: "location", label: "Store Location", href: "/contact#location", description: "Visit our heritage boutique." },
+        { id: "contact-form", label: "Contact Form", href: "/contact", description: "Speak with our consultants." },
+        { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/919325614230", description: "Instant styling advice." },
+        { id: "location", label: "Store Location", href: "/contact", description: "Visit our heritage boutique." },
       ]
     }
   ], [filterOptions]);

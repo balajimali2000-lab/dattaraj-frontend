@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-white border-t border-zinc-100">
       <div className="container mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {/* Brand Info */}
           <div className="space-y-8">
             <div className="flex items-center space-x-4">
@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
               </div>
             </div>
             <p className="text-zinc-500 text-sm leading-relaxed max-w-xs">
-              Where tradition meets silver elegance. Handcrafted by master artisans with generations of expertise. Since 1980.
+              Where tradition meets silver elegance. Handcrafted by master artisans with generations of expertise. Since 2013.
             </p>
             <div className="flex space-x-4">
               <a href="https://instagram.com" className="w-10 h-10 flex items-center justify-center bg-zinc-50 border border-zinc-100 text-zinc-900 hover:bg-zinc-900 hover:text-white rounded-full transition-all duration-300">
@@ -52,25 +52,6 @@ const Footer: React.FC = () => {
             </nav>
           </div>
 
-          {/* Craftsmanship Highlights */}
-          <div className="space-y-8">
-            <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-[10px]">Heritage Archives</h4>
-            <nav className="flex flex-col space-y-4">
-              {[
-                'Sterling Silver Masterpieces',
-                'Traditional Temple Series',
-                'Bespoke Handcrafted Designs',
-                'Antique Silver Finish',
-                'The Royal Kada Collection',
-                'Signature Murti Idols',
-              ].map((item) => (
-                <Link key={item} href="/products" className="text-zinc-500 hover:text-zinc-900 text-sm transition-colors w-fit">
-                  {item}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
           {/* Contact */}
           <div className="space-y-8">
             <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-[10px]">Contact Us</h4>
@@ -92,7 +73,9 @@ const Footer: React.FC = () => {
                    <MapPin size={16} className="text-zinc-900" />
                 </div>
                 <span className="text-sm leading-relaxed font-medium">
-                  Mahavir Nagar, Hupri, Kolhapur,<br/>Maharashtra, India
+                  Mali Building, Mahavir Nagar,<br />
+                  Ingrole, Hupri, Kolhapur,<br />
+                  Maharashtra 416203, India
                 </span>
               </div>
             </div>
