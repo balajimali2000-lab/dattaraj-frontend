@@ -12,7 +12,9 @@ import {
   ArrowRight, 
   Sparkles,
   Loader2,
-  SearchX
+  SearchX,
+  X,
+  ChevronDown
 } from 'lucide-react';
 import { useProducts } from '@/context/ProductContext';
 import { Button } from '@/components/ui/button';
@@ -63,6 +65,7 @@ function ProductListContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [colsPerRow, setColsPerRow] = useState<number>(3);
   const [isMobile, setIsMobile] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   // Smooth scroll to top when filters or layout change
@@ -160,9 +163,9 @@ function ProductListContent() {
           
           {/* Sidebar Filters */}
           <aside className="w-full lg:w-64 flex-shrink-0">
-            <div className="lg:sticky lg:top-28 lg:h-[calc(100vh-140px)] lg:overflow-y-auto lg:pr-4 lg:scrollbar-hide space-y-12 pb-12">
-              {/* Categories */}
-              <div className="space-y-6">
+            <div className="lg:sticky lg:top-28 lg:h-[calc(100vh-140px)] lg:overflow-y-auto lg:pr-4 lg:scrollbar-hide space-y-8 md:space-y-12 pb-8 md:pb-12">
+              {/* Categories - Hidden on Mobile, using Modal instead */}
+              <div className="hidden lg:block space-y-6">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300 border-b border-zinc-100 pb-4">Categories</h3>
                 <div className="flex flex-col gap-2">
                   <button
@@ -225,6 +228,26 @@ function ProductListContent() {
           {/* Product Feed */}
           <section ref={sectionRef} className="flex-1 min-w-0">
             
+            {/* Mobile Category Trigger - Sticky */}
+            {isMobile && (
+              <div className="sticky top-20 z-[35] mb-2">
+                <button 
+                  onClick={() => setIsCategoryModalOpen(true)}
+                  className="w-full flex items-center justify-between px-4 py-4 bg-[#430704] text-white shadow-2xl active:scale-[0.98] transition-transform"
+                >
+                  <div className="flex flex-col items-start gap-1">
+                    <span className="text-[7px] text-white/40 font-black uppercase tracking-[0.4em]">Current Collection</span>
+                    <span className="text-sm font-black uppercase tracking-tight italic">
+                      {selectedCategory === 'all' ? 'All Masterpieces' : formatLabel(selectedCategory)}
+                    </span>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                    <ChevronDown className="w-4 h-4 text-white" />
+                  </div>
+                </button>
+              </div>
+            )}
+
             {/* Toolbar */}
             {/* Toolbar */}
             <div className="sticky top-20 md:top-24 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-2 md:p-3 mb-8 md:mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/[0.02] overflow-hidden">
@@ -389,6 +412,69 @@ function ProductListContent() {
                 </Link>
              </div>
         </div>
+
+        {/* Global Category Selection Modal */}
+        <AnimatePresence>
+          {isCategoryModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] bg-zinc-950/95 backdrop-blur-2xl lg:hidden flex flex-col"
+            >
+              <div className="px-6 h-20 flex justify-between items-center border-b border-white/10">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40">Select Collection</span>
+                <button 
+                  onClick={() => setIsCategoryModalOpen(false)}
+                  className="p-3 rounded-full bg-white/10 text-white active:scale-95 transition-transform"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-6 py-12">
+                <div className="space-y-4">
+                  <motion.button
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 }}
+                    onClick={() => {
+                      setSelectedCategory('all');
+                      setIsCategoryModalOpen(false);
+                    }}
+                    className={`w-full text-left py-6 border-b border-white/5 flex items-center justify-between group ${selectedCategory === 'all' ? 'text-white' : 'text-white/40'}`}
+                  >
+                    <span className="text-3xl font-black uppercase tracking-tighter group-active:italic transition-all">All Masterpieces</span>
+                    {selectedCategory === 'all' && <div className="w-2 h-2 rounded-full bg-white" />}
+                  </motion.button>
+
+                  {filterOptions.categories.map((cat, idx) => (
+                    <motion.button
+                      key={cat}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + idx * 0.05 }}
+                      onClick={() => {
+                        setSelectedCategory(cat);
+                        setIsCategoryModalOpen(false);
+                      }}
+                      className={`w-full text-left py-6 border-b border-white/5 flex items-center justify-between group ${selectedCategory === cat ? 'text-white' : 'text-white/40'}`}
+                    >
+                      <span className="text-3xl font-black uppercase tracking-tighter group-active:italic transition-all">{formatLabel(cat)}</span>
+                      {selectedCategory === cat && <div className="w-2 h-2 rounded-full bg-white" />}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-8 border-t border-white/5 bg-zinc-900/50">
+                <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.3em] text-center">
+                  Dattaraj Heritage Archives &copy; 2024
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </main>
   );
