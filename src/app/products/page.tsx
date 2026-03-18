@@ -230,10 +230,10 @@ function ProductListContent() {
             
             {/* Mobile Category Trigger - Sticky */}
             {isMobile && (
-              <div className="sticky top-20 z-[35] mb-2">
+              <div className="sticky top-24 z-[35] mb-2">
                 <button 
                   onClick={() => setIsCategoryModalOpen(true)}
-                  className="w-full flex items-center justify-between px-4 py-4 bg-[#430704] text-white shadow-2xl active:scale-[0.98] transition-transform"
+                  className="w-full h-[76px] flex items-center justify-between px-6 bg-[#430704] text-white shadow-2xl active:scale-[0.98] transition-transform"
                 >
                   <div className="flex flex-col items-start gap-1">
                     <span className="text-[7px] text-white/40 font-black uppercase tracking-[0.4em]">Current Collection</span>
@@ -241,8 +241,8 @@ function ProductListContent() {
                       {selectedCategory === 'all' ? 'All Masterpieces' : formatLabel(selectedCategory)}
                     </span>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                    <ChevronDown className="w-4 h-4 text-white" />
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <ChevronDown className="w-5 h-5 text-white" />
                   </div>
                 </button>
               </div>
@@ -250,7 +250,7 @@ function ProductListContent() {
 
             {/* Toolbar */}
             {/* Toolbar */}
-            <div className="sticky top-20 md:top-24 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-2 md:p-3 mb-8 md:mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/[0.02] overflow-hidden">
+            <div className="sticky top-[172px] md:top-24 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-2 md:p-3 mb-8 md:mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/[0.02] overflow-hidden">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center justify-between md:justify-start gap-4 px-2 w-full md:w-auto">
                   <div className="flex items-center gap-1.5 py-1">
