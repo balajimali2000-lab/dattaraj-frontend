@@ -206,12 +206,14 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                  <img 
                   src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                   alt={product.name} 
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
+                  className="w-full h-full object-cover md:opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
                   onError={onImageError}
                 />
-                <div className="absolute inset-0 bg-white/95 backdrop-blur-sm p-4 flex flex-col justify-center items-center text-center md:opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                   <h3 className="text-[#430704] font-black text-[9px] uppercase tracking-widest mb-3">{product.name}</h3>
-                   <Button variant="outline" className="h-7 px-4 rounded-none text-[8px] font-black uppercase tracking-widest border-[#430704] text-[#430704] hover:bg-[#430704] hover:text-white">Enquire</Button>
+                
+                {/* Persistent bottom bar on mobile, full-screen overlay on desktop hover */}
+                <div className="absolute inset-x-0 bottom-0 p-3 bg-white/95 backdrop-blur-md border-t border-[#430704]/5 md:inset-0 md:bg-white/95 md:p-4 md:opacity-0 md:group-hover:opacity-100 md:border-t-0 flex flex-col justify-center items-center text-center transition-all duration-500">
+                   <h3 className="text-[#430704] font-black text-[8px] md:text-[9px] uppercase tracking-widest mb-2 md:mb-3 truncate w-full px-2">{product.name}</h3>
+                   <span className="h-6 md:h-7 px-3 md:px-4 inline-flex items-center border border-[#430704] text-[7px] md:text-[8px] font-black uppercase tracking-widest text-[#430704] hover:bg-[#430704] hover:text-white transition-colors">Enquire</span>
                 </div>
               </Link>
             </motion.div>
