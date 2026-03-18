@@ -85,12 +85,25 @@ function ProductListContent() {
     if (typeParam) setSelectedType(typeParam);
 
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth < 768) {
-        setColsPerRow(2); // Default to 2 on mobile
-      } else {
-        setColsPerRow(3); // Default to 3 on desktop
-      }
+      const isNowMobile = window.innerWidth < 1024; // Use 1024 for more consistent desktop/mobile break
+      setIsMobile(isNowMobile);
+      
+      // Reconcile colsPerRow when switching platforms
+      setColsPerRow(prev => {
+        if (isNowMobile) {
+          // If we were on desktop (2, 3, 6) and now on mobile (1, 2, 3)
+          if (prev === 6) return 3;
+          if (prev === 2) return 2;
+          if (prev === 3) return 3;
+          return 2; // Default mobile
+        } else {
+          // If we were on mobile (1, 2, 3) and now on desktop (2, 3, 6)
+          if (prev === 1) return 2;
+          if (prev === 2) return 3;
+          if (prev === 3) return 3;
+          return 3; // Default desktop
+        }
+      });
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -222,41 +235,50 @@ function ProductListContent() {
           <section ref={sectionRef} className="flex-1 min-w-0">
             
             {/* Toolbar */}
-            <div className="sticky top-20 md:top-24 z-30 flex flex-col md:flex-row justify-between items-center bg-white/80 backdrop-blur-md border border-zinc-100/50 p-2 gap-4 mb-8 md:mb-12 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
-              <div className="flex items-center gap-2 px-2 w-full md:w-auto overflow-x-auto scrollbar-hide">
-                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mr-2 whitespace-nowrap">Layout:</span>
-                {(isMobile ? [1, 2, 3] : [2, 3, 6]).map((cols) => (
-                    <button 
-                        key={cols}
-                        onClick={() => setColsPerRow(cols)}
-                        className={`w-8 h-8 flex-shrink-0 flex items-center justify-center text-[10px] font-black transition-colors border ${
-                            colsPerRow === cols 
-                            ? 'bg-[#430704] text-white border-[#430704]' 
-                            : 'text-zinc-400 border-zinc-100 hover:text-zinc-950 hover:border-zinc-300'
-                        }`}
-                    >
-                        {cols}
-                    </button>
-                ))}
-                <div className="w-[1px] h-6 bg-zinc-100 mx-2 flex-shrink-0" />
-                <div className="flex items-center gap-4">
-                    {['Featured', 'Newest'].map((sort) => (
-                        <button key={sort} className="text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-colors">
-                            {sort}
+            {/* Toolbar */}
+            <div className="sticky top-20 md:top-24 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-2 md:p-3 mb-8 md:mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/[0.02]">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="flex items-center justify-between md:justify-start gap-4 px-2 w-full md:w-auto">
+                  <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide py-1">
+                    <span className="text-[8px] font-black uppercase tracking-widest text-zinc-300 mr-1.5 hidden sm:inline">Layout</span>
+                    {(isMobile ? [1, 2, 3] : [2, 3, 6]).map((cols) => (
+                        <button 
+                            key={cols}
+                            onClick={() => setColsPerRow(cols)}
+                            className={`w-8 h-8 flex-shrink-0 flex items-center justify-center text-[9px] font-black tracking-tighter transition-all border ${
+                                colsPerRow === cols 
+                                ? 'bg-[#430704] text-white border-[#430704] shadow-md' 
+                                : 'text-zinc-400 border-zinc-100 bg-white/50 hover:text-zinc-950 hover:border-zinc-300'
+                            }`}
+                        >
+                            {cols}
                         </button>
                     ))}
+                  </div>
+                  
+                  <div className="w-[1px] h-4 bg-zinc-100 hidden md:block" />
+                  
+                  <div className="flex items-center gap-3">
+                      {['Featured', 'Newest'].map((sort) => (
+                          <button key={sort} className="text-[8px] font-black uppercase tracking-widest text-zinc-300 hover:text-[#430704] transition-colors whitespace-nowrap">
+                              {sort}
+                          </button>
+                      ))}
+                  </div>
                 </div>
-              </div>
 
-              <div className="relative group w-full md:w-64">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-300 group-hover:text-[#430704] transition-colors" />
-                <input 
-                    type="text" 
-                    placeholder="SEARCH ARCHIVES..."
-                    className="w-full bg-zinc-50 border-none pl-11 pr-4 py-3 text-[9px] font-black uppercase tracking-widest placeholder:text-zinc-300 focus:ring-1 focus:ring-[#430704]/20 transition-all outline-none"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <div className="relative group w-full md:w-56 lg:w-64 px-2 md:px-0">
+                  <div className="absolute left-5 md:left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-300 group-hover:text-[#430704] transition-colors">
+                    <Search className="w-full h-full" />
+                  </div>
+                  <input 
+                      type="text" 
+                      placeholder="SEARCH COLLECTION..."
+                      className="w-full bg-zinc-50/50 border border-zinc-100/50 pl-10 md:pl-10 pr-4 py-2.5 md:py-3 text-[8px] font-black uppercase tracking-[0.2em] placeholder:text-zinc-200 focus:ring-1 focus:ring-[#430704]/10 focus:bg-white transition-all outline-none"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
 
