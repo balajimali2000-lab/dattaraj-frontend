@@ -5,8 +5,9 @@
 
 type ImageVariant = 'thumbnail' | 'preview' | 'mobile' | 'full';
 
-export const getOptimizedImage = (url: string, variant: ImageVariant = 'preview'): string => {
-  if (!url || !url.includes('cloudinary.com')) return url;
+export const getOptimizedImage = (url: string | undefined | null, variant: ImageVariant = 'preview'): string | undefined => {
+  if (!url) return undefined;
+  if (!url.includes('cloudinary.com')) return url;
 
   // Cloudinary transformations
   // f_auto: auto format (WebP/AVIF)

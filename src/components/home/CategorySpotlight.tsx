@@ -115,7 +115,7 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
                 <Link href={`/products/${product._id}`} className="block">
                   <div className="aspect-[4/5] overflow-hidden bg-zinc-50 border border-zinc-100/50">
                     <img 
-                      src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
+                      src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
                       alt={product.name} 
                       className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
                       onError={onImageError}
@@ -155,7 +155,7 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
               <Link href={`/products/${product._id}`} className="block">
                 <div className="aspect-[3/4] overflow-hidden bg-white border border-[#430704]/5 mb-4 p-3 shadow-sm group-hover:shadow-md transition-shadow">
                   <img 
-                    src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
+                    src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
                     alt={product.name} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                     onError={onImageError}
@@ -204,7 +204,7 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
             >
               <Link href={`/products/${product._id}`} className="block w-full h-full">
                  <img 
-                  src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
+                  src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
                   alt={product.name} 
                   className="w-full h-full object-cover md:opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
                   onError={onImageError}
@@ -247,7 +247,7 @@ const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
             >
               <Link href={`/products/${product._id}`} className="block w-full h-full">
                 <img 
-                  src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
+                  src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
                   alt={product.name} 
                   className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700" 
                   onError={onImageError}
