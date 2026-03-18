@@ -26,27 +26,26 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   theme = 'modern',
   reversed = false
 }) => {
-  const [products, setProducts] = useState<IProduct[]>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const cached = sessionStorage.getItem(`spotlight_${category}`);
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-        }
-      } catch (e) {
-        return [];
-      }
-    }
-    return [];
-  });
-  const [loading, setLoading] = useState(products.length === 0);
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    // If we already have products from session cache, don't re-fetch (Zero re-request for session stability)
-    if (products.length > 0) {
-      if (loading) setLoading(false);
-      return;
+    setIsHydrated(true);
+    
+    // Check Session Cache first for instant load
+    const cached = sessionStorage.getItem(`spotlight_${category}`);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProducts(parsed);
+          setLoading(false);
+          return;
+        }
+      } catch (e) {
+        sessionStorage.removeItem(`spotlight_${category}`);
+      }
     }
 
     const fetchCategoryProducts = async () => {
@@ -66,13 +65,14 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
     };
 
     fetchCategoryProducts();
-  }, [category, products.length, loading]);
+  }, [category]);
 
-  if (loading) {
+  // Prevent Hydration Mismatch: Always render loading state on server and first client render
+  if (!isHydrated || loading) {
     return (
-      <div className="py-20 flex flex-col items-center justify-center opacity-50">
-        <div className="w-12 h-12 border-2 border-zinc-100 border-t-zinc-950 rounded-full animate-spin mb-4" />
-        <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Loading {title}</p>
+      <div className="py-24 flex flex-col items-center justify-center bg-white border-b border-zinc-50 min-h-[400px]">
+        <div className="w-10 h-10 border-2 border-zinc-100 border-t-[#430704] rounded-full animate-spin mb-4" />
+        <p className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-300">Curating {title}</p>
       </div>
     );
   }
@@ -178,9 +178,9 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
               <Link href={`/products/${product._id}`} className="block">
                 <div className="aspect-[3/4] overflow-hidden bg-white border border-[#430704]/5 mb-4 p-3 shadow-sm group-hover:shadow-md transition-shadow">
                   <img 
-                    src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
+                    src={getOptimizedImage(product.image?.mid || product.image?.low, 'preview') || undefined} 
                     alt={product.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                     onError={onImageError}
                   />
                 </div>

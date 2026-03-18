@@ -20,6 +20,11 @@ import { IProduct } from '@/models/Product';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { getOptimizedImage } from '@/lib/image-utils';
+
+const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  e.currentTarget.src = 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=800&auto=format&fit=crop';
+};
 
 const formatLabel = (label: string) => {
   if (!label) return '';
@@ -101,15 +106,20 @@ const ImageMagnifier = ({ src, zoomSrc, alt }: { src: string, zoomSrc: string, a
 };
 
 const ProductCard = ({ product }: { product: IProduct }) => {
+  const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=800&auto=format&fit=crop';
+  };
+
   return (
     <Link href={`/products/${product._id}`} className="group block">
       <div className="aspect-[4/5] bg-zinc-50 mb-4 overflow-hidden rounded-xl border border-zinc-100">
-        <img 
-          src={product.image?.mid || product.image?.low} 
-          alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-      </div>
+                  <img
+                    src={getOptimizedImage(product.image?.mid || product.image?.low, 'preview') || undefined}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={onImageError}
+                  />
+</div>
       <div className="space-y-1">
         <span className="text-[9px] font-black text-[#430704]/60 uppercase tracking-widest">{formatLabel(product.category)}</span>
         <h4 className="text-xs font-black text-zinc-900 group-hover:text-[#430704] transition-colors">{product.name}</h4>
