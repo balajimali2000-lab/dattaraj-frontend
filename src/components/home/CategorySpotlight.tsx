@@ -33,13 +33,9 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
     const fetchCategoryProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/products?category=${encodeURIComponent(category)}&limit=10`);
+        const response = await axios.get(`/api/products?category=${encodeURIComponent(category)}&limit=4`);
         if (response.data.success && response.data.data.length > 0) {
-          // Filter to ensure unique products (by ID) to avoid duplicates if API returns them
-          const uniqueProducts = Array.from(new Set(response.data.data.map((p: any) => p._id)))
-            .map(id => response.data.data.find((p: any) => p._id === id))
-            .slice(0, 4);
-          setProducts(uniqueProducts);
+          setProducts(response.data.data);
         }
       } catch (error) {
         console.error(`Error fetching products for ${category}:`, error);
@@ -85,7 +81,10 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.23, 1, 0.32, 1] as any } }
   };
 
-  // --- UI THEMES ---
+  // --- Utilities ---
+const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=800'; // Global premium fallback
+};
 
   const renderCinematic = () => (
     <section className="py-16 bg-white overflow-hidden border-b border-zinc-50">
@@ -114,17 +113,15 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
             {products.slice(0, 4).map((product) => (
               <motion.div key={product._id} variants={itemVariants} className="group relative">
                 <Link href={`/products/${product._id}`} className="block">
-                  <div className="aspect-[4/5] overflow-hidden bg-zinc-50 border border-zinc-100/50 rounded-xl">
+                  <div className="aspect-[4/5] overflow-hidden bg-zinc-50 border border-zinc-100/50">
                     <img 
                       src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                       alt={product.name} 
-                      className="w-full h-full object-cover grayscale md:grayscale group-hover:grayscale-0 transition-all duration-700"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=800'; // Fallback
-                      }}
+                      className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
+                      onError={onImageError}
                     />
                     {/* Fixed Label on Mobile, Hover on Desktop */}
-                    <div className="absolute inset-x-0 bottom-0 p-3 bg-[#430704]/90 backdrop-blur-md md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="absolute inset-x-0 bottom-0 p-4 bg-[#430704]/95 backdrop-blur-sm md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500">
                       <h4 className="text-white text-[9px] font-black uppercase tracking-widest truncate">{product.name}</h4>
                     </div>
                   </div>
@@ -156,17 +153,15 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
           {products.map((product) => (
             <motion.div key={product._id} variants={itemVariants} className="group text-center">
               <Link href={`/products/${product._id}`} className="block">
-                <div className="aspect-[3/4] overflow-hidden bg-white border border-[#430704]/5 mb-4 p-2 shadow-sm group-hover:shadow-md transition-shadow rounded-lg">
+                <div className="aspect-[3/4] overflow-hidden bg-white border border-[#430704]/5 mb-4 p-3 shadow-sm group-hover:shadow-md transition-shadow">
                   <img 
                     src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                     alt={product.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=800';
-                    }}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                    onError={onImageError}
                   />
                 </div>
-                <h4 className="text-[9px] font-black uppercase tracking-widest text-[#430704] truncate px-1">{product.name}</h4>
+                <h4 className="text-[9px] font-black uppercase tracking-widest text-[#430704]">{product.name}</h4>
               </Link>
             </motion.div>
           ))}
@@ -207,19 +202,16 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
               variants={itemVariants}
               className="group relative aspect-square bg-white overflow-hidden border-r border-b border-[#430704]/5"
             >
-               <Link href={`/products/${product._id}`} className="block w-full h-full">
+              <Link href={`/products/${product._id}`} className="block w-full h-full">
                  <img 
                   src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                   alt={product.name} 
-                  className="w-full h-full object-cover md:opacity-80 group-hover:opacity-100 transition-opacity duration-700"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=800';
-                  }}
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
+                  onError={onImageError}
                 />
-                {/* Persistent label on mobile/touch, hover on desktop */}
                 <div className="absolute inset-0 bg-white/95 backdrop-blur-sm p-4 flex flex-col justify-center items-center text-center md:opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                    <h3 className="text-[#430704] font-black text-[9px] uppercase tracking-widest mb-3">{product.name}</h3>
-                   <span className="h-7 px-4 inline-flex items-center border border-[#430704] text-[8px] font-black uppercase tracking-widest text-[#430704]">Detail</span>
+                   <Button variant="outline" className="h-7 px-4 rounded-none text-[8px] font-black uppercase tracking-widest border-[#430704] text-[#430704] hover:bg-[#430704] hover:text-white">Enquire</Button>
                 </div>
               </Link>
             </motion.div>
@@ -249,19 +241,17 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
             <motion.div 
               key={product._id}
               variants={itemVariants}
-              className="group relative aspect-[4/5] overflow-hidden bg-[#430704]/10 border border-white/5 rounded-2xl"
+              className="group relative aspect-[4/5] overflow-hidden bg-[#430704]/10 border border-white/5"
             >
               <Link href={`/products/${product._id}`} className="block w-full h-full">
                 <img 
                   src={getOptimizedImage(product.image?.mid || product.image?.thumbnail || '', 'preview')} 
                   alt={product.name} 
-                  className="w-full h-full object-cover md:opacity-90 group-hover:opacity-100 transition-all duration-700"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=800';
-                  }}
+                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700" 
+                  onError={onImageError}
                 />
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-black/80 backdrop-blur-md border-t border-white/5 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 text-center">
-                   <h3 className="text-white text-[9px] font-black uppercase tracking-widest truncate">{product.name}</h3>
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-black/60 backdrop-blur-md border-t border-white/5 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-500 text-center">
+                   <h3 className="text-white text-[9px] font-black uppercase tracking-widest">{product.name}</h3>
                 </div>
               </Link>
             </motion.div>
