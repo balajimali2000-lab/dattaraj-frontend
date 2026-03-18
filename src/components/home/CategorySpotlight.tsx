@@ -26,16 +26,37 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   theme = 'modern',
   reversed = false
 }) => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<IProduct[]>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = sessionStorage.getItem(`spotlight_${category}`);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  });
+  const [loading, setLoading] = useState(products.length === 0);
 
   useEffect(() => {
+    // If we already have products from session cache, don't re-fetch (Zero re-request for session stability)
+    if (products.length > 0) {
+      if (loading) setLoading(false);
+      return;
+    }
+
     const fetchCategoryProducts = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/products?category=${encodeURIComponent(category)}&limit=4`);
-        if (response.data.success && response.data.data.length > 0) {
-          setProducts(response.data.data);
+        const res = await axios.get(`/api/products?category=${category}&limit=8&random=true`);
+        if (res.data.success && res.data.data.length > 0) {
+          setProducts(res.data.data);
+          // Save to Session Cache for next visit/navigation
+          sessionStorage.setItem(`spotlight_${category}`, JSON.stringify(res.data.data));
         }
       } catch (error) {
         console.error(`Error fetching products for ${category}:`, error);
@@ -43,8 +64,9 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
         setLoading(false);
       }
     };
+
     fetchCategoryProducts();
-  }, [category]);
+  }, [category, products.length, loading]);
 
   if (loading) {
     return (
@@ -82,9 +104,10 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   };
 
   // --- Utilities ---
-const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=800'; // Global premium fallback
-};
+  const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=800&auto=format&fit=crop';
+  };
+// Global premium fallback
 
   const renderCinematic = () => (
     <section className="py-12 md:py-16 bg-white overflow-hidden border-b border-zinc-50">

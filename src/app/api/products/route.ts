@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     const category = searchParams.get('category');
     const type = searchParams.get('type');
     const search = searchParams.get('search');
+    const random = searchParams.get('random') === 'true';
     const skip = (page - 1) * limit;
 
     await dbConnect();
@@ -24,14 +25,24 @@ export async function GET(request: Request) {
       ];
     }
 
-    const [products, total] = await Promise.all([
-      Product.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
-      Product.countDocuments(query)
-    ]);
+    let products;
+    let total;
 
-    if (products.length > 0) {
-      console.log('[API] Sample Product Keys:', Object.keys(products[0].toObject()));
-      console.log('[API] Sample Category Value:', products[0].category);
+    if (random) {
+      products = await Product.aggregate([
+        { $match: query },
+        { $sample: { size: limit } }
+      ]);
+      total = products.length; // Approximate or actual if we don't care about total count for random
+    } else {
+      [products, total] = await Promise.all([
+        Product.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
+        Product.countDocuments(query)
+      ]);
+    }
+
+    if (products && products.length > 0) {
+      console.log('[API] Sample Product data returned');
     }
 
     return NextResponse.json({ 

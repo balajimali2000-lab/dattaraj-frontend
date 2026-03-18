@@ -8,7 +8,7 @@ import Link from 'next/link';
 const templeImg = "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=1200&auto=format&fit=crop";
 const weddingImg = "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800&auto=format&fit=crop";
 const ringImg = "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=800&auto=format&fit=crop";
-const detailImg = "https://images.unsplash.com/photo-1626067783863-eb21601579c8?q=80&w=800&auto=format&fit=crop";
+const detailImg = "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1200&auto=format&fit=crop";
 const earringImg = "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800&auto=format&fit=crop";
 const templeVideo = 'https://res.cloudinary.com/dqmpgzst5/video/upload/v1766821132/6262756-uhd_3840_2160_25fps_lo0t43.mp4';
 
