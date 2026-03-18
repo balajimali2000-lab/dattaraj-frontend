@@ -101,6 +101,7 @@ const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredSubItem, setHoveredSubItem] = useState<SubItem | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const enterTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { scrollY } = useScroll();
   const { filterOptions } = useProducts();
@@ -237,14 +238,19 @@ const Header: React.FC = () => {
 
   const handleMouseEnter = (id: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setActiveNav(id);
-    const item = navigation.find(n => n.id === id);
-    if (item?.dropdownType === 'mega') {
-      setHoveredSubItem(null); // Reset to featured
-    }
+    if (enterTimeoutRef.current) clearTimeout(enterTimeoutRef.current);
+    
+    enterTimeoutRef.current = setTimeout(() => {
+      setActiveNav(id);
+      const item = navigation.find(n => n.id === id);
+      if (item?.dropdownType === 'mega') {
+        setHoveredSubItem(null); // Reset to featured
+      }
+    }, 150); // Small delay to prevent accidental popups
   };
 
   const handleMouseLeave = () => {
+    if (enterTimeoutRef.current) clearTimeout(enterTimeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       setActiveNav(null);
       setHoveredSubItem(null);
@@ -265,7 +271,7 @@ const Header: React.FC = () => {
         onMouseLeave={handleMouseLeave}
       >
         <div className="max-w-[1240px] mx-auto px-6">
-          <nav className="flex items-center justify-between h-24">
+          <nav className="flex items-center justify-between h-20">
             {/* Logo Section */}
             <div className="flex-shrink-0 relative z-10">
               <Link href="/" className="group flex items-center gap-4">
@@ -279,7 +285,7 @@ const Header: React.FC = () => {
               {navigation.map((item) => (
                 <div
                   key={item.id}
-                  className="relative h-24 flex items-center group/nav"
+                  className="relative h-20 flex items-center group/nav"
                   onMouseEnter={() => handleMouseEnter(item.id)}
                 >
                   <Link
@@ -333,7 +339,7 @@ const Header: React.FC = () => {
               className="absolute left-0 w-full bg-white border-b border-zinc-100 overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.08)] max-h-[85vh] overflow-y-auto"
               onMouseEnter={() => handleMouseEnter(activeNav)}
             >
-              <div className="max-w-[1240px] mx-auto px-6 py-12">
+              <div className="max-w-[1240px] mx-auto px-6 py-8">
                 {activeItem.dropdownType === 'mega' ? (
                   activeItem.id === 'products' ? (
                     <div className="grid grid-cols-12 gap-12">
@@ -523,7 +529,7 @@ const Header: React.FC = () => {
             transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
             className="fixed inset-0 z-[60] bg-white lg:hidden flex flex-col"
           >
-            <div className="px-6 h-24 flex justify-between items-center border-b border-zinc-100">
+            <div className="px-6 h-20 flex justify-between items-center border-b border-zinc-100">
               <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex-shrink-0">
                 <img src="/cropedmain.png" alt="Dattaraj" className="h-8 w-auto object-contain" />
               </Link>
