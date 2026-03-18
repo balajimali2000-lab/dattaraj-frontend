@@ -151,7 +151,7 @@ const Header: React.FC = () => {
       isCategoryItem: true,
       featured: {
         title: "The Royal Selection",
-        subtitle: "Est. 1980",
+        subtitle: "Since 2013",
         image: silverImg,
         cta: "Explore Catalog"
       },
@@ -456,7 +456,7 @@ const Header: React.FC = () => {
                             View Everything
                             <ArrowRight size={14} className="group-hover/cta:translate-x-1 transition-transform" />
                           </Link>
-                          <span className="text-[9px] font-bold text-zinc-200 uppercase tracking-widest italic">Est. 1980</span>
+                          <span className="text-[9px] font-bold text-zinc-200 uppercase tracking-widest italic">Since 2013</span>
                         </div>
                       </div>
                     </div>
@@ -650,7 +650,7 @@ const Header: React.FC = () => {
               {/* Mobile Menu Footer - Simplified */}
               <div className="mt-20 pt-12 border-t border-zinc-100 flex flex-col gap-6">
                 <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-[0.2em] text-center">
-                  Dattaraj Artisans — Est. 1980
+                  Dattaraj Artisans — Since 2013
                 </p>
                 <div className="flex justify-center gap-8">
                   <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[10px] font-black uppercase tracking-widest text-zinc-900 border-b border-zinc-900">Enquire</Link>
