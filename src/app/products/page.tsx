@@ -125,7 +125,7 @@ function ProductListContent() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FDFDFD] pt-24 pb-20">
+    <main className="min-h-screen bg-[#FDFDFD] pt-16 md:pt-20 pb-20">
       <div className="max-w-[1440px] mx-auto px-6">
         
         {/* Editorial Page Header */}
@@ -249,8 +249,7 @@ function ProductListContent() {
             )}
 
             {/* Toolbar */}
-            {/* Toolbar */}
-            <div className="sticky top-[172px] md:top-24 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-2 md:p-3 mb-8 md:mb-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-black/[0.02] overflow-hidden">
+            <div className="sticky top-[148px] md:top-20 z-30 bg-white/60 backdrop-blur-xl border border-zinc-100/30 p-1 md:p-1.5 mb-4 md:mb-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] ring-1 ring-black/[0.01] overflow-hidden">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div className="flex items-center justify-between md:justify-start gap-4 px-2 w-full md:w-auto">
                   <div className="flex items-center gap-1.5 py-1">
@@ -281,14 +280,14 @@ function ProductListContent() {
                   </div>
                 </div>
 
-                <div className="relative group w-full md:w-56 lg:w-64 px-2 md:px-0">
-                  <div className="absolute left-5 md:left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-300 group-hover:text-[#430704] transition-colors">
+                <div className="relative group w-full md:w-52 lg:w-56 px-2 md:px-0">
+                  <div className="absolute left-5 md:left-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-zinc-300 group-hover:text-[#430704] transition-colors">
                     <Search className="w-full h-full" />
                   </div>
                   <input 
                       type="text" 
-                      placeholder="SEARCH COLLECTION..."
-                      className="w-full bg-zinc-50/50 border border-zinc-200/40 pl-10 pr-4 py-2.5 md:py-3 text-[8px] font-black uppercase tracking-[0.2em] placeholder:text-zinc-200 focus:ring-1 focus:ring-[#430704]/10 focus:bg-white transition-all outline-none rounded-none"
+                      placeholder="SEARCH..."
+                      className="w-full bg-zinc-50/50 border border-zinc-200/40 pl-8 pr-4 py-2 md:py-2.5 text-[8px] font-black uppercase tracking-[0.2em] placeholder:text-zinc-200 focus:ring-1 focus:ring-[#430704]/10 focus:bg-white transition-all outline-none rounded-none"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                   />

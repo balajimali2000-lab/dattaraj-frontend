@@ -203,7 +203,7 @@ const Header: React.FC = () => {
         { id: "festive", label: "Festive Collection", href: "/collections/festive", previewImage: poojaImg, description: "Celebrate the divine with silver." },
       ]
     }, */
-    {
+    /* {
       id: "story",
       name: "Our Story",
       href: "/our-story",
@@ -221,7 +221,7 @@ const Header: React.FC = () => {
         { id: "materials", label: "Materials", href: "/materials", description: "Silver & One Gram Gold." },
         { id: "why-choose-us", label: "Why Choose Us", href: "/why-choose-us", description: "The Dattaraj promise." },
       ]
-    },
+    }, */
     { 
       id: "contact", 
       name: "Contact", 
