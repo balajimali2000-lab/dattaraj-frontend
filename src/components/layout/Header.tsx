@@ -178,7 +178,7 @@ const Header: React.FC = () => {
         }
       ]
     },
-    {
+    /* {
       id: "collections",
       name: "Collections",
       href: "/collections",
@@ -195,7 +195,7 @@ const Header: React.FC = () => {
         { id: "new-arrivals", label: "New Arrivals", href: "/collections/new-arrivals", previewImage: modernImg, description: "Fresh expressions of silver artistry." },
         { id: "festive", label: "Festive Collection", href: "/collections/festive", previewImage: poojaImg, description: "Celebrate the divine with silver." },
       ]
-    },
+    }, */
     {
       id: "story",
       name: "Our Story",
@@ -600,7 +600,7 @@ const Header: React.FC = () => {
                 </p>
                 <div className="flex justify-center gap-8">
                   <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-[10px] font-black uppercase tracking-widest text-zinc-900 border-b border-zinc-900">Enquire</Link>
-                  <Link href="/collections" onClick={() => setMobileMenuOpen(false)} className="text-[10px] font-black uppercase tracking-widest text-zinc-900 border-b border-zinc-900">Collections</Link>
+                  <Link href="/products" onClick={() => setMobileMenuOpen(false)} className="text-[10px] font-black uppercase tracking-widest text-zinc-900 border-b border-zinc-900">Archives</Link>
                 </div>
               </div>
             </div>
