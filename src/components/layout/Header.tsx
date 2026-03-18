@@ -28,6 +28,7 @@ import { useProducts } from '@/context/ProductContext';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { getProductImage } from '@/lib/image-utils';
 
 // Premium Media Assets
 const silverImg = "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=1200&auto=format&fit=crop";
@@ -247,7 +248,7 @@ const Header: React.FC = () => {
     try {
       const resp = await axios.get(`/api/products?category=${encodeURIComponent(category)}&limit=4`);
       if (resp.data.success && resp.data.data.length > 0) {
-        const urls = resp.data.data.map((p: any) => p.image?.mid || p.image?.thumbnail).filter(Boolean);
+        const urls = resp.data.data.map((p: any) => getProductImage(p.image, 'mid')).filter(Boolean);
         setCategoryPreviews(prev => ({ ...prev, [category]: urls }));
       }
     } catch (err) {

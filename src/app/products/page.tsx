@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useProducts } from '@/context/ProductContext';
 import { Button } from '@/components/ui/button';
+import { getProductImage } from '@/lib/image-utils';
 
 const formatLabel = (label: string) => {
   if (!label) return '';
@@ -29,24 +30,18 @@ const formatLabel = (label: string) => {
 };
 
 const getOptimizedVariant = (product: any, cols: number) => {
-  const images = product.image || {};
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   
-  // Intel Sense: Prioritize clarity on modern high-DPI screens
   if (isMobile) {
-    // Mobile: favor Mid for 1/2 columns, skip High to save data but keep clarity
-    if (cols === 1) return images.high || images.mid || images.low || '';
-    return images.mid || images.low || images.thumbnail || '';
+    if (cols === 1) return getProductImage(product.image, 'high');
+    return getProductImage(product.image, 'mid');
   }
 
-  // Desktop/Laptop: Prioritize sharpness
   if (cols === 6) {
-    return images.mid || images.low || images.high || '';
-  } else if (cols === 3) {
-    return images.high || images.mid || images.veryHigh || '';
-  } else {
-    return images.high || images.mid || images.veryHigh || '';
+    return getProductImage(product.image, 'mid');
   }
+  
+  return getProductImage(product.image, 'high');
 };
 
 function ProductListContent() {

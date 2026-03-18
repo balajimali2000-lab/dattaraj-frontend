@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
+import { normalizeProductImages } from '@/lib/image-utils';
 
 export async function GET(
   request: Request,
@@ -38,7 +39,7 @@ export async function GET(
     console.log('[API] Product found:', product.name);
     return NextResponse.json({ 
       success: true, 
-      data: product
+      data: normalizeProductImages(JSON.parse(JSON.stringify(product)))
     });
   } catch (error: any) {
     console.error('[API] Error in product detail fetch:', error);

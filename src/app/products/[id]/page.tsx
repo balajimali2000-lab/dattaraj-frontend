@@ -20,7 +20,7 @@ import { IProduct } from '@/models/Product';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { getOptimizedImage } from '@/lib/image-utils';
+import { getOptimizedImage, getProductImage } from '@/lib/image-utils';
 
 const onImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
   e.currentTarget.src = 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=800&auto=format&fit=crop';
@@ -114,7 +114,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
     <Link href={`/products/${product._id}`} className="group block">
       <div className="aspect-[4/5] bg-zinc-50 mb-4 overflow-hidden rounded-xl border border-zinc-100">
                   <img
-                    src={getOptimizedImage(product.image?.mid || product.image?.low, 'preview') || undefined}
+                    src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview') || undefined}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     onError={onImageError}
@@ -218,8 +218,8 @@ export default function ProductDetailPage() {
           <div className="lg:col-span-7 xl:col-span-8">
             <div className="aspect-[4/5] w-full max-w-4xl mx-auto">
               <ImageMagnifier 
-                src={product.image?.high || product.image?.mid} 
-                zoomSrc={product.image?.veryHigh || product.image?.high} 
+                src={getProductImage(product.image, 'high')} 
+                zoomSrc={getProductImage(product.image, 'veryHigh')} 
                 alt={product.name}
               />
             </div>

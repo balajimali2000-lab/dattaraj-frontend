@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
+import { normalizeProductImages } from '@/lib/image-utils';
 
 export async function GET(request: Request) {
   try {
@@ -43,6 +44,7 @@ export async function GET(request: Request) {
 
     if (products && products.length > 0) {
       console.log('[API] Sample Product data returned');
+      products = products.map((p: any) => normalizeProductImages(JSON.parse(JSON.stringify(p))));
     }
 
     return NextResponse.json({ 

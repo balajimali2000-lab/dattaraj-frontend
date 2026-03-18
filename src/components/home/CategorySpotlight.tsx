@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Heart, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { IProduct } from '@/models/Product';
-import { getOptimizedImage } from '@/lib/image-utils';
+import { getOptimizedImage, getProductImage } from '@/lib/image-utils';
 import { Button } from '@/components/ui/button';
 
 interface CategorySpotlightProps {
@@ -138,7 +138,7 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
                 <Link href={`/products/${product._id}`} className="block">
                   <div className="aspect-[4/5] overflow-hidden bg-zinc-50 border border-zinc-100/50">
                     <img 
-                      src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
+                      src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview')} 
                       alt={product.name} 
                       className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
                       onError={onImageError}
@@ -178,7 +178,7 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
               <Link href={`/products/${product._id}`} className="block">
                 <div className="aspect-[3/4] overflow-hidden bg-white border border-[#430704]/5 mb-4 p-3 shadow-sm group-hover:shadow-md transition-shadow">
                   <img 
-                    src={getOptimizedImage(product.image?.mid || product.image?.low, 'preview') || undefined} 
+                    src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview') || undefined} 
                     alt={product.name} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                     onError={onImageError}
@@ -227,7 +227,7 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
             >
               <Link href={`/products/${product._id}`} className="block w-full h-full">
                  <img 
-                  src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
+                  src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview')} 
                   alt={product.name} 
                   className="w-full h-full object-cover md:opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
                   onError={onImageError}
@@ -270,7 +270,7 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
             >
               <Link href={`/products/${product._id}`} className="block w-full h-full">
                 <img 
-                  src={getOptimizedImage(product.image?.mid || product.image?.thumbnail, 'preview')} 
+                  src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview')} 
                   alt={product.name} 
                   className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700" 
                   onError={onImageError}

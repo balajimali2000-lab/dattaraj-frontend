@@ -11,12 +11,19 @@ export async function GET() {
       { $match: { category: { $ne: null } } },
       { $group: { 
           _id: "$category", 
-          thumbnail: { $first: "$image.thumbnail" },
-          mid: { $first: "$image.mid" }
+          image: { $first: "$image" }
       }},
       { $project: {
           name: "$_id",
-          image: { $ifNull: ["$thumbnail", "$mid"] },
+          image: { 
+            $ifNull: [
+              "$image.thumbnail", 
+              { $ifNull: [
+                "$image.mid", 
+                { $ifNull: ["$image.low", "$image.high"] }
+              ]}
+            ] 
+          },
           _id: 0
       }}
     ]);
