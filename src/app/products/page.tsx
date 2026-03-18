@@ -184,19 +184,19 @@ function ProductListContent() {
                   </button>
                   {filterOptions.categories.map((cat) => (
                     <button
-                      key={cat}
+                      key={cat.name}
                       onClick={() => {
-                          setSelectedCategory(cat);
+                          setSelectedCategory(cat.name);
                           setSelectedType(null);
                       }}
                       className={`group flex items-center justify-between px-4 py-3 text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${
-                        selectedCategory === cat 
+                        selectedCategory === cat.name 
                           ? 'bg-[#430704] text-white shadow-lg' 
                           : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-50'
                       }`}
                     >
-                      <span className="text-left">{formatLabel(cat)}</span>
-                      <ChevronRight className={`w-3 h-3 transition-transform ${selectedCategory === cat ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
+                      <span className="text-left">{formatLabel(cat.name)}</span>
+                      <ChevronRight className={`w-3 h-3 transition-transform ${selectedCategory === cat.name ? 'rotate-90' : 'group-hover:translate-x-1'}`} />
                     </button>
                   ))}
                 </div>
@@ -356,20 +356,20 @@ function ProductListContent() {
                                             )}
                                         </div>
                                     </Link>
-                                    <div className={`pt-2 md:pt-3 space-y-0.5 md:space-y-1`}>
-                                        <span className={`text-[#430704] font-black uppercase tracking-[0.2em] opacity-60 ${colsPerRow === 3 ? 'text-[5px]' : 'text-[6px]'}`}>
+                                    <div className={`pt-3 md:pt-4 space-y-1 md:space-y-1.5`}>
+                                        <span className={`text-[#430704] font-black uppercase tracking-[0.2em] opacity-60 ${colsPerRow === 3 ? 'text-[8px]' : 'text-[9px]'}`}>
                                             {product.category}
                                         </span>
-                                        <h3 className={`font-black text-zinc-900 uppercase tracking-tighter italic leading-tight line-clamp-1 md:line-clamp-2 ${colsPerRow === 3 ? 'text-[8px]' : 'text-[10px]'}`}>
+                                        <h3 className={`font-black text-zinc-900 uppercase tracking-tighter italic leading-tight line-clamp-1 md:line-clamp-2 ${colsPerRow === 3 ? 'text-xs' : 'text-sm'}`}>
                                             {product.name}
                                         </h3>
-                                        <div className="flex justify-between items-center pt-1 border-t border-zinc-50">
-                                            <p className={`text-zinc-400 font-bold uppercase tracking-widest ${colsPerRow === 3 ? 'text-[5px]' : 'text-[7px]'}`}>
+                                        <div className="flex justify-between items-center pt-1.5 border-t border-zinc-100/50">
+                                            <p className={`text-zinc-400 font-bold uppercase tracking-widest ${colsPerRow === 3 ? 'text-[9px]' : 'text-[10px]'}`}>
                                                 {product.serialNumber || 'DATTA-RAJ'}
                                             </p>
                                             <div className="flex gap-1 opacity-40">
-                                                <div className="w-1 h-1 rounded-full bg-amber-400" />
-                                                <div className="w-1 h-1 rounded-full bg-zinc-300" />
+                                                <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                                                <div className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
                                             </div>
                                         </div>
                                     </div>
@@ -450,18 +450,18 @@ function ProductListContent() {
 
                   {filterOptions.categories.map((cat, idx) => (
                     <motion.button
-                      key={cat}
+                      key={cat.name}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 + idx * 0.05 }}
                       onClick={() => {
-                        setSelectedCategory(cat);
+                        setSelectedCategory(cat.name);
                         setIsCategoryModalOpen(false);
                       }}
-                      className={`w-full text-left py-6 border-b border-white/5 flex items-center justify-between group ${selectedCategory === cat ? 'text-white' : 'text-white/40'}`}
+                      className={`w-full text-left py-6 border-b border-white/5 flex items-center justify-between group ${selectedCategory === cat.name ? 'text-white' : 'text-white/40'}`}
                     >
-                      <span className="text-3xl font-black uppercase tracking-tighter group-active:italic transition-all">{formatLabel(cat)}</span>
-                      {selectedCategory === cat && <div className="w-2 h-2 rounded-full bg-white" />}
+                      <span className="text-3xl font-black uppercase tracking-tighter group-active:italic transition-all">{formatLabel(cat.name)}</span>
+                      {selectedCategory === cat.name && <div className="w-2 h-2 rounded-full bg-white" />}
                     </motion.button>
                   ))}
                 </div>

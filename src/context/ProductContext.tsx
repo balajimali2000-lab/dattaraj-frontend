@@ -10,7 +10,7 @@ interface ProductContextType {
   loadingMore: boolean;
   error: string | null;
   filterOptions: {
-    categories: string[];
+    categories: { name: string; image: string | null }[];
     types: string[];
   };
   pagination: {
@@ -36,13 +36,16 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [filterOptions, setFilterOptions] = useState({ categories: [], types: [] });
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
     totalPages: 0,
     limit: 12,
   });
+  const [filterOptions, setFilterOptions] = useState<{
+    categories: { name: string; image: string | null }[];
+    types: string[];
+  }>({ categories: [], types: [] });
 
   const fetchFilterOptions = async () => {
     try {

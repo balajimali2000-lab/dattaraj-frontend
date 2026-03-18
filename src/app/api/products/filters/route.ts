@@ -6,15 +6,33 @@ export async function GET() {
   try {
     await dbConnect();
     
-    const [categories, types] = await Promise.all([
-      Product.distinct('category'),
-      Product.distinct('type')
+    // Efficiently get all unique categories and one sample image for each
+    const categoryData = await Product.aggregate([
+      { $match: { category: { $ne: null } } },
+      { $group: { 
+          _id: "$category", 
+          thumbnail: { $first: "$image.thumbnail" },
+          mid: { $first: "$image.mid" }
+      }},
+      { $project: {
+          name: "$_id",
+          image: { $ifNull: ["$thumbnail", "$mid"] },
+          _id: 0
+      }}
     ]);
 
-    console.log('[API] Filters Fetched:', { categoriesCount: categories.length, typesCount: types.length });
+    const types = await Product.distinct('type');
 
-    // Cleanup null/undefined
-    const cleanCategories = categories.filter(c => c && c !== 'null');
+    console.log('[API] Filters Fetched:', { categoriesCount: categoryData.length, typesCount: types.length });
+
+    // Cleanup and format
+    const cleanCategories = categoryData
+      .filter(c => c.name && c.name !== 'null')
+      .map(c => ({
+        name: c.name,
+        image: c.image || null
+      }));
+
     const cleanTypes = types.filter(t => t && t !== 'null');
 
     return NextResponse.json({ 

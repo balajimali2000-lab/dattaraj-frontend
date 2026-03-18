@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import { usePathname } from 'next/navigation';
 import {
   ShoppingBag,
@@ -29,9 +30,9 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
 
 // Premium Media Assets
-const silverImg = "https://images.unsplash.com/photo-1515562141207-7a88fb0ce33e?q=80&w=1200&auto=format&fit=crop";
+const silverImg = "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=1200&auto=format&fit=crop";
 const traditionalImg = "https://images.unsplash.com/photo-1626248801379-31713d71708d?q=80&w=1200&auto=format&fit=crop";
-const modernImg = "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1200&auto=format&fit=crop";
+const modernImg = "https://images.unsplash.com/photo-1611085583191-a3b1a6a2e24a?q=80&w=1200&auto=format&fit=crop";
 const weddingImg = "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1200&auto=format&fit=crop";
 const poojaImg = "https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=1200&auto=format&fit=crop";
 
@@ -41,6 +42,7 @@ interface SubItem {
   href: string;
   previewImage?: string;
   description?: string;
+  thumbnail?: string | null;
   items?: SubItem[];
 }
 
@@ -61,34 +63,46 @@ interface NavItem {
     image: string;
     cta: string;
   };
+  isCategoryItem?: boolean; // Flag to identify category-heavy menus
 }
 
-const MediaPreview = ({ src, title, subtitle }: { src: string; title?: string; subtitle?: string }) => {
+const MediaPreview = ({ images, title, subtitle }: { images: string[]; title?: string; subtitle?: string }) => {
+  const displayImage = images[0] || silverImg;
+  
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-      exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-      transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-      className="relative w-full h-full rounded-2xl overflow-hidden group/preview"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+      className="relative w-full h-[420px] rounded-2xl overflow-hidden shadow-2xl border border-zinc-100 group/hero"
     >
-      <img src={src} alt={title || "Preview"} className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover/preview:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-8">
-        <motion.p 
-          initial={{ y: 20, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }} 
-          className="text-white/60 text-[10px] uppercase font-bold tracking-[0.4em] mb-2"
+      {images.length > 0 ? (
+        <img src={displayImage} alt={title} className="w-full h-full object-cover transition-transform duration-[3000ms] ease-out group-hover/hero:scale-110" />
+      ) : (
+        <div className="w-full h-full bg-zinc-50 flex items-center justify-center">
+           <div className="w-8 h-8 border-2 border-zinc-200 border-t-zinc-400 rounded-full animate-spin" />
+        </div>
+      )}
+      
+      {/* Premium Content Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
+        <motion.div
+           initial={{ y: 20, opacity: 0 }}
+           animate={{ y: 0, opacity: 1 }}
+           transition={{ delay: 0.2 }}
         >
-          {subtitle || "The Archive"}
-        </motion.p>
-        <motion.h5 
-          initial={{ y: 20, opacity: 0 }} 
-          animate={{ y:0, opacity: 1 }} 
-          transition={{ delay: 0.1 }}
-          className="text-white text-3xl font-heading font-black italic leading-none tracking-tighter"
-        >
-          {title || "Heritage Piece"}
-        </motion.h5>
+          <p className="text-white/60 text-[8px] font-black uppercase tracking-[0.5em] mb-2">
+            {subtitle || "The Archive"}
+          </p>
+          <h5 className="text-white text-3xl font-bold uppercase tracking-tighter leading-none mb-4">
+            {title || "Loading..."}
+          </h5>
+          <div className="flex items-center gap-3">
+             <span className="h-[1px] w-8 bg-white/40" />
+             <span className="text-white/80 text-[9px] font-bold uppercase tracking-widest">Discover Collection</span>
+          </div>
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -100,6 +114,7 @@ const Header: React.FC = () => {
   const [activeNav, setActiveNav] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredSubItem, setHoveredSubItem] = useState<SubItem | null>(null);
+  const [categoryPreviews, setCategoryPreviews] = useState<Record<string, string[]>>({});
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const enterTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -133,49 +148,40 @@ const Header: React.FC = () => {
       href: "/products",
       hasDropdown: true,
       dropdownType: 'mega',
+      isCategoryItem: true,
       featured: {
-        title: "The Artisanal Collection",
-        subtitle: "Handcrafted Silver",
+        title: "The Royal Selection",
+        subtitle: "Est. 1980",
         image: silverImg,
-        cta: "Explore All"
+        cta: "Explore Catalog"
       },
       columns: [
         {
           title: "All Categories",
-          items: filterOptions.categories.slice(0, Math.ceil(filterOptions.categories.length / 2)).map(cat => ({
-            id: cat,
-            label: formatLabel(cat),
-            href: `/products?category=${encodeURIComponent(cat)}`,
-            previewImage: cat.toLowerCase().includes('silver') ? silverImg : cat.toLowerCase().includes('traditional') ? traditionalImg : poojaImg
+          items: filterOptions.categories.slice(0, Math.ceil(filterOptions.categories.length / 3)).map(cat => ({
+            id: cat.name,
+            label: formatLabel(cat.name),
+            href: `/products?category=${encodeURIComponent(cat.name)}`,
+            thumbnail: cat.image
           }))
         },
         {
           title: "More Categories",
-          items: filterOptions.categories.slice(Math.ceil(filterOptions.categories.length / 2)).map(cat => ({
-            id: cat,
-            label: formatLabel(cat),
-            href: `/products?category=${encodeURIComponent(cat)}`,
-            previewImage: cat.toLowerCase().includes('murtis') ? weddingImg : poojaImg
+          items: filterOptions.categories.slice(Math.ceil(filterOptions.categories.length / 3), Math.ceil(filterOptions.categories.length * 2/3)).map(cat => ({
+            id: cat.name,
+            label: formatLabel(cat.name),
+            href: `/products?category=${encodeURIComponent(cat.name)}`,
+            thumbnail: cat.image
           }))
         },
         {
-          title: "Product Types",
-          items: filterOptions.types.slice(0, Math.ceil(filterOptions.types.length / 2)).map(type => ({
-            id: type,
-            label: formatLabel(type),
-            href: `/products?type=${encodeURIComponent(type)}`,
+          title: "Heritage Selection",
+          items: filterOptions.categories.slice(Math.ceil(filterOptions.categories.length * 2/3)).map(cat => ({
+            id: cat.name,
+            label: formatLabel(cat.name),
+            href: `/products?category=${encodeURIComponent(cat.name)}`,
+            thumbnail: cat.image
           }))
-        },
-        {
-          title: "Special Filters",
-          items: [
-            ...filterOptions.types.slice(Math.ceil(filterOptions.types.length / 2)).map(type => ({
-              id: type,
-              label: formatLabel(type),
-              href: `/products?type=${encodeURIComponent(type)}`,
-            })),
-            { id: "all-products", label: "View All Collection", href: "/products" }
-          ]
         }
       ]
     },
@@ -236,6 +242,19 @@ const Header: React.FC = () => {
     }
   ], [filterOptions]);
 
+  const fetchCategoryPreview = async (category: string) => {
+    if (categoryPreviews[category]) return;
+    try {
+      const resp = await axios.get(`/api/products?category=${encodeURIComponent(category)}&limit=4`);
+      if (resp.data.success && resp.data.data.length > 0) {
+        const urls = resp.data.data.map((p: any) => p.image?.mid || p.image?.thumbnail).filter(Boolean);
+        setCategoryPreviews(prev => ({ ...prev, [category]: urls }));
+      }
+    } catch (err) {
+      console.error("Failed to fetch Category preview:", err);
+    }
+  };
+
   const handleMouseEnter = (id: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (enterTimeoutRef.current) clearTimeout(enterTimeoutRef.current);
@@ -247,6 +266,13 @@ const Header: React.FC = () => {
         setHoveredSubItem(null); // Reset to featured
       }
     }, 150); // Small delay to prevent accidental popups
+  };
+
+  const handleSubItemHover = (sub: SubItem, isCategory: boolean) => {
+    setHoveredSubItem(sub);
+    if (isCategory) {
+      fetchCategoryPreview(sub.id);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -343,7 +369,7 @@ const Header: React.FC = () => {
                 {activeItem.dropdownType === 'mega' ? (
                   activeItem.id === 'products' ? (
                     <div className="grid grid-cols-12 gap-12">
-                      <div className="col-span-9 grid grid-cols-4 gap-8">
+                      <div className="col-span-8 grid grid-cols-3 gap-12">
                         {activeItem.columns?.map((col, idx) => (
                           <motion.div 
                             key={idx}
@@ -352,10 +378,10 @@ const Header: React.FC = () => {
                             transition={{ delay: idx * 0.1, duration: 0.8 }}
                             className="space-y-8"
                           >
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-300 border-b border-zinc-100/50 pb-4 mb-4">
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-300 border-b border-zinc-100/50 pb-4 mb-6">
                               {col.title}
                             </h4>
-                            <ul className="space-y-5">
+                            <ul className="space-y-4">
                               {col.items.map((sub, sidx) => (
                                 <motion.li 
                                   key={sub.id} 
@@ -366,10 +392,21 @@ const Header: React.FC = () => {
                                 >
                                   <Link
                                     href={sub.href}
-                                    onMouseEnter={() => setHoveredSubItem(sub)}
-                                    className="flex flex-col gap-1 transition-all group/link"
+                                    onMouseEnter={() => handleSubItemHover(sub, activeItem.isCategoryItem || false)}
+                                    onClick={() => {
+                                      setActiveNav(null);
+                                      setHoveredSubItem(null);
+                                    }}
+                                    className="flex items-center gap-4 transition-all group/link"
                                   >
-                                    <span className="text-xs font-black text-zinc-900 group-hover/item:text-[#430704] flex items-center gap-2 group-hover/item:pl-2 transition-all duration-300 uppercase tracking-tight">
+                                    <div className="relative w-12 h-12 flex-shrink-0 rounded-xl overflow-hidden bg-zinc-50 border border-zinc-100 group-hover/item:border-[#430704]/30 transition-all shadow-sm">
+                                       {sub.thumbnail ? (
+                                         <img src={sub.thumbnail} alt={sub.label} className="w-full h-full object-cover transition-transform group-hover/link:scale-110" />
+                                       ) : (
+                                         <div className="w-full h-full opacity-20 bg-zinc-400" />
+                                       )}
+                                    </div>
+                                    <span className="text-[12px] font-bold text-zinc-900 group-hover/item:text-[#430704] transition-all duration-300 uppercase tracking-tight">
                                       {sub.label}
                                     </span>
                                     {sub.items && (
@@ -378,6 +415,10 @@ const Header: React.FC = () => {
                                           <Link 
                                             key={nested.id}
                                             href={nested.href}
+                                            onClick={() => {
+                                              setActiveNav(null);
+                                              setHoveredSubItem(null);
+                                            }}
                                             className="block text-[10px] text-zinc-500 hover:text-zinc-950 transition-colors uppercase tracking-widest font-black"
                                           >
                                             {nested.label}
@@ -394,17 +435,24 @@ const Header: React.FC = () => {
                       </div>
 
                       {/* Dynamic Visual Preview Area */}
-                      <div className="col-span-3 pl-8 border-l border-zinc-100">
+                      <div className="col-span-4 pl-8 border-l border-zinc-100">
                         <AnimatePresence mode="wait">
                           <MediaPreview 
-                            key={hoveredSubItem?.id || activeItem.id}
-                            src={hoveredSubItem?.previewImage || activeItem.featured?.image || silverImg}
+                            key={hoveredSubItem?.id || activeNav}
+                            images={hoveredSubItem ? (categoryPreviews[hoveredSubItem.id] || []) : [activeItem.featured?.image || silverImg]}
                             title={hoveredSubItem?.label || activeItem.featured?.title}
-                            subtitle={hoveredSubItem?.id ? "Category Spotlight" : activeItem.featured?.subtitle}
+                            subtitle={hoveredSubItem ? "Category Spotlight" : activeItem.featured?.subtitle}
                           />
                         </AnimatePresence>
                         <div className="mt-8 flex justify-between items-center">
-                          <Link href={activeItem.href} className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 hover:text-zinc-900 flex items-center gap-2 transition-all group/cta">
+                          <Link 
+                            href={activeItem.href} 
+                            onClick={() => {
+                              setActiveNav(null);
+                              setHoveredSubItem(null);
+                            }}
+                            className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 hover:text-zinc-900 flex items-center gap-2 transition-all group/cta"
+                          >
                             View Everything
                             <ArrowRight size={14} className="group-hover/cta:translate-x-1 transition-transform" />
                           </Link>
