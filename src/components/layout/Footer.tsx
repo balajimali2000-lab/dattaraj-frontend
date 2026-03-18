@@ -41,7 +41,6 @@ const Footer: React.FC = () => {
             <nav className="flex flex-col space-y-4">
               {[
                 { name: 'Home', href: '/' },
-                { name: 'Collections', href: '/collections' },
                 { name: 'Products', href: '/products' },
                 { name: 'Our Story', href: '/about' },
                 { name: 'Contact Us', href: '/contact' },
@@ -53,20 +52,20 @@ const Footer: React.FC = () => {
             </nav>
           </div>
 
-          {/* Collections */}
+          {/* Craftsmanship Highlights */}
           <div className="space-y-8">
-            <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-[10px]">Collections</h4>
+            <h4 className="font-bold text-zinc-900 uppercase tracking-widest text-[10px]">Heritage Archives</h4>
             <nav className="flex flex-col space-y-4">
               {[
-                'Sterling Silver',
-                'Traditional Silver',
-                'Oxidized Finish',
-                'Temple Jewelry',
-                'Luxury Bridal',
-                'Custom Designs',
-              ].map((collection) => (
-                <Link key={collection} href="/collections" className="text-zinc-500 hover:text-zinc-900 text-sm transition-colors w-fit">
-                  {collection}
+                'Sterling Silver Masterpieces',
+                'Traditional Temple Series',
+                'Bespoke Handcrafted Designs',
+                'Antique Silver Finish',
+                'The Royal Kada Collection',
+                'Signature Murti Idols',
+              ].map((item) => (
+                <Link key={item} href="/products" className="text-zinc-500 hover:text-zinc-900 text-sm transition-colors w-fit">
+                  {item}
                 </Link>
               ))}
             </nav>

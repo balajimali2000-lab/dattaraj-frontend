@@ -27,12 +27,7 @@ import templeImg from '@/assets/images/prahant-designing-studio-GuN1LsSoYd4-unsp
 import weddingImg from '@/assets/images/prahant-designing-studio-pVGX1UIhSvE-unsplash.jpg';
 import ringImg from '@/assets/images/engagement-ring-beside-frame.jpg';
 
-const collections = [
-  { id: 1, name: "Sterling Silver", description: "Pure 925 silver tailored for elegance", image: silverImg.src, link: "/silver-jewellery" },
-  { id: 2, name: "Traditional", description: "Heritage designs with timeless appeal", image: traditionalImg.src, link: "/traditional" },
-  { id: 3, name: "Oxidized Finish", description: "Contemporary rustic silver charm", image: modernImg.src, link: "/collections/oxidized" },
-  { id: 4, name: "Temple Jewellery", description: "Divine craftsmanship for special occasions", image: templeImg.src, link: "/traditional/temple" }
-];
+
 
 export default function Home() {
   const { products, loading, error, pagination, fetchProducts } = useProducts();
