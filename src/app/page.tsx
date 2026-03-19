@@ -204,7 +204,7 @@ export default function Home() {
         />
 
         <CategorySpotlight 
-          category="Fancy_jodvi" 
+          category="Fancy_jodavi" 
           title="Fancy Jodvi" 
           subtitle="The Art of Adornment"
           description="Handcrafted silver jodvi featuring intricate traditional patterns and modern elegance."

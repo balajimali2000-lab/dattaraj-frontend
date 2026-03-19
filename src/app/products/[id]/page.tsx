@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { 
-  ArrowLeft, 
-  ChevronRight, 
-  Sparkles, 
-  ShieldCheck, 
-  Award, 
+import {
+  ArrowLeft,
+  ChevronRight,
+  Sparkles,
+  ShieldCheck,
+  Award,
   Layers,
   Phone,
   MessageSquare,
@@ -96,7 +96,7 @@ const ImageMagnifier = ({ src, zoomSrc, alt }: { src: string, zoomSrc: string, a
           />
         )}
       </AnimatePresence>
-      
+
       <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-zinc-200 flex items-center gap-2 pointer-events-none">
         <Maximize2 className="w-3.5 h-3.5 text-zinc-500" />
         <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600">Hover to Explore Detail</span>
@@ -113,13 +113,13 @@ const ProductCard = ({ product }: { product: IProduct }) => {
   return (
     <Link href={`/products/${product._id}`} className="group block">
       <div className="aspect-[4/5] bg-zinc-50 mb-4 overflow-hidden rounded-xl border border-zinc-100">
-                  <img
-                    src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview') || undefined}
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    onError={onImageError}
-                  />
-</div>
+        <img
+          src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview') || undefined}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          onError={onImageError}
+        />
+      </div>
       <div className="space-y-1">
         <span className="text-[9px] font-black text-[#430704]/60 uppercase tracking-widest">{formatLabel(product.category)}</span>
         <h4 className="text-xs font-black text-zinc-900 group-hover:text-[#430704] transition-colors">{product.name}</h4>
@@ -146,7 +146,7 @@ export default function ProductDetailPage() {
         if (res.data.success) {
           const productData = res.data.data;
           setProduct(productData);
-          
+
           // Fetch similar products
           const similarRes = await axios.get(`/api/products?category=${productData.category}&limit=5`);
           if (similarRes.data.success) {
@@ -189,11 +189,11 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <main className="max-w-[1440px] mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-16 md:pb-24">
-        
+      <main className="max-w-[1440px] mx-auto px-4 md:px-6 pt-20 md:pt-24 pb-16 md:pb-24">
+
         {/* Navigation */}
         <div className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <button 
+          <button
             onClick={() => router.back()}
             className="group flex items-center gap-3 text-zinc-400 hover:text-zinc-900 transition-colors self-start"
           >
@@ -202,7 +202,7 @@ export default function ProductDetailPage() {
             </div>
             <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]">Return to Archives</span>
           </button>
-          
+
           <div className="flex items-center gap-2 text-[8px] md:text-[10px] font-black text-zinc-400 uppercase tracking-widest overflow-hidden">
             <span className="hidden sm:inline">Catalogue</span>
             <ChevronRight className="w-3 h-3 hidden sm:inline" />
@@ -213,22 +213,21 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-          
+
           {/* Left: Image with Zoom */}
           <div className="lg:col-span-7 xl:col-span-8">
-            <div className="aspect-[4/5] w-full max-w-4xl mx-auto lg:max-h-[85vh] lg:w-auto">
-              <ImageMagnifier 
-                src={getProductImage(product.image, 'high')} 
-                zoomSrc={getProductImage(product.image, 'veryHigh')} 
+            <div className="aspect-[4/5] w-full max-w-4xl mx-auto lg:max-h-[60vh] lg:w-auto">
+              <ImageMagnifier
+                src={getProductImage(product.image, 'high')}
+                zoomSrc={getProductImage(product.image, 'veryHigh')}
                 alt={product.name}
               />
             </div>
           </div>
 
           {/* Right: Info */}
-          <div className="lg:col-span-5 xl:col-span-4 space-y-12 lg:sticky lg:top-32 h-fit">
-            
-            <div className="space-y-8">
+          <div className="lg:col-span-5 xl:col-span-4 space-y-8 lg:sticky lg:top-24 h-fit">
+            <div className="space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-[1px] bg-[#430704]/40" />
@@ -276,9 +275,16 @@ export default function ProductDetailPage() {
             {/* CTA */}
             <div className="space-y-4 pt-4">
               <div className="flex gap-4">
-                <Button className="flex-1 h-14 bg-[#430704] hover:bg-[#2d0503] text-white rounded-none uppercase tracking-[0.2em] text-[10px] font-black shadow-xl">
-                  Enquire via WhatsApp
-                </Button>
+                <a 
+                  href={`https://wa.me/919325614230?text=${encodeURIComponent(`Hi, I am interested in the ${product.name} (Ref: ${product.serialNumber}).`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1"
+                >
+                  <Button className="w-full h-14 bg-[#430704] hover:bg-[#2d0503] text-white rounded-none uppercase tracking-[0.2em] text-[10px] font-black shadow-xl">
+                    Enquire via WhatsApp
+                  </Button>
+                </a>
                 <button className="w-14 h-14 border border-zinc-200 flex items-center justify-center hover:bg-zinc-50 transition-colors">
                   <MessageSquare className="w-5 h-5 text-zinc-400" />
                 </button>
@@ -288,14 +294,14 @@ export default function ProductDetailPage() {
               </p>
             </div>
 
-            <div className="pt-8 border-t border-zinc-100">
-                <div className="flex items-center gap-4 text-zinc-400 group cursor-pointer hover:text-zinc-900 transition-colors">
-                    <Phone className="w-4 h-4" />
-                    <div className="flex flex-col">
-                        <span className="text-[10px] font-black uppercase tracking-widest">Contact Team</span>
-                        <span className="text-[9px] font-bold">+91 93256 14230</span>
-                    </div>
+            <div className="pt-4 border-t border-zinc-100">
+              <div className="flex items-center gap-4 text-zinc-400 group cursor-pointer hover:text-zinc-900 transition-colors">
+                <Phone className="w-4 h-4" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-black uppercase tracking-widest">Contact Team</span>
+                  <span className="text-[9px] font-bold">+91 93256 14230</span>
                 </div>
+              </div>
             </div>
           </div>
         </div>
