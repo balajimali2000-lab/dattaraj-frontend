@@ -216,7 +216,7 @@ export default function ProductDetailPage() {
           
           {/* Left: Image with Zoom */}
           <div className="lg:col-span-7 xl:col-span-8">
-            <div className="aspect-[4/5] w-full max-w-4xl mx-auto">
+            <div className="aspect-[4/5] w-full max-w-4xl mx-auto lg:max-h-[85vh] lg:w-auto">
               <ImageMagnifier 
                 src={getProductImage(product.image, 'high')} 
                 zoomSrc={getProductImage(product.image, 'veryHigh')} 
@@ -293,7 +293,7 @@ export default function ProductDetailPage() {
                     <Phone className="w-4 h-4" />
                     <div className="flex flex-col">
                         <span className="text-[10px] font-black uppercase tracking-widest">Elite Concierge</span>
-                        <span className="text-[9px] font-bold">+91 9152 70 4102</span>
+                        <span className="text-[9px] font-bold">+91 93256 14230</span>
                     </div>
                 </div>
             </div>

@@ -136,7 +136,6 @@ export default function ContactPage() {
                   <div>
                     <h4 className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">Concierge Direct</h4>
                     <p className="text-sm font-medium">+91 93256 14230</p>
-                    <p className="text-sm font-medium">+91 91527 04102</p>
                   </div>
                 </motion.div>
 

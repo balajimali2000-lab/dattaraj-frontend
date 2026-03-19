@@ -33,29 +33,12 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
   useEffect(() => {
     setIsHydrated(true);
     
-    // Check Session Cache first for instant load
-    const cached = sessionStorage.getItem(`spotlight_${category}`);
-    if (cached) {
-      try {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setProducts(parsed);
-          setLoading(false);
-          return;
-        }
-      } catch (e) {
-        sessionStorage.removeItem(`spotlight_${category}`);
-      }
-    }
-
     const fetchCategoryProducts = async () => {
       try {
         setLoading(true);
         const res = await axios.get(`/api/products?category=${category}&limit=8&random=true`);
         if (res.data.success && res.data.data.length > 0) {
           setProducts(res.data.data);
-          // Save to Session Cache for next visit/navigation
-          sessionStorage.setItem(`spotlight_${category}`, JSON.stringify(res.data.data));
         }
       } catch (error) {
         console.error(`Error fetching products for ${category}:`, error);

@@ -238,7 +238,7 @@ const Header: React.FC = () => {
       simpleItems: [
         { id: "contact-form", label: "Contact Form", href: "/contact", description: "Speak with our consultants." },
         { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/919325614230", description: "Instant styling advice." },
-        { id: "location", label: "Store Location", href: "/contact", description: "Visit our heritage boutique." },
+        // { id: "location", label: "Store Location", href: "/contact", description: "Visit our heritage boutique." },
       ]
     }
   ], [filterOptions]);
@@ -516,11 +516,18 @@ const Header: React.FC = () => {
                   ) : (
                     <div className="grid grid-cols-12 gap-12 items-center">
                       <div className="col-span-4 p-12 bg-zinc-950 rounded-3xl flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden group/concierge">
-                         <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-zinc-950" />
+                         <img 
+                           src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=1200&auto=format&fit=crop" 
+                           alt="Concierge" 
+                           className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover/concierge:scale-110 transition-transform duration-[3000ms]" 
+                         />
+                         <div className="absolute inset-0 bg-gradient-to-br from-zinc-900/80 to-zinc-950/90" />
                          <div className="relative z-10">
                             <p className="text-amber-500 text-[10px] font-black uppercase tracking-[0.5em] mb-4">Private Inquiries</p>
                             <h4 className="text-4xl font-black text-white tracking-tighter mb-8 leading-tight uppercase">Elite Concierge</h4>
-                            <Button className="bg-white text-zinc-950 hover:bg-amber-400 transition-colors uppercase font-black tracking-widest text-[9px] px-10 h-12 rounded-full shadow-lg h-auto py-4">Explore Commissions</Button>
+                            <Link href="/contact?subject=Bespoke Consultation">
+                              <Button className="bg-white text-zinc-950 hover:bg-amber-400 transition-colors uppercase font-black tracking-widest text-[9px] px-10 h-12 rounded-none shadow-lg h-auto py-4">Explore Commissions</Button>
+                            </Link>
                          </div>
                          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 rounded-full blur-3xl" />
                       </div>

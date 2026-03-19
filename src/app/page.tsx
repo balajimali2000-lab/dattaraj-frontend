@@ -204,10 +204,10 @@ export default function Home() {
         />
 
         <CategorySpotlight 
-          category="Selam_payal" 
-          title="Signature Payal" 
+          category="Fancy_jodvi" 
+          title="Fancy Jodvi" 
           subtitle="The Art of Adornment"
-          description="Exquisite Salem silver payal handcrafted by master artisans."
+          description="Handcrafted silver jodvi featuring intricate traditional patterns and modern elegance."
           theme="serene"
           reversed={true}
         />
