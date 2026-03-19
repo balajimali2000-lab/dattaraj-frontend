@@ -101,6 +101,7 @@ const SoftBubbleBackground: React.FC = () => {
         ctx.strokeStyle = theme === 'light' 
           ? `rgba(212, 175, 55, ${bubble.opacity * 0.2})`
           : `rgba(16, 185, 129, ${bubble.opacity * 0.2})`;
+        ctx.globalAlpha = 0.3; // Lowered from 0.7 for better hero clarity
         ctx.lineWidth = 0.5;
         ctx.stroke();
       });
@@ -123,7 +124,7 @@ const SoftBubbleBackground: React.FC = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
-      style={{ opacity: 0.7 }}
+      style={{ opacity: 0.3 }}
     />
   );
 };

@@ -66,10 +66,10 @@ export default function Home() {
 
           <motion.div
             initial={{ opacity: 0, x: -80, y: 50, rotate: -5 }}
-            whileInView={{ opacity: 0.8, x: 0, y: 0, rotate: -15 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            whileInView={{ opacity: 1, x: 0, y: 0, rotate: -15 }}
+            transition={{ duration: 0.8, delaCompletedy: 0.3 }}
             viewport={{ once: true }}
-            className="absolute top-[30%] left-[2%] md:left-[10%] w-24 md:w-32 aspect-square rounded-lg shadow-md overflow-hidden z-0 hover:z-30 hover:scale-110 transition-all duration-500 grayscale hover:grayscale-0 border-2 border-white/50"
+            className="absolute top-[30%] left-[2%] md:left-[10%] w-24 md:w-32 aspect-square rounded-lg shadow-md overflow-hidden z-0 hover:z-30 hover:scale-110 transition-all duration-500 border-2 border-white/50"
           >
             <img src={silverImg.src} alt="Silver" className="w-full h-full object-cover" />
           </motion.div>
@@ -88,7 +88,7 @@ export default function Home() {
 
           <motion.div
             initial={{ opacity: 0, x: 80, y: 20, rotate: 10 }}
-            whileInView={{ opacity: 0.7, x: 0, y: 0, rotate: 6 }}
+            whileInView={{ opacity: 1, x: 0, y: 0, rotate: 6 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
             className="absolute top-[10%] right-[15%] md:right-[24%] w-28 md:w-40 aspect-[3/2] rounded-lg shadow-lg overflow-hidden z-0 hover:z-30 hover:scale-110 transition-all duration-500 border-2 border-white/50"
@@ -110,10 +110,10 @@ export default function Home() {
 
           <motion.div
             initial={{ opacity: 0, x: -50, y: 80, rotate: -20 }}
-            whileInView={{ opacity: 0.6, x: 0, y: 0, rotate: -8 }}
+            whileInView={{ opacity: 1, x: 0, y: 0, rotate: -8 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             viewport={{ once: true }}
-            className="absolute bottom-[8%] left-[20%] md:left-[30%] w-24 md:w-32 aspect-video rounded-lg shadow-sm overflow-hidden z-0 hover:z-30 hover:scale-110 transition-all duration-500 grayscale hover:grayscale-0 border-2 border-white/50"
+            className="absolute bottom-[8%] left-[20%] md:left-[30%] w-24 md:w-32 aspect-video rounded-lg shadow-sm overflow-hidden z-0 hover:z-30 hover:scale-110 transition-all duration-500 border-2 border-white/50"
           >
             <img src={weddingImg.src} alt="Wedding" className="w-full h-full object-cover" />
           </motion.div>
@@ -132,7 +132,7 @@ export default function Home() {
 
           <motion.div
             initial={{ opacity: 0, x: 100, y: 100, rotate: 5 }}
-            whileInView={{ opacity: 0.8, x: 0, y: 0, rotate: 12 }}
+            whileInView={{ opacity: 1, x: 0, y: 0, rotate: 12 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
             className="absolute bottom-[10%] right-[5%] md:right-[15%] w-24 md:w-32 aspect-[3/4] rounded-lg shadow-md overflow-hidden z-0 hover:z-30 hover:scale-110 transition-all duration-500 border-2 border-white/50"
@@ -145,7 +145,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 0.1, scale: 1 }}
             transition={{ duration: 1.5 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-2xl aspect-square rounded-full bg-gradient-to-r from-zinc-200 to-zinc-100 blur-[100px] -z-0"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-2xl aspect-square rounded-full bg-gradient-to-r from-zinc-200 to-zinc-100 blur-[50px] -z-0"
           />
 
 

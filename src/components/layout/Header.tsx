@@ -524,7 +524,7 @@ const Header: React.FC = () => {
                          <div className="absolute inset-0 bg-gradient-to-br from-zinc-900/80 to-zinc-950/90" />
                          <div className="relative z-10">
                             <p className="text-amber-500 text-[10px] font-black uppercase tracking-[0.5em] mb-4">Private Inquiries</p>
-                            <h4 className="text-4xl font-black text-white tracking-tighter mb-8 leading-tight uppercase">Elite Concierge</h4>
+                            <h4 className="text-4xl font-black text-white tracking-tighter mb-8 leading-tight uppercase">Contact Team</h4>
                             <Link href="/contact?subject=Bespoke Consultation">
                               <Button className="bg-white text-zinc-950 hover:bg-amber-400 transition-colors uppercase font-black tracking-widest text-[9px] px-10 h-12 rounded-none shadow-lg h-auto py-4">Explore Commissions</Button>
                             </Link>

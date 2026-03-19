@@ -292,7 +292,7 @@ export default function ProductDetailPage() {
                 <div className="flex items-center gap-4 text-zinc-400 group cursor-pointer hover:text-zinc-900 transition-colors">
                     <Phone className="w-4 h-4" />
                     <div className="flex flex-col">
-                        <span className="text-[10px] font-black uppercase tracking-widest">Elite Concierge</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">Contact Team</span>
                         <span className="text-[9px] font-bold">+91 93256 14230</span>
                     </div>
                 </div>

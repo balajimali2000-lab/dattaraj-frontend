@@ -154,7 +154,7 @@ export const LuxuryBentoGrid = () => {
                             </div>
                         </div>
                         <div className="aspect-[16/9] overflow-hidden bg-zinc-950 relative group">
-                            <img src={detailImg} alt="Detail" className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-80 transition-opacity" />
+                            <img src={detailImg} alt="Detail" className="w-full h-full object-cover transition-opacity duration-700" />
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <span className="text-white font-black text-[9px] uppercase tracking-[0.6em] select-none">Divine Detail</span>
                             </div>

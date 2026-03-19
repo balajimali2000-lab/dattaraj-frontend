@@ -123,7 +123,7 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
                     <img 
                       src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview')} 
                       alt={product.name} 
-                      className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" 
                       onError={onImageError}
                     />
                     {/* Fixed Label on Mobile, Hover on Desktop */}
@@ -212,7 +212,7 @@ export const CategorySpotlight: React.FC<CategorySpotlightProps> = ({
                  <img 
                   src={getOptimizedImage(getProductImage(product.image, 'mid'), 'preview')} 
                   alt={product.name} 
-                  className="w-full h-full object-cover md:opacity-80 group-hover:opacity-100 transition-opacity duration-700" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" 
                   onError={onImageError}
                 />
                 
